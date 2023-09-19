@@ -22,18 +22,10 @@ set(SOURCE
         ${ARDUBOY_SOURCE}
         ${ARDUBOYTONES_SOURCE}
         )
-
-if (TOOLCHAIN STREQUAL "armgcc")
-    add_definitions(-D_PLAYDATE_DEVICE)
-    set(PLAYDATE_TARGET_NAME ${PLAYDATE_GAME_NAME})
-    add_executable(${PLAYDATE_TARGET_NAME} ${SETUP_SOURCE} ${SOURCE})
-else()
-    set(PLAYDATE_TARGET_NAME ${PLAYDATE_GAME_NAME})
-    add_library(${PLAYDATE_TARGET_NAME} SHARED ${SOURCE})
-endif()
-
+add_playdate_application(${PLAYDATE_GAME_NAME})  
+target_sources(${PLAYDATE_GAME_NAME} PUBLIC ${SOURCE})
+target_link_libraries(${PLAYDATE_GAME_NAME} pdcpp_core)
 set_property(TARGET ${PLAYDATE_TARGET_NAME} APPEND PROPERTY ADDITIONAL_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/${PLAYDATE_GAME_NAME}.pdx")
-include(${CMAKE_CURRENT_SOURCE_DIR}/../playdate_game.patched.cmake)
 
 
 

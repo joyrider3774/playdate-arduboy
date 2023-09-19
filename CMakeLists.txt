@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.19)
 
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 20)
 add_definitions(-D_PLAYDATE)
 
 if (APPLE)
@@ -13,7 +13,7 @@ if (APPLE)
     )
     set(LIB_EXTENSION dylib)
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++")
     set(SDK $ENV{PLAYDATE_SDK_PATH})
     set(LIB_EXTENSION dll)
 endif()
@@ -25,6 +25,7 @@ set(SETUP_SOURCE
         )
 
 set(ARDUBOY_INCLUDES
+        ../playdate-cpp/inc
         ../Arduboy2Playdate
         ../Arduboy2Playdate/ArduboyTones
         ../Arduboy2Playdate/ArduboyPlaytune
@@ -48,7 +49,7 @@ set(ARDUBOYPLAYTUNE_SOURCE
 set(ARDUBOYTONES_SOURCE
         ../Arduboy2Playdate/ArduboyTones/ArduboyTones.cpp
         )
-
+        
 # Aliases because I am too lazy to go fix all the typos.
 set(ARDUBOY_INCLUDE ${ARDUBOY_INCLUDES})
 set(ARDUBOY_SOURCES ${ARDUBOY_SOURCE})
@@ -57,11 +58,13 @@ set(ARDUBOYTONES_SOURCES ${ARDUBOYTONES_SOURCE})
 set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
+add_subdirectory("playdate-cpp")
 add_subdirectory("Arduboy3d")
 add_subdirectory("Arduminer")
 add_subdirectory("Begemmed")
 add_subdirectory("Bone Shakers")
 add_subdirectory("Bubble Pop")
+add_subdirectory("Blob Attack")
 add_subdirectory("CastleBoy")
 add_subdirectory("Crates")
 add_subdirectory("Dice of Fate")

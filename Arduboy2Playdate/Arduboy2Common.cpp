@@ -1,3 +1,4 @@
+#include <pdcpp/pdnewlib.h>
 #include "Arduboy2Common.h"
 
 void randomSeed(unsigned int dwSeed)
@@ -94,11 +95,18 @@ int update(__attribute__ ((unused)) void* ud)
     return 1;
 }
 
-extern "C" int eventHandler(PlaydateAPI *playdate, PDSystemEvent event, uint32_t arg) {
+extern "C" {
+#ifdef _WINDLL
+__declspec(dllexport)
+#endif
+int eventHandler(PlaydateAPI *playdate, PDSystemEvent event, uint32_t arg) {
     if (event == kEventInit) {
+        eventHandler_pdnewlib(pd, event, arg);
         pd = playdate;
         setup();
         pd->system->setUpdateCallback(update, NULL);
     }
     return 0;
+}
+
 }
