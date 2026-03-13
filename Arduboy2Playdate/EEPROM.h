@@ -20,6 +20,8 @@
 
 extern "C" {
 #include <stdint.h>
+#include "pd_api.h"
+extern PlaydateAPI* pd;
 }
 
 /***
@@ -31,64 +33,89 @@ extern "C" {
 
 #include <string>
 
+extern PlaydateAPI* pd;
+
+#define EEPROM_SIZE 1024
+#define EEPROM_FILE "eeprom.bin"
+
+inline uint8_t _eeprom[EEPROM_SIZE];
+inline bool _eeprom_loaded = false;
+
+static inline void _eeprom_load() {
+    if (_eeprom_loaded) return;
+    _eeprom_loaded = true;
+
+    SDFile* f = pd->file->open(EEPROM_FILE, kFileReadData);
+    if (f) {
+        pd->file->read(f, _eeprom, EEPROM_SIZE);
+        pd->file->close(f);
+    }
+}
+
+static inline void _eeprom_save() {
+    SDFile* f = pd->file->open(EEPROM_FILE, kFileWrite);
+    if (f) {
+        pd->file->write(f, _eeprom, EEPROM_SIZE);
+        pd->file->close(f);
+    }
+}
+
 struct EEPROMClass {
 
     //Basic user access methods.
 
     uint8_t read(int idx)
     {
-        // TODO: revisit
-//        std::string name = std::to_string(idx);
-//        char* ccx = new char[name.length() + 1];
-//        std::copy(name.begin(), name.end(), ccx);
-//        pd->file->open(ccx, kFileReadData);
-        return 0;
+        _eeprom_load();
+        if ((idx >= EEPROM_SIZE) || (idx < 0))
+            return 0;
+        return _eeprom[idx];
     }
+
     void write(int idx, uint8_t val)
     {
-
+        _eeprom_load();
+        if ((idx >= EEPROM_SIZE) || (idx < 0))
+            return;
+        _eeprom[idx] = val;
+        _eeprom_save();
     }
+
     void update(int idx, uint8_t val)
     {
-
+        _eeprom_load();
+        if ((idx >= EEPROM_SIZE) || (idx < 0))
+            return;
+        if (_eeprom[idx] != val) {
+            _eeprom[idx] = val;
+            _eeprom_save();
+        }
     }
 
     uint16_t length()
     {
-        return 0;// TODO: E2END + 1;
+        return EEPROM_SIZE;
     }
 
     //Functionality to 'get' and 'put' objects to and from EEPROM.
     template< typename T > T &get(int idx, T &t)
     {
-        // TODO: revisit this
-//        uint8_t *ptr = (uint8_t *) &t;
-//        std::string name = std::to_string(idx);
-//        char* ccx = new char[name.length() + 1];
-//        std::copy(name.begin(), name.end(), ccx);
-//        SDFile *file = pd->file->open(ccx, kFileReadData);
-//
-//        FileStat *stat = nullptr;
-//        pd->file->stat(ccx, stat);
-//        if (stat) {
-//            pd->file->read(file, ptr, stat->size);
-//            pd->file->close(file);
-//            return t;
-//        }
-
+        _eeprom_load();
+        if (idx < 0 || idx + (int)sizeof(T) > EEPROM_SIZE) return t;
+        uint8_t* ptr = (uint8_t*)&t;
+        for (int i = 0; i < (int)sizeof(T); i++)
+            ptr[i] = _eeprom[idx + i];
         return t;
     }
 
     template< typename T > const T &put(int idx, const T &t)
     {
-        // TODO: revisit this
-//        const uint8_t *ptr = (const uint8_t *) &t;
-//        std::string name = std::to_string(idx);
-//        char* ccx = new char[name.length() + 1];
-//        std::copy(name.begin(), name.end(), ccx);
-//        SDFile *file = pd->file->open(ccx, kFileWrite);
-//        pd->file->write(file, ptr, sizeof(T));
-//        pd->file->close(file);
+        _eeprom_load();
+        if (idx < 0 || idx + (int)sizeof(T) > EEPROM_SIZE) return t;
+        const uint8_t* ptr = (const uint8_t*)&t;
+        for (int i = 0; i < (int)sizeof(T); i++)
+            _eeprom[idx + i] = ptr[i];
+        _eeprom_save();
         return t;
     }
 };
