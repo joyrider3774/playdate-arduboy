@@ -327,7 +327,7 @@ uint8_t Arduboy2Core::buttonsState()
 
 unsigned long Arduboy2Core::generateRandomSeed()
 {
-    return random();
+    return rand();
 }
 
 // delay in ms with 16 bit duration

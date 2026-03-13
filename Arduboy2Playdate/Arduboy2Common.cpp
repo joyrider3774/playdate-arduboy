@@ -3,7 +3,7 @@
 
 void randomSeed(unsigned int dwSeed)
 {
-    srandom(dwSeed);
+    srand(dwSeed);
 }
 
 long random(long howbig)
@@ -12,7 +12,7 @@ long random(long howbig)
         return 0;
     }
 
-    return random() % howbig;
+    return rand() % howbig;
 }
 
 long random(long howsmall, long howbig)
