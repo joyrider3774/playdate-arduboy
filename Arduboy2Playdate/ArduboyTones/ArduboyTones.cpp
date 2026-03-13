@@ -46,14 +46,14 @@ static volatile uint16_t *tonesStart;
 static volatile uint16_t *tonesIndex;
 static volatile uint16_t toneSequence[MAX_TONES * 2 + 1];
 
-PDSynth* chan1 = nullptr;
+PDSynth* chan3 = nullptr;
 
-volatile int32_t duration = 0;
+volatile int32_t tones_duration = 0;
 void ArduboyTones::callback()
 {
-    if (duration > 0) {
-        duration--;
-        if (duration == 0) {
+    if (tones_duration > 0) {
+        tones_duration--;
+        if (tones_duration == 0) {
             ArduboyTones::nextTone();
         }
     }
@@ -115,7 +115,7 @@ void ArduboyTones::tonesInRAM(uint16_t *tones)
 
 void ArduboyTones::noTone()
 {
-    pd->sound->synth->stop(chan1);
+    pd->sound->synth->stop(chan3);
 }
 
 void ArduboyTones::volumeMode(uint8_t mode) {}
@@ -141,8 +141,8 @@ void ArduboyTones::nextTone()
 
     freq &= ~TONE_HIGH_VOLUME; // strip volume indicator from frequency
 
-    duration = getNext();
-    pd->sound->synth->playNote(chan1, freq, 1, 0.1, 0);
+    tones_duration = getNext();
+    pd->sound->synth->playNote(chan3, freq, 1, 0.1, 0);
 }
 
 uint16_t ArduboyTones::getNext()
@@ -151,8 +151,8 @@ uint16_t ArduboyTones::getNext()
 }
 
 void ArduboyTones::begin() {
-    if (chan1 == nullptr) {
-        chan1 = pd->sound->synth->newSynth();
-        pd->sound->synth->setWaveform(chan1, kWaveformSquare);
+    if (chan3 == nullptr) {
+        chan3 = pd->sound->synth->newSynth();
+        pd->sound->synth->setWaveform(chan3, kWaveformSquare);
     }
 }
