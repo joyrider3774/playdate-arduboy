@@ -19,6 +19,6 @@ set(SOURCE
 
 add_playdate_application(${PLAYDATE_GAME_NAME})  
 target_sources(${PLAYDATE_GAME_NAME} PUBLIC ${SOURCE})
-target_link_libraries(${PLAYDATE_GAME_NAME} pdcpp_core)
+target_link_libraries(${PLAYDATE_GAME_NAME} PRIVATE pdcpp_core)
 set_property(TARGET ${PLAYDATE_TARGET_NAME} APPEND PROPERTY ADDITIONAL_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/${PLAYDATE_GAME_NAME}.pdx")
 
