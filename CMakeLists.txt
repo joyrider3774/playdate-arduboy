@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 
 set (CMAKE_CXX_STANDARD 20)
 add_definitions(-D_PLAYDATE)
+add_definitions(-fpermissive)
 
 if (APPLE)
     execute_process(
@@ -59,6 +60,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("waternet")
 add_subdirectory("Arduboy3d")
 add_subdirectory("Arduminer")
 add_subdirectory("Begemmed")
@@ -77,3 +79,4 @@ add_subdirectory("Reverse Mermaid Hockey")
 add_subdirectory("Shadow Runner")
 add_subdirectory("Train Dodge")
 add_subdirectory("VIRUS-LQP-79")
+add_subdirectory("Ardynia")
