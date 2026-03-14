@@ -39,6 +39,7 @@ void setup()
 
 void loop()
 {
+    arduboySound.callback();
     if (debugMode)
     {
         if  (!arduboy.nextFrameDEV())
