@@ -61,7 +61,9 @@ prevents a "stuttering" playback because of timing errors:
 
 #include "ArduboyPlaytune.h"
 
-static byte _tune_num_chans = 0;
+#define DURATION_DECREASE 8
+
+static uint8_t _tune_num_chans = 0;
 static volatile boolean tune_playing = false; // is the score still playing?
 static volatile boolean tone_playing = false;
 static volatile boolean tone_mutes_score = false;
@@ -72,8 +74,8 @@ static volatile boolean mute_score = false; // indicates tone playing so mute ot
 static boolean (*outputEnabled)();
 
 // pointers to your musical score and your position in said score
-static volatile const byte *score_start = 0;
-static volatile const byte *score_cursor = 0;
+static volatile const uint8_t *score_start = 0;
+static volatile const uint8_t *score_cursor = 0;
 
 PDSynth *chan1 = nullptr;
 PDSynth *chan2 = nullptr;
@@ -95,13 +97,13 @@ ArduboyPlaytune::ArduboyPlaytune(boolean (*outEn)())
     outputEnabled = outEn;
 }
 
-void ArduboyPlaytune::initChannel(byte pin)
+void ArduboyPlaytune::initChannel(uint8_t pin)
 {
     init();
     _tune_num_chans = 2;
 }
 
-void ArduboyPlaytune::playNote(byte chan, byte note)
+void ArduboyPlaytune::playNote(uint8_t chan, uint8_t note)
 {
     if (!outputEnabled())
         return;
@@ -130,7 +132,7 @@ void ArduboyPlaytune::playNote(byte chan, byte note)
     }
 }
 
-void ArduboyPlaytune::stopNote(byte chan)
+void ArduboyPlaytune::stopNote(uint8_t chan)
 {
     if (chan == 0) {
         pd->sound->synth->stop(chan1);
@@ -140,7 +142,7 @@ void ArduboyPlaytune::stopNote(byte chan)
     }
 }
 
-void ArduboyPlaytune::playScore(const byte *score)
+void ArduboyPlaytune::playScore(const uint8_t *score)
 {
     init();
     score_start = score;
@@ -166,8 +168,8 @@ volatile int32_t duration = 0;
 void ArduboyPlaytune::updateCallback()
 {
     if (duration > 0) {
-        duration--;
-        if (duration == 0) {
+        duration-=DURATION_DECREASE;
+        if (duration <= 0) {
             if (tone_playing) {
                 pd->sound->synth->stop(chan1);
                 pd->sound->synth->stop(chan2);
@@ -181,7 +183,7 @@ void ArduboyPlaytune::updateCallback()
 
 void ArduboyPlaytune::step()
 {
-    byte command, opcode, chan;
+    uint8_t command, opcode, chan;
     while (1) {
         command = *(score_cursor++);
         opcode = command & 0xf0;
