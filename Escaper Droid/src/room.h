@@ -498,7 +498,8 @@ void drawRoom()
 void checkOrderOfObjects(byte roomNumber, byte currentLevel)
 {
   // clear out the itemsOrder
-  memset(itemsOrder, EMPTY_PLACE, SIZE_OF_ITEMSORDER);
+  for (byte i = 0; i < SIZE_OF_ITEMSORDER; i++)
+    itemsOrder[i] = EMPTY_PLACE;
 
   //draw door NORTH
   if (bitRead(stageRoom[currentRoom].doorsClosedActive, 7))
