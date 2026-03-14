@@ -67,6 +67,8 @@ ArduboyTones::ArduboyTones(boolean (*outEn)())
 
 void ArduboyTones::tone(uint16_t freq, uint16_t dur)
 {
+    if(!outputEnabled())
+        return;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq;
     toneSequence[1] = dur;
@@ -77,6 +79,8 @@ void ArduboyTones::tone(uint16_t freq, uint16_t dur)
 void ArduboyTones::tone(uint16_t freq1, uint16_t dur1,
                         uint16_t freq2, uint16_t dur2)
 {
+    if(!outputEnabled())
+        return;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq1;
     toneSequence[1] = dur1;
@@ -90,6 +94,8 @@ void ArduboyTones::tone(uint16_t freq1, uint16_t dur1,
                         uint16_t freq2, uint16_t dur2,
                         uint16_t freq3, uint16_t dur3)
 {
+    if(!outputEnabled())
+        return;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq1;
     toneSequence[1] = dur1;
@@ -130,7 +136,10 @@ void ArduboyTones::nextTone()
     if (chan3 == nullptr) {
         begin();
     }
-    
+
+    if(!outputEnabled())
+        return;
+
     uint16_t freq;
     freq = getNext(); // get tone frequency
 

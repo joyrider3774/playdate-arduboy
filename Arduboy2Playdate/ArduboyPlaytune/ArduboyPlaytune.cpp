@@ -103,6 +103,9 @@ void ArduboyPlaytune::initChannel(byte pin)
 
 void ArduboyPlaytune::playNote(byte chan, byte note)
 {
+    if (!outputEnabled())
+        return;
+
     if (chan >= _tune_num_chans) {
         return;
     }
@@ -217,6 +220,9 @@ void ArduboyPlaytune::tone(unsigned int frequency, unsigned long tone_duration)
     if (_tune_num_chans < 2) {
         return;
     }
+
+    if(!outputEnabled())
+        return;    
 
     tone_playing = true;
     mute_score = tone_mutes_score;
