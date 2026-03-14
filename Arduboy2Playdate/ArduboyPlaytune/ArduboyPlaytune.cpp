@@ -61,7 +61,14 @@ prevents a "stuttering" playback because of timing errors:
 
 #include "ArduboyPlaytune.h"
 
-#define DURATION_DECREASE 8
+#ifndef PLAYTUNE_DURATION_DECREASE_PD
+#define PLAYTUNE_DURATION_DECREASE_PD 1
+#endif
+
+#ifndef PLAYTUNE_DURATION_DECREASE_SIM
+#define PLAYTUNE_DURATION_DECREASE_SIM 1
+#endif
+
 
 static uint8_t _tune_num_chans = 0;
 static volatile boolean tune_playing = false; // is the score still playing?
@@ -168,7 +175,11 @@ volatile int32_t duration = 0;
 void ArduboyPlaytune::updateCallback()
 {
     if (duration > 0) {
-        duration-=DURATION_DECREASE;
+#ifdef _WINDLL
+        duration-=PLAYTUNE_DURATION_DECREASE_SIM;
+#else
+        duration-=PLAYTUNE_DURATION_DECREASE_PD;
+#endif
         if (duration <= 0) {
             if (tone_playing) {
                 pd->sound->synth->stop(chan1);
