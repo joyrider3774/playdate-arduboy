@@ -48,7 +48,6 @@ set(SOURCE
         src/src/entities/triggerDoor.cpp
 
         ${ARDUBOY_SOURCES}
-        ${ARDUBOYTONES_SOURCES}
 		${ARDUBOYPLAYTUNE_SOURCES}
         )
 
