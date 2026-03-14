@@ -484,7 +484,7 @@ void Game::updateTitle(uint8_t frame) {
             push(&Game::updatePlay, &Game::renderPlay);
         } else if (titleRow == DELETE_SAVE) {
             titleRow = 0;
-            //State::clearEEPROM();
+            State::clearEEPROM();
         } else if (titleRow == SFX_ON_OFF) {
             Arduboy2Audio::toggle();
             Arduboy2Audio::saveOnOff();
