@@ -31,10 +31,11 @@ void setup() {
 uint8_t loopCounter = 1;
 
 void loop() {
+    tones.updateCallback();
     if (!arduboy.nextFrame()) {
         return;
     }
-
+    
     loopCounter += 1;
 
     if (loopCounter == 61) {

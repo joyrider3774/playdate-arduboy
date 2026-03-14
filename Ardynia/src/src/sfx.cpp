@@ -1,5 +1,5 @@
 #include "sfx.h"
-
+#include <Arduboy2Common.h>
 ArduboyPlaytune* Sfx::tones;
 
 // ArduboyPlayTunes streaming format
@@ -197,7 +197,7 @@ void Sfx::init(ArduboyPlaytune* t) {
 
 void Sfx::play(const uint8_t* sfx) {
     tones->stopScore();
-    tones->playScore((byte*)sfx);
+    tones->playScore(sfx);
 }
 
 void Sfx::stop() {
