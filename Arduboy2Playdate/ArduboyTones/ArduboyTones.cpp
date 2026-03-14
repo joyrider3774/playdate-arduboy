@@ -127,6 +127,10 @@ bool ArduboyTones::playing()
 
 void ArduboyTones::nextTone()
 {
+    if (chan3 == nullptr) {
+        begin();
+    }
+    
     uint16_t freq;
     freq = getNext(); // get tone frequency
 

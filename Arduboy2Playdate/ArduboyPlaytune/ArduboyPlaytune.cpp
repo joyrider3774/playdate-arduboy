@@ -213,6 +213,7 @@ void ArduboyPlaytune::closeChannels()
 
 void ArduboyPlaytune::tone(unsigned int frequency, unsigned long tone_duration)
 {
+    init();
     if (_tune_num_chans < 2) {
         return;
     }
