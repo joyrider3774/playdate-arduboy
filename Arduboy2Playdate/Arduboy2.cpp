@@ -505,7 +505,7 @@ void Arduboy2Base::fillRect
 
 void Arduboy2Base::fillScreen(uint8_t color)
 {
-    display(CLEAR_BUFFER);
+    memset(sBuffer, color ? 0xFF : 0x00, sizeof(sBuffer));
 }
 
 void Arduboy2Base::drawRoundRect
