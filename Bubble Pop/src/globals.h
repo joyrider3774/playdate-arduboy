@@ -48,41 +48,41 @@
 #define TIMER_AMOUNT                 1000
 
 void drawBackground();
-void setBallType(byte ballIndex, byte type);
-byte getBallType(byte ballIndex);
+void setBallType(uint8_t ballIndex, uint8_t type);
+uint8_t getBallType(uint8_t ballIndex);
 void drawBalls();
-void killBall(byte index);
+void killBall(uint8_t index);
 
 bool modeSelect = false;
 
 float aBallX = 0.0;
 float aBallY = 0.0;
 float aBallRad;
-byte aBallSpeed = 1;
-byte aBall = 255;
-byte alignType = 1;         // This should be toggled (0 -> 1, 1 -> 0, XOR'd with 1) each time the balls are shifted down.
-byte randomCounter = 0;
-byte fallOffset = 0;
+uint8_t aBallSpeed = 1;
+uint8_t aBall = 255;
+uint8_t alignType = 1;         // This should be toggled (0 -> 1, 1 -> 0, XOR'd with 1) each time the balls are shifted down.
+uint8_t randomCounter = 0;
+uint8_t fallOffset = 0;
 bool falling = false;
 uint16_t dropTimer;
-//byte nextBall = 0;
+//uint8_t nextBall = 0;
 float radAngle;
-byte ballQueue[6];
+uint8_t ballQueue[6];
 
 
 Arduboy2Base arduboy;
 Sprites sprites;
 // TODO: ATMsynth ATM;
 
-byte gameState = STATE_MENU_INTRO;   // start the game with the TEAM a.r.g. logo
-byte menuSelection = STATE_MENU_PLAY; // PLAY menu item is pre-selected
-byte globalCounter = 0;
-byte level = FIRST_LEVEL;
+uint8_t gameState = STATE_MENU_INTRO;   // start the game with the TEAM a.r.g. logo
+uint8_t menuSelection = STATE_MENU_PLAY; // PLAY menu item is pre-selected
+uint8_t globalCounter = 0;
+uint8_t level = FIRST_LEVEL;
 
 /*
    !!!Maximum input value is 26!!!
 */
-byte generateRandomNumber(byte maxValue)
+uint8_t generateRandomNumber(uint8_t maxValue)
 {
   randomCounter += arduboy.frameCount;
   unsigned int nr = randomCounter;
