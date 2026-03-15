@@ -60,6 +60,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("Arduventure")
 add_subdirectory("waternet")
 add_subdirectory("Arduboy3d")
 add_subdirectory("Arduminer")
