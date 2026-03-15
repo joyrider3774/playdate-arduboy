@@ -2,5 +2,5 @@ name=Tacklebox
 author=Tacklebox
 bundleID=com.ericlewis.tacklebox
 version=v1.0.0
-imagePath=
+imagePath=SystemAssets
 description=
