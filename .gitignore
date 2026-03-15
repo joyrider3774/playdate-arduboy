@@ -12,3 +12,9 @@ Midnight Wild
 /build_simulator
 /build_device
 /.sentry-native
+*.dll
+*.elf
+*.zip
+*.bin
+*.so
+*.dylib
