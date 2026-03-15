@@ -69,6 +69,13 @@ prevents a "stuttering" playback because of timing errors:
 #define PLAYTUNE_DURATION_DECREASE_SIM 1
 #endif
 
+#ifndef PLAYTUNE_DURATION_SKIPS_PD
+#define PLAYTUNE_DURATION_SKIPS_PD 0
+#endif
+
+#ifndef PLAYTUNE_DURATION_SKIPS_SIM
+#define PLAYTUNE_DURATION_SKIPS_SIM 0
+#endif
 
 static uint8_t _tune_num_chans = 0;
 static volatile boolean tune_playing = false; // is the score still playing?
@@ -172,14 +179,40 @@ boolean ArduboyPlaytune::playing()
 }
 
 volatile int32_t duration = 0;
+static int32_t skipCounter = 0;
+#ifdef TARGET_SIMULATOR
+const int32_t skipsRequired = PLAYTUNE_DURATION_SKIPS_SIM;
+#else
+const int32_t skipsRequired = PLAYTUNE_DURATION_SKIPS_PD;
+#endif
+
 void ArduboyPlaytune::updateCallback()
 {
-    if (duration > 0) {
-#ifdef _WINDLL
-        duration-=PLAYTUNE_DURATION_DECREASE_SIM;
+ 
+    if (duration > 0) 
+    {
+        if ( skipsRequired> 0) 
+        {
+            skipCounter++;
+            if (skipCounter > skipsRequired) 
+            {
+                skipCounter = 0;
+#ifdef TARGET_SIMULATOR
+                duration-=PLAYTUNE_DURATION_DECREASE_SIM;
 #else
-        duration-=PLAYTUNE_DURATION_DECREASE_PD;
+                duration-=PLAYTUNE_DURATION_DECREASE_PD;
+#endif       
+            }
+        } 
+        else 
+        {
+#ifdef TARGET_SIMULATOR
+            duration-=PLAYTUNE_DURATION_DECREASE_SIM;
+#else
+            duration-=PLAYTUNE_DURATION_DECREASE_PD;
 #endif
+        }
+
         if (duration <= 0) {
             if (tone_playing) {
                 pd->sound->synth->stop(chan1);
