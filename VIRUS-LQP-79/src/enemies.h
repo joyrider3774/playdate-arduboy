@@ -29,12 +29,12 @@ struct Enemy
   public:
     int x;
     int y;
-    byte frame;
-    byte direction;
-    byte health;
-    byte active;
-    byte flashTime;
-    byte type;
+    uint8_t frame;
+    uint8_t direction;
+    uint8_t health;
+    uint8_t active;
+    uint8_t flashTime;
+    uint8_t type;
 };
 
 // globals ///////////////////////////////////////////////////////////////////
@@ -44,14 +44,14 @@ extern Enemy zombies[ZOMBIE_MAX];
 
 // method prototypes /////////////////////////////////////////////////////////
 
-void setZombie(Enemy& obj, int x, int y, byte type);
+void setZombie(Enemy& obj, int x, int y, uint8_t type);
 bool spawnZombie();
 bool addZombie(int x, int y);
 void updateZombie(Enemy& obj);
 void updateZombies();
 void drawZombie(Enemy& obj);
 void drawZombies();
-bool zombieHealthOffset(Enemy& obj, char amount);
+void zombieHealthOffset(Enemy& obj, char amount);
 bool zombieCollision(Enemy& obj, int x, int y, char w, char h);
 void clearZombies();
 void zombieCollide(int &x, int &y, bool horizontal, char &vel, char w, char h);

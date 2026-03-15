@@ -13,11 +13,11 @@ int displayLevel;
 // returns the tile type
 unsigned char getTileType(unsigned int posX, unsigned int posY) {
   return
-    // Block:read type (byte)
+    // Block:read type (uint8_t)
     *(
       // Block:first index is block number
       &blocks[
-        // Levels:read index (byte) poso block[] array
+        // Levels:read index (uint8_t) poso block[] array
         (*(
            // Levels:first index is level
            &maps[level - 1]

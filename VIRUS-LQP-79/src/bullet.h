@@ -20,7 +20,7 @@ struct Bullet {
   int y;
   char vx;
   char vy;
-  byte active;
+  uint8_t active;
 };
 
 // globals ///////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ extern Bullet bullets[BULLET_MAX];
 // method prototypes /////////////////////////////////////////////////////////
 
 bool setBullet(Bullet& obj, int x, int y, char vx, char vy);
-void addBullet(int x, int y, byte direction, char vx, char vy);
+void addBullet(int x, int y, uint8_t direction, char vx, char vy);
 void updateBullet(Bullet& obj);
 void updateBullets();
 void drawBullets();

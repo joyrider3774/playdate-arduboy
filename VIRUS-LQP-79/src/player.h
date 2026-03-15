@@ -41,18 +41,18 @@ struct Player
 {
   public:
     boolean walking;
-    byte direction;
-    byte frame;
-    byte shotDelay;
+    uint8_t direction;
+    uint8_t frame;
+    uint8_t shotDelay;
     int x;
     int y;
-    byte health;
-    byte flashTime;
-    byte camDirection;
-    byte diagonalTime;
+    uint8_t health;
+    uint8_t flashTime;
+    uint8_t camDirection;
+    uint8_t diagonalTime;
     boolean coolDownVisible;
     boolean overHeated;
-    byte coolDownCounter;
+    uint8_t coolDownCounter;
 };
 
 
@@ -60,8 +60,8 @@ struct Player
 
 extern Player coolGirl;
 extern int rollingScore;
-extern byte pickupsAvailable[10];
-extern byte pickupsCounter;
+extern uint8_t pickupsAvailable[10];
+extern uint8_t pickupsCounter;
 
 // method prototypes /////////////////////////////////////////////////////////
 

@@ -10,7 +10,7 @@
 
 extern int level;
 extern int displayLevel;
-extern byte gameID;
+extern uint8_t gameID;
 
 // methods prototypes ////////////////////////////////////////////////////////
 

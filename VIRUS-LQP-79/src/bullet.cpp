@@ -35,9 +35,9 @@ bool setBullet(Bullet& obj, int x, int y, char vx, char vy)
 
 // addBullet
 // searches the bullet list for an empty slot, adds one if available
-void addBullet(int x, int y, byte direction, char vx, char vy)
+void addBullet(int x, int y, uint8_t direction, char vx, char vy)
 {
-  byte id;
+  uint8_t id;
 
   for (id = 0; id < BULLET_MAX; id++)
   {
@@ -59,7 +59,7 @@ void addBullet(int x, int y, byte direction, char vx, char vy)
 // updates a bullet according to the game rules
 void updateBullet(Bullet& obj)
 {
-  byte id;
+  uint8_t id;
 
   if (obj.active)
   {
@@ -99,7 +99,7 @@ void updateBullet(Bullet& obj)
 // updates the entire list of bullets
 void updateBullets()
 {
-  byte id;
+  uint8_t id;
 
   for (id = 0; id < BULLET_MAX; id++)
   {
@@ -112,7 +112,7 @@ void updateBullets()
 // draws the entire list of bullets
 void drawBullets()
 {
-  byte id;
+  uint8_t id;
   int x, y;
 
   for (id = 0; id < BULLET_MAX; id++)
@@ -134,7 +134,7 @@ void drawBullets()
 // clears the entire list of bullets
 void clearBullets()
 {
-  byte id;
+  uint8_t id;
 
   for (id = 0; id < BULLET_MAX; id++)
   {

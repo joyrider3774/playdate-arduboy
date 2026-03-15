@@ -58,9 +58,9 @@ void drawDoor()
     }
     if (exitDoor.counter == 1) playerHealthOffset(coolGirl, -1);
     if (exitDoor.frame > 3)exitDoor.frame = 0;
-    for (byte x = 0; x < 2; x++)
+    for (uint8_t x = 0; x < 2; x++)
     {
-      for (byte y = 0; y < 2; y++)
+      for (uint8_t y = 0; y < 2; y++)
       {
         sprites.drawErase(exitDoor.x - mapPositionX + (x * 8), exitDoor.y - mapPositionY + (y * 8), exitOpenMask, 0);
         sprites.drawSelfMasked(exitDoor.x - mapPositionX + (x * 8), exitDoor.y - mapPositionY + (y * 8), exitOpen, exitDoor.frame + 4 * exitDoor.orientation);
