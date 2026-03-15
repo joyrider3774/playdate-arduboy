@@ -1,6 +1,7 @@
 name=Ardynia
 author=ardynia
 bundleID=com.ericlewis.ardynia
-version=v1.0.0
+version=v1.1.0
 imagePath=SystemAssets
 description=
+buildNumber=2

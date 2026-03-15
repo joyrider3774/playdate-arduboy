@@ -1,6 +1,7 @@
 name=Shadow Runner
 author=Team ARG
 bundleID=com.ericlewis.shadowrunner
-version=v1.0.0
+version=v1.1.0
 imagePath=
 description=
+buildNumber=2

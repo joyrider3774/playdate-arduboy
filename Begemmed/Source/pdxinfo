@@ -1,6 +1,7 @@
 name=Begemmed
 author=TEAM ARG
 bundleID=com.ericlewis.begemmed
-version=v1.0.0
+version=v1.1.0
 imagePath=assets/launcher
 description=
+buildNumber=2
