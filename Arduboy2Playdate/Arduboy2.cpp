@@ -71,7 +71,7 @@ void Arduboy2Base::sysCtrlSound(uint8_t buttons, uint8_t led, uint8_t eeVal)
         digitalWriteRGB(BLUE_LED, RGB_OFF); // turn off blue LED
         delayShort(200);
         digitalWriteRGB(led, RGB_ON); // turn on "acknowledge" LED
-        // TODO: EEPROM.update(eepromAudioOnOff, eeVal);
+        EEPROM.update(eepromAudioOnOff, eeVal);
         delayShort(500);
         digitalWriteRGB(led, RGB_OFF); // turn off "acknowledge" LED
 
