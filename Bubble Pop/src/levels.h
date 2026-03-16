@@ -4,7 +4,7 @@
 #include "globals.h"
 #include "player.h"
 
-void rootExpand(uint8_t index);
+void rootExpand(byte index);
 
 void checkCollisions()
 {
@@ -21,17 +21,17 @@ void checkCollisions()
     ends up touching to allow levels to start out with 3 or more balls touching already.
 */
 /*bool checkDeath() {
-  for (uint8_t i = TOTAL_BALLS-1; i < TOTAL_BALLS; i--) {
+  for (byte i = TOTAL_BALLS-1; i < TOTAL_BALLS; i--) {
     if (bitRead(balls[i].state, ACTIVE_BIT)) {
-      uint8_t type = getBallType(i);
-      uint8_t row = i / 11;
-      uint8_t col = i % 11;
-      uint8_t connections = 0;
-      uint8_t colOffset = 1;
+      byte type = getBallType(i);
+      byte row = i / 11;
+      byte col = i % 11;
+      byte connections = 0;
+      byte colOffset = 1;
       if (row % 2 == alignType)
         colOffset = 0;
       // Top left
-      uint8_t nball = getBall(row-1, col - colOffset);
+      byte nball = getBall(row-1, col - colOffset);
       if (nball != 255 && getBallType(nball) == type && bitRead(balls[nball].state, ACTIVE_BIT))
         connections++;
       // Top right
@@ -72,21 +72,21 @@ void checkCollisions()
    returns: whether ball death occurred
    checks death for the surrounding balls of the same type.
 */
-uint8_t checkSurrounding(uint8_t index) {
+byte checkSurrounding(byte index) {
   if (checkDeath(index))
     return true;
 
-  uint8_t type = getBallType(index);
-  uint8_t row = index / TOTAL_COLUMNS;
-  uint8_t col = index % TOTAL_COLUMNS;
-  uint8_t connections = 0;
-  uint8_t colOffset = 1;
-  uint8_t ret = 0;
+  byte type = getBallType(index);
+  byte row = index / TOTAL_COLUMNS;
+  byte col = index % TOTAL_COLUMNS;
+  byte connections = 0;
+  byte colOffset = 1;
+  byte ret = 0;
   if (row % 2 == alignType)
     colOffset = 0;
 
   // Top left
-  uint8_t nball = getBall(row - 1, col - colOffset);
+  byte nball = getBall(row - 1, col - colOffset);
   if (nball != 255 && getBallType(nball) == type && bitRead(balls[nball].state, ACTIVE_BIT))
     ret |= checkDeath(nball);
   // Top right
@@ -121,17 +121,17 @@ uint8_t checkSurrounding(uint8_t index) {
     this method checks a single ball for surrounding connections being greater than or equal to 2
     and kills the ball if true.
 */
-uint8_t checkDeath(uint8_t index) {
+byte checkDeath(byte index) {
   if (bitRead(balls[index].state, ACTIVE_BIT)) {
-    uint8_t type = getBallType(index);
-    uint8_t row = index / TOTAL_COLUMNS;
-    uint8_t col = index % TOTAL_COLUMNS;
-    uint8_t connections = 0;
-    uint8_t colOffset = 1;
+    byte type = getBallType(index);
+    byte row = index / TOTAL_COLUMNS;
+    byte col = index % TOTAL_COLUMNS;
+    byte connections = 0;
+    byte colOffset = 1;
     if (row % 2 == alignType)
       colOffset = 0;
     // Top left
-    uint8_t nball = getBall(row - 1, col - colOffset);
+    byte nball = getBall(row - 1, col - colOffset);
     if (nball != 255 && getBallType(nball) == type && bitRead(balls[nball].state, ACTIVE_BIT))
       connections++;
     // Top right
@@ -172,17 +172,17 @@ uint8_t checkDeath(uint8_t index) {
    this function kills the indexed ball and any ball touching it of
    the same type.
 */
-void killBall(uint8_t index) {
-  uint8_t type = getBallType(index);
+void killBall(byte index) {
+  byte type = getBallType(index);
   setBallType(index, DEAD_BALL); // dead black ball
-  uint8_t col = index % TOTAL_COLUMNS;
-  uint8_t row = index / TOTAL_COLUMNS;
-  uint8_t colOffset = 1;
+  byte col = index % TOTAL_COLUMNS;
+  byte row = index / TOTAL_COLUMNS;
+  byte colOffset = 1;
   if (row % 2 == alignType)
     colOffset = 0;
 
   // Top left
-  uint8_t nball = getBall(row - 1, col - colOffset);
+  byte nball = getBall(row - 1, col - colOffset);
   if (nball != 255 && getBallType(nball) == type && bitRead(balls[nball].state, ACTIVE_BIT))
     killBall(nball);
   // Top right
@@ -215,7 +215,7 @@ void killBall(uint8_t index) {
    if a ball is found to be dead, it will be deactivated.
 */
 void deactivateDead() {
-  for (uint8_t i = TOTAL_BALLS - 1; i < TOTAL_BALLS; i--) {
+  for (byte i = TOTAL_BALLS - 1; i < TOTAL_BALLS; i--) {
     if (getBallType(i) == DEAD_BALL) {
       bitClear(balls[i].state, ACTIVE_BIT);
     }
@@ -236,19 +236,19 @@ void deactivateDead() {
    as it is shifted.
 */
 void checkRoots() {
-  for (uint8_t i = TOTAL_BALLS - 1; i < TOTAL_BALLS; i--) {
+  for (byte i = TOTAL_BALLS - 1; i < TOTAL_BALLS; i--) {
     bitClear(balls[i].state, ROOT_BIT);
   }
-  for (uint8_t i = TOTAL_COLUMNS - 1; i < TOTAL_COLUMNS; i--) {
+  for (byte i = TOTAL_COLUMNS - 1; i < TOTAL_COLUMNS; i--) {
     if (bitRead(balls[i].state, ACTIVE_BIT) && getBallType(i) != 6) {
-      uint8_t col = i % TOTAL_COLUMNS;
-      uint8_t row = i / TOTAL_COLUMNS;
-      uint8_t colOffset = 1;
+      byte col = i % TOTAL_COLUMNS;
+      byte row = i / TOTAL_COLUMNS;
+      byte colOffset = 1;
       if (row % 2 == alignType)
         colOffset = 0;
       bitSet(balls[i].state, ROOT_BIT);
       // Bottom right
-      uint8_t nball = getBall(row + 1, col + 1 - colOffset);
+      byte nball = getBall(row + 1, col + 1 - colOffset);
       if (nball != 255 && bitRead(balls[nball].state, ACTIVE_BIT) && !bitRead(balls[nball].state, ROOT_BIT) && getBallType(nball) != 6)
         rootExpand(nball);
       // Bottom left
@@ -259,7 +259,7 @@ void checkRoots() {
   }
 
   // Kill non rooted
-  for (uint8_t i = TOTAL_BALLS - 1; i < TOTAL_BALLS; i--) {
+  for (byte i = TOTAL_BALLS - 1; i < TOTAL_BALLS; i--) {
     if (!bitRead(balls[i].state, ROOT_BIT)) {
       setBallType(i, 6);
     }
@@ -274,16 +274,16 @@ void checkRoots() {
    not already rooted, and not already dead, then sets them as rooted.
    think of the roots as growing from the top to the bottom just like the roots of a tree.
 */
-void rootExpand(uint8_t index) {
+void rootExpand(byte index) {
   bitSet(balls[index].state, ROOT_BIT);
-  uint8_t col = index % TOTAL_COLUMNS;
-  uint8_t row = index / TOTAL_COLUMNS;
-  uint8_t colOffset = 1;
+  byte col = index % TOTAL_COLUMNS;
+  byte row = index / TOTAL_COLUMNS;
+  byte colOffset = 1;
   if (row % 2 == alignType)
     colOffset = 0;
 
   // Top left
-  uint8_t nball = getBall(row - 1, col - colOffset);
+  byte nball = getBall(row - 1, col - colOffset);
   if (nball != 255 && bitRead(balls[nball].state, ACTIVE_BIT) && !bitRead(balls[nball].state, ROOT_BIT) && getBallType(nball) != DEAD_BALL)
     rootExpand(nball);
   // Top right
@@ -316,11 +316,11 @@ void rootExpand(uint8_t index) {
 */
 void drawBackground() {
   
-  for (uint8_t i = 0; i < 8; i++)
+  for (byte i = 0; i < 8; i++)
   {
     sprites.drawPlusMask (GAME_BORDER_LEFT, GAME_TOP + (i * 8), playFieldBorder_plus_mask, 0);
     sprites.drawPlusMask (GAME_RIGHT, GAME_TOP + (i * 8), playFieldBorder_plus_mask, 0);
-    for (uint8_t k = 0; k < 7 ;k++)
+    for (byte k = 0; k < 7 ;k++)
     {
       sprites.drawErase (GAME_BORDER_RIGHT+(k*8), i*8,playFieldMask_mask, 0);
     }
@@ -328,15 +328,15 @@ void drawBackground() {
 
   sprites.drawSelfMasked(80, 3, textScore, 0);
   /*
-    for (uint8_t i = GAME_LEFT - 1; i < GAME_LEFT; i--) {
-    for (uint8_t j = 6; j < 7; j--) {
+    for (byte i = GAME_LEFT - 1; i < GAME_LEFT; i--) {
+    for (byte j = 6; j < 7; j--) {
       sprites.drawOverwrite(i, j * 9 + i / 9, sprWallPattern, 0);
       sprites.drawOverwrite(127 - i, j * 9 + i / 9, sprWallPattern, 0);
     }
     }
 
     Score things should be changed.
-    for (uint8_t i = 23; i < 24; i--) {
+    for (byte i = 23; i < 24; i--) {
     sprites.drawOverwrite(101 + i, 14, sprScoreBottom, 0);
     }
 
@@ -345,15 +345,15 @@ void drawBackground() {
     sprites.drawOverwrite(100, 3, sprScore, 0);
 
 
-    for (uint8_t i = 7; i < 8; i--) {
+    for (byte i = 7; i < 8; i--) {
     sprites.drawErase(GAME_LEFT, i * 8, sprVerticalWall, 0);
     sprites.drawErase(GAME_RIGHT, i * 8, sprVerticalWall, 0);
     }
 
-    for (uint8_t i = (GAME_RIGHT - GAME_LEFT) / 2 - 1; i < (GAME_RIGHT - GAME_LEFT) / 2; i--) {
+    for (byte i = (GAME_RIGHT - GAME_LEFT) / 2 - 1; i < (GAME_RIGHT - GAME_LEFT) / 2; i--) {
     sprites.drawOverwrite(GAME_LEFT + 1 + i * 2, 53, sprBottomWall, 0);
     }
-    for (uint8_t i = (GAME_RIGHT - LAUNCHER_X + 6) / 3 - 1; i < (GAME_RIGHT - 70) / 3; i--) {
+    for (byte i = (GAME_RIGHT - LAUNCHER_X + 6) / 3 - 1; i < (GAME_RIGHT - 70) / 3; i--) {
     sprites.drawOverwrite(LAUNCHER_X + 6 + i * 3, 58, sprBottomWallPattern, 0);
     }
   */
