@@ -237,7 +237,7 @@ void drawZombies()
 // zombieHealthOffset
 // takes a value to be added to zombie health
 // kills the zombie if health goes below zero
-bool zombieHealthOffset(Enemy& obj, char amount)
+void zombieHealthOffset(Enemy& obj, char amount)
 {
   obj.health += amount;
 
