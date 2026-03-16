@@ -52,7 +52,7 @@ volatile int32_t tones_duration = 0;
 void ArduboyTones::callback()
 {
     if (tones_duration > 0) {
-        tones_duration--;
+        tones_duration = tones_duration - 1;
         if (tones_duration == 0) {
             ArduboyTones::nextTone();
         }

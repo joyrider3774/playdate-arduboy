@@ -257,7 +257,10 @@ void ArduboyPlaytune::closeChannels()
     stopNote(0);
     stopNote(1);
     _tune_num_chans = 0;
-    tune_playing = tone_playing = tone_only = mute_score = false;
+    tune_playing = false;
+    tone_playing = false;
+    tone_only = false;
+    mute_score = false;
 }
 
 void ArduboyPlaytune::tone(unsigned int frequency, unsigned long tone_duration)
