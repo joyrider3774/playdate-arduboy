@@ -125,8 +125,12 @@ extern void loop();
 
 // Pseudo-Arduino
 using boolean = bool;
-using byte = uint16_t;
-using word = uint32_t;
+//these caused issues in games, i'm changing them to sane values as on arduboy
+//using byte = uint16_t;
+//using word = uint32_t;
+using byte = uint8_t;
+using word = uint16_t;
+
 
 void randomSeed(unsigned int dwSeed);
 long random(long b);
