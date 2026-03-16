@@ -60,6 +60,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("Trolly Fish")
 add_subdirectory("Epic Crates Of Mass Desctruction")
 add_subdirectory("Sirene")
 add_subdirectory("Arduventure")
