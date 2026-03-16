@@ -42,6 +42,7 @@ const FunctionPointer PROGMEM  mainGameLoop[] = {
 
 void setup() {
   arduboy.begin();
+  sound.begin();
   arduboy.setFrameRate(60);                                 // set the frame rate of the game at 60 fps
 }
 

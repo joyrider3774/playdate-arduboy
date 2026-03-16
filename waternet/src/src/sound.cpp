@@ -314,6 +314,7 @@ void initSound()
 {
     sound_on = isSoundOnSaveState();
     beep.begin();
+    arduboySound.begin();
 }
 
 void soundTimer()

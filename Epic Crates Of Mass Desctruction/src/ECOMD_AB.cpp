@@ -45,6 +45,7 @@ const FunctionPointer PROGMEM mainGameLoop[] = {
 void setup()
 {
   arduboy.begin();
+  sound.begin();
   arduboy.setFrameRate(60);
   arduboy.initRandomSeed();
 }

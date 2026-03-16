@@ -133,10 +133,6 @@ bool ArduboyTones::playing()
 
 void ArduboyTones::nextTone()
 {
-    if (chan3 == nullptr) {
-        begin();
-    }
-
     if(!outputEnabled())
         return;
 
