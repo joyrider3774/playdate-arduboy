@@ -155,14 +155,14 @@ void spikesCreate(vec2 pos, byte l)
       // Solid above
       if (gridGetSolid(pos.x, pos.y - 1))
       {
-        spikes[i].characteristics = 0x00000111;
+        spikes[i].characteristics = B00000111;
         spikes[i].pos.width = len;
         spikes[i].pos.height = 8;
       }
       // Solid below
       else if (gridGetSolid(pos.x, pos.y + 1))
       {
-        spikes[i].characteristics = 0x00000101;
+        spikes[i].characteristics = B00000101;
         spikes[i].pos.width = len;
         spikes[i].pos.height = 8;
         spikes[i].pos.y += 8;
@@ -170,14 +170,14 @@ void spikesCreate(vec2 pos, byte l)
       // Solid left
       else if (gridGetSolid(pos.x - 1, pos.y))
       {
-        spikes[i].characteristics = 0x00000100;
+        spikes[i].characteristics = B00000100;
         spikes[i].pos.width = 8;
         spikes[i].pos.height = len;
       }
       // Solid right
       else if (gridGetSolid(pos.x + 1, pos.y))
       {
-        spikes[i].characteristics = 0x00000110;
+        spikes[i].characteristics = B00000110;
         spikes[i].pos.width = 8;
         spikes[i].pos.height = len;
         spikes[i].pos.x += 8;
@@ -226,14 +226,14 @@ void enemiesUpdate()
     {
       int commonx = spikes[i].pos.x - cam.pos.x;
       int commony = spikes[i].pos.y - cam.pos.y;
-      sprites.drawOverwrite(commonx, commony, sprSpikes,  spikes[i].characteristics & 0x00000011);
+      sprites.drawOverwrite(commonx, commony, sprSpikes,  spikes[i].characteristics & B00000011);
       if (!bitRead(spikes[i].characteristics, 0)) {
         for (int l = 8; l < spikes[i].pos.height; l += 8)
-          sprites.drawOverwrite(commonx, commony + l, sprSpikes,  spikes[i].characteristics & 0x00000011);
+          sprites.drawOverwrite(commonx, commony + l, sprSpikes,  spikes[i].characteristics & B00000011);
       }
       else {
         for (int l = 8; l < spikes[i].pos.width; l += 8)
-          sprites.drawOverwrite(commonx + l, commony, sprSpikes,  spikes[i].characteristics & 0x00000011);
+          sprites.drawOverwrite(commonx + l, commony, sprSpikes,  spikes[i].characteristics & B00000011);
       }
     }
   }
