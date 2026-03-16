@@ -1,7 +1,7 @@
 name=Bubble Pop
 author=Team ARG
 bundleID=com.ericlewis.bubblepop
-version=v1.1.0
+version=v1.2.0
 imagePath=assets
 description=
-buildNumber=3
+buildNumber=4
