@@ -2,15 +2,14 @@
 #include "door.h"
 #include "menu.h"
 #include "pickup.h"
-#include "bullet.h"
 
 // globals ///////////////////////////////////////////////////////////////////
 
 Player coolGirl;
 
 int rollingScore = 0;
-uint8_t pickupsAvailable[] = {PICKUP_TYPE_COIN, PICKUP_TYPE_COIN, PICKUP_TYPE_COIN, PICKUP_TYPE_INACTIVE, PICKUP_TYPE_COIN, PICKUP_TYPE_HEART, PICKUP_TYPE_INACTIVE, PICKUP_TYPE_COIN, PICKUP_TYPE_INACTIVE, PICKUP_TYPE_COIN};
-uint8_t pickupsCounter;
+byte pickupsAvailable[] = {PICKUP_TYPE_COIN, PICKUP_TYPE_COIN, PICKUP_TYPE_COIN, PICKUP_TYPE_INACTIVE, PICKUP_TYPE_COIN, PICKUP_TYPE_HEART, PICKUP_TYPE_INACTIVE, PICKUP_TYPE_COIN, PICKUP_TYPE_INACTIVE, PICKUP_TYPE_COIN};
+byte pickupsCounter;
 
 // method implementations  ///////////////////////////////////////////////////
 
@@ -38,10 +37,10 @@ void updatePlayer(Player& obj)
   char vx = 0;
   char vy = 0;
 
-  uint8_t id;
-  uint8_t tileXMax;
-  uint8_t tileYMax;
-  uint8_t inputDirection = obj.direction;
+  byte id;
+  byte tileXMax;
+  byte tileYMax;
+  byte inputDirection = obj.direction;
 
   ///////////
   // input //
@@ -262,11 +261,11 @@ void drawPlayer(Player& obj)
 
 void drawLife(Player& obj)
 {
-  for (uint8_t amountLife = 0; amountLife < obj.health; amountLife++)
+  for (byte amountLife = 0; amountLife < obj.health; amountLife++)
   {
     sprites.drawPlusMask((amountLife / 2) * 10, 0, HUD_plus_mask, 0);
   }
-  for (uint8_t amountLife = 0; amountLife < obj.health / 2; amountLife++)
+  for (byte amountLife = 0; amountLife < obj.health / 2; amountLife++)
   {
     sprites.drawPlusMask(amountLife * 10, 0, HUD_plus_mask, 1);
   }
@@ -276,7 +275,7 @@ void drawCoolDown()
 {
   if (coolGirl.coolDownVisible)
   {
-    for (uint8_t i = 0; i < coolGirl.coolDownCounter; i++)
+    for (byte i = 0; i < coolGirl.coolDownCounter; i++)
     {
       sprites.drawPlusMask(i, 7, coolDownLine_plus_mask, 0);
     }

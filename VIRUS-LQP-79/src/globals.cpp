@@ -6,10 +6,10 @@ Arduboy2Base arduboy;
 Sprites sprites;
 ArduboyTones sound(arduboy.audio.enabled);
 unsigned long scorePlayer;
-uint8_t gameID;
-uint8_t gameState  = STATE_MENU_INTRO;
-uint8_t gameType = STATE_GAME_NEW;
-uint8_t globalCounter = 0;
+byte gameID;
+byte gameState  = STATE_MENU_INTRO;
+byte gameType = STATE_GAME_NEW;
+byte globalCounter = 0;
 
 // function implementations //////////////////////////////////////////////////
 

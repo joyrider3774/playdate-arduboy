@@ -24,11 +24,11 @@
 struct Door {
   int x;
   int y;
-  uint8_t active;
-  uint8_t orientation;
-  uint8_t frame;
-  uint8_t counter;
-  uint8_t loseLifeCounter;
+  byte active;
+  byte orientation;
+  byte frame;
+  byte counter;
+  byte loseLifeCounter;
 };
 
 // globals ///////////////////////////////////////////////////////////////////

@@ -23,7 +23,7 @@ struct Element
   public:
     int x;
     int y;
-    uint8_t active;
+    byte active;
 };
 
 
@@ -41,7 +41,7 @@ void drawSurvivors();
 bool survivorCollision(Element& obj, int x, int y, char w, char h);
 bool collectSurvivor(Element& obj);
 void clearSurvivors();
-uint8_t countAmountActiveSurvivors();
+byte countAmountActiveSurvivors();
 void drawAmountSurvivors();
 void survivorCollide(int x, int y);
 

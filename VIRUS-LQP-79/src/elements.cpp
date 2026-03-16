@@ -8,10 +8,10 @@
 Element survivors[SURVIVOR_MAX];
 
 // animation frame for all survivors
-uint8_t survivorFrame = 0;
+byte survivorFrame = 0;
 boolean showHelp = true;
-uint8_t amountActiveSurvivors = 0;
-uint8_t survivorType[5] = {0, 1, 2, 3, 4};
+byte amountActiveSurvivors = 0;
+byte survivorType[5] = {0, 1, 2, 3, 4};
 
 // method implementations ////////////////////////////////////////////////////
 
@@ -19,10 +19,10 @@ uint8_t survivorType[5] = {0, 1, 2, 3, 4};
 // searches the survivor list for an empty slot, adds one if available
 void swapSurvivorPool()
 {
-  for (uint8_t i = 0; i < 5; i++)
+  for (byte i = 0; i < 5; i++)
   {
-    uint8_t k = random (5);
-    uint8_t temp = survivorType[i];
+    byte k = random (5);
+    byte temp = survivorType[i];
     survivorType[i] = survivorType[k];
     survivorType[k] = temp;
   }
@@ -47,7 +47,7 @@ void drawSurvivors()
 {
   if (arduboy.everyXFrames(30)) showHelp = !showHelp;
   // draw the survivor!
-  for (uint8_t id = 0; id < SURVIVOR_MAX; id++)
+  for (byte id = 0; id < SURVIVOR_MAX; id++)
   {
     Element &surv = survivors[id];
     if (!surv.active) continue;
@@ -76,7 +76,7 @@ bool survivorCollision(Element& obj, int x, int y, char w, char h)
 // returns false if no survivors are left on the map, otherwise true
 bool collectSurvivor(Element& obj)
 {
-  uint8_t id;
+  byte id;
   obj.active = false;
   sound.tone(660, 20);
   rollingScore += 500;
@@ -94,7 +94,7 @@ bool collectSurvivor(Element& obj)
 // clears the entire list of survivors
 void clearSurvivors()
 {
-  uint8_t id;
+  byte id;
 
   for (id = 0; id < SURVIVOR_MAX; id++)
   {
@@ -104,7 +104,7 @@ void clearSurvivors()
 
 void drawAmountSurvivors()
 {
-  for (uint8_t amountSurvivors = 0; amountSurvivors < countAmountActiveSurvivors(); amountSurvivors++) // needs the amount of active survivors
+  for (byte amountSurvivors = 0; amountSurvivors < countAmountActiveSurvivors(); amountSurvivors++) // needs the amount of active survivors
   {
     sprites.drawPlusMask(40 + amountSurvivors * 9, 0, HUD_plus_mask, 2);
   }
@@ -121,10 +121,10 @@ void drawAmountSurvivors()
   }
 }
 
-uint8_t countAmountActiveSurvivors()
+byte countAmountActiveSurvivors()
 {
-  uint8_t id;
-  uint8_t countAmount = 0;
+  byte id;
+  byte countAmount = 0;
   for (id = 0; id < SURVIVOR_MAX; id++)
   {
     if (survivors[id].active) countAmount++;
@@ -135,7 +135,7 @@ uint8_t countAmountActiveSurvivors()
 
 void survivorCollide(int x, int y)
 {
-  uint8_t id;
+  byte id;
 
   for (id = 0; id < SURVIVOR_MAX; id++)
   {

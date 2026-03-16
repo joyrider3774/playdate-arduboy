@@ -21,9 +21,9 @@ struct Pickup
 {
   int x;
   int y;
-  uint8_t type;
-  uint8_t frame;
-  uint8_t counter;
+  byte type;
+  byte frame;
+  byte counter;
   boolean isVisible;
 };
 

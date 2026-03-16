@@ -33,7 +33,7 @@ bool addPickup(int x, int y)
 // draws the entire list of pickups
 void drawPickups()
 {
-  for (uint8_t id = 0; id < PICKUP_MAX; id++)
+  for (byte id = 0; id < PICKUP_MAX; id++)
   {
     if (arduboy.everyXFrames(6))
     {
@@ -52,7 +52,7 @@ void drawPickups()
 // checks for collision against the player, and handles it
 void pickupCollision(int x, int y)
 {
-  for (uint8_t id = 0; id < PICKUP_MAX; id++)
+  for (byte id = 0; id < PICKUP_MAX; id++)
   {
     if (
       ( pickups[id].type ) &&
@@ -81,7 +81,7 @@ void pickupCollision(int x, int y)
 // clears the entire list of pickups
 void clearPickups()
 {
-  for (uint8_t id = 0; id < PICKUP_MAX; id++)
+  for (byte id = 0; id < PICKUP_MAX; id++)
   {
     pickups[id].type = PICKUP_TYPE_INACTIVE;
   }

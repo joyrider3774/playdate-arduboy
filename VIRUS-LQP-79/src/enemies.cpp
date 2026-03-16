@@ -11,7 +11,7 @@ Enemy zombies[ZOMBIE_MAX];
 
 // setZombie
 // sets the position of a zombie, and enables that instance
-void setZombie(Enemy& obj, int x, int y, uint8_t type)
+void setZombie(Enemy& obj, int x, int y, byte type)
 {
   obj.frame = 0;
   obj.active = true;
@@ -46,7 +46,7 @@ bool spawnZombie()
 // returns true if successful, false otherwise
 bool addZombie(int x, int y)
 {
-  uint8_t id;
+  byte id;
 
   for (id = 0; id < ZOMBIE_MAX; id++)
   {
@@ -175,7 +175,7 @@ void updateZombie(Enemy& obj)
 // updates every active zombie in the list
 void updateZombies()
 {
-  uint8_t i;
+  byte i;
 
   for (i = 0; i < ZOMBIE_MAX; i++)
   {
@@ -224,7 +224,7 @@ void drawZombie(Enemy& obj)
 // draws every active zombie in the zombie list
 void drawZombies()
 {
-  uint8_t id;
+  byte id;
 
   // Draw all the zombies!
   for (id = 0; id < ZOMBIE_MAX; id++)
@@ -237,7 +237,7 @@ void drawZombies()
 // zombieHealthOffset
 // takes a value to be added to zombie health
 // kills the zombie if health goes below zero
-void zombieHealthOffset(Enemy& obj, char amount)
+bool zombieHealthOffset(Enemy& obj, char amount)
 {
   obj.health += amount;
 
@@ -275,7 +275,7 @@ bool zombieCollision(Enemy& obj, int x, int y, char w, char h)
 // clears the entire list of zombies
 void clearZombies()
 {
-  uint8_t id;
+  byte id;
 
   for (id = 0; id < ZOMBIE_MAX; id++)
   {
@@ -285,7 +285,7 @@ void clearZombies()
 
 void zombieCollide(int &x, int &y, bool horizontal, char &vel, char w, char h)
 {
-  uint8_t id;
+  byte id;
   for (id = 0; id < ZOMBIE_MAX; id++)
   {
     if (zombieCollision(zombies[id], x, y, w, h))
