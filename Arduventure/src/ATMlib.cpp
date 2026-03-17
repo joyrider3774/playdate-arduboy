@@ -1,5 +1,5 @@
 #include "ATMlib.h"
-
+#include "EEPROM.h"
 // ---------------------------------------------------------------------------
 // Globals
 // ---------------------------------------------------------------------------
@@ -353,7 +353,9 @@ int audioCallback(void *context, int16_t *left, int16_t *right, int len);
 }
 
 int audioCallback(void *context, int16_t *left, int16_t *right, int len) {
-  if (!atm_playing) {
+  int sound_on = 0;
+  EEPROM.get(2, sound_on);
+  if (!atm_playing || !sound_on) {
     memset(left, 0, len * sizeof(int16_t));
     return 1;
   }

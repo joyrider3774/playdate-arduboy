@@ -82,13 +82,8 @@ void stateMenuNew()
 
 void toggleSound()
 {
-  if (!arduboy.audio.enabled()) {
-    arduboy.audio.on();
-    ATM.playPause(); // resume
-  } else {
-    arduboy.audio.off();
-    ATM.playPause(); // pause
-  }
+  if (!arduboy.audio.enabled()) arduboy.audio.on();
+  else arduboy.audio.off();
   arduboy.audio.saveOnOff();
   cursorY = STATE_MENU_CONTINUE + firstGame;
 }
