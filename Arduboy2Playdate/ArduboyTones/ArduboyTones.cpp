@@ -42,18 +42,32 @@ THE SOFTWARE.
 static bool (*outputEnabled)();
 
 static volatile bool tonesPlaying = false;
-static volatile uint16_t *tonesStart;
-static volatile uint16_t *tonesIndex;
+static volatile uint16_t *tonesStart = nullptr;
+static volatile uint16_t *tonesIndex = nullptr;
 static volatile uint16_t toneSequence[MAX_TONES * 2 + 1];
 
 PDSynth* chan3 = nullptr;
 
 volatile int32_t tones_duration = 0;
+volatile unsigned int playtones_prev = 0;
+volatile unsigned int playtones_accum = 0;
+
 void ArduboyTones::callback()
 {
-    if (tones_duration > 0) {
-        tones_duration = tones_duration - 1;
-        if (tones_duration == 0) {
+    if (tonesIndex == nullptr) return;
+    unsigned int curr = pd->system->getCurrentTimeMilliseconds();
+    playtones_accum += (curr - playtones_prev) * 1024;
+    playtones_prev = curr;
+
+    unsigned int elapsed = playtones_accum / 1000;
+    playtones_accum %= 1000;
+
+    if (elapsed == 0) return;
+
+    if (tones_duration > 0)
+    {
+        tones_duration = tones_duration - elapsed;
+        if (tones_duration <= 0) {
             ArduboyTones::nextTone();
         }
     }
