@@ -58,7 +58,7 @@ void loop() {
     if (!(arduboy.nextFrame())) return;
     arduboy.pollButtons();
     arduboy.clear();
-    ((FunctionPointer)(mainGameLoop[gameState]))();
+    ((FunctionPointer)pgm_read_ptr(&mainGameLoop[gameState]))();
     arduboy.display();
 }
 
