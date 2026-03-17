@@ -14,7 +14,7 @@
 #include "SpritesB.h"
 #include "EEPROM.h"
 
-_Static_assert((char)-1 < 0, "char must be signed, arduboy / avr used signed char — compile with -fsigned-char");
+namespace { static_assert((char)-1 < 0, "char must be signed, arduboy / avr used signed char — compile with -fsigned-char"); }
 
 /** \brief
  * Library version
