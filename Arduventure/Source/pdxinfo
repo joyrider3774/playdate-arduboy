@@ -1,7 +1,7 @@
 name=Arduventure
 author=TEAM ARG
 bundleID=com.ericlewis.arduventure
-version=v1.2.0
+version=v1.3.0
 imagePath=SystemAssets
 description=
-buildNumber=4
+buildNumber=5

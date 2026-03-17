@@ -1,7 +1,7 @@
 name=Jet Pac
 author=TheArduinoGuy
 bundleID=com.ericlewis.jetpac
-version=v1.2.0
+version=v1.3.0
 imagePath=assets
 description=
-buildNumber=4
+buildNumber=5

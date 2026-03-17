@@ -1,7 +1,7 @@
 name=Catacombs
 author=James Howard, Abeno Studio
 bundleID=com.ericlewis.catacombs
-version=v1.2.0
+version=v1.3.0
 imagePath=assets/launcher
 description=
-buildNumber=4
+buildNumber=5
