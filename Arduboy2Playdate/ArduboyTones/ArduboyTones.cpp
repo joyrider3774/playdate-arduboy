@@ -135,6 +135,10 @@ void ArduboyTones::tonesInRAM(uint16_t *tones)
 
 void ArduboyTones::noTone()
 {
+    //stops sequence
+    tonesIndex = nullptr;
+    tonesStart = nullptr;
+    //stops synth also
     pd->sound->synth->stop(chan3);
 }
 
