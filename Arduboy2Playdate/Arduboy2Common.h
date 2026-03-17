@@ -14,7 +14,6 @@ extern PlaydateAPI* pd;
 #define PROGMEM
 #define F_CPU 140000000UL // CPU freq is 140mhz, TODO: double check this
 
-#define PROGMEM
 #define PGM_P  const char *
 #define PSTR(str) (str)
 
