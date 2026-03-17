@@ -50,6 +50,11 @@ static inline void _eeprom_load() {
         pd->file->read(f, _eeprom, EEPROM_SIZE);
         pd->file->close(f);
     }
+    else
+    {
+        //enable audio by default on new eeproms
+        _eeprom[2] = 1;
+    }
 }
 
 static inline void _eeprom_save() {
