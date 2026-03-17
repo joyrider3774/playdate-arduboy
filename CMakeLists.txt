@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.19)
 set (CMAKE_CXX_STANDARD 20)
 add_definitions(-D_PLAYDATE)
 add_definitions(-fpermissive)
+#char was signed by default on arduboy (avr) but on arm it is by default unsigned so explictily set char to signed
+add_compile_options(-fsigned-char)
 
 if (APPLE)
     execute_process(
