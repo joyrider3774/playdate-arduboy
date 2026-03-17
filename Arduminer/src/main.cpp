@@ -212,7 +212,7 @@ unsigned char readBlockIDat(unsigned char xpos, unsigned char ypos);
 void setBlockAt(unsigned char xpos, unsigned char ypos, unsigned char type);
 void draw_menu();
 void addItemToInventory(Item_Registry item, unsigned char count);
-unsigned char setLevelForArmour(unsigned char type, unsigned char lvl);
+void setLevelForArmour(unsigned char type, unsigned char lvl);
 unsigned char inventory_satisfies_element(unsigned char element);
 void applyGravity(Pos *ps);
 unsigned char getLevelForArmour(unsigned char type);
@@ -240,7 +240,7 @@ void setup() {
   next_seed = millis();
   
   reset_main();
-  player.armour_weapon = 0x0000;
+  player.armour_weapon = 0x8000;
   
   arduboy.audio.begin();
   toneplayer.begin();
@@ -832,13 +832,12 @@ void add_kill() {
 void addBlockToInventory(unsigned char blockID) {
 
   if(playSound()){
-    toneplayer.tone(toneplayer.freq(512),40);  
+    toneplayer.tone(toneplayer.freq(512),1);  
   }
   
   switch(blockID){
     case block_stone:
-      if(playSound()){ toneplayer.tone(toneplayer.freq(256),40); }
-      blocksInInventory++;  
+      if(playSound()){ toneplayer.tone(toneplayer.freq(256),1); }
       blocksInInventory = blocksInInventory >= 63 ? 63 : blocksInInventory;
     break;
     case block_coal:
@@ -872,17 +871,17 @@ void addBlockToInventory(unsigned char blockID) {
         addItemToInventory(I_STAINLESS,2);
         addItemToInventory(I_INCONEL,2);
       }
-      if(playSound()){ toneplayer.tone(toneplayer.freq(10000),40); }
+      if(playSound()){ toneplayer.tone(toneplayer.freq(10000),10); }
     }
     break;
     case block_spawn_no_loot: { 
-      if(playSound()){ toneplayer.tone(toneplayer.freq(12000),40); }
+      if(playSound()){ toneplayer.tone(toneplayer.freq(12000),10); }
       addItemToInventory(I_STEEL,1); 
     } break;
     case block_star: {
       add_star();  
     }
-    default: if(playSound()){ toneplayer.tone(toneplayer.freq(256),40); } break;
+    default: if(playSound()){ toneplayer.tone(toneplayer.freq(256),1); } break;
   }  
 }
 
@@ -1272,7 +1271,7 @@ void mine_state() {
     }
   } else {
     if(player.action_perf) {
-      if(playSound()){ toneplayer.tone(toneplayer.freq(28000),120); } 
+      //if(playSound()){ toneplayer.tone(toneplayer.freq(28000),3); } 
     }  
   }
 }
@@ -1351,6 +1350,8 @@ unsigned char offset_for_state() {
   if(isEating()) { return 9; }
   if(isCrafting()) { return 0; }
   if(isPlacing()) { return 0; }
+  //fix crash
+  return 0;
 }
 
 void drawPlayerForCurrentState() {
@@ -1466,7 +1467,7 @@ void handleEnemiesForCurrentState() {
       
       if(abs(kk) < 3 && dmg > 0) {
         player.health = player.health - dmg > 0 ? player.health - dmg : 0;
-        if(playSound()){ toneplayer.tone(toneplayer.freq(750),20); }
+        if(playSound()){ toneplayer.tone(toneplayer.freq(750),1); }
         arduboy.setRGBled(255,0,0);
       }
     }
@@ -1904,7 +1905,7 @@ unsigned char getLevelForArmour(unsigned char type) {
   return (unsigned char)((player.armour_weapon >> (type * 3)) & 0x7);
 }
 
-unsigned char setLevelForArmour(unsigned char type, unsigned char lvl) {
+void setLevelForArmour(unsigned char type, unsigned char lvl) {
   short val = lvl;
   val = val << (type * 3);
   player.armour_weapon = player.armour_weapon & (0xFFFF ^ (0x7 << (type * 3)));
