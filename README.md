@@ -38,7 +38,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 |------|--------|------|
 | Arduventure | TEAM ARG | [Arduventure](https://community.arduboy.com/t/arduventure-rpg/505) |
 | Ardynia | Matt Greer | [Ardynia](https://community.arduboy.com/t/ardynia-an-elvish-adventure/6336) |
-| Epic Crates Of Mass Desctruction | Team A.R.G | Epic Crates Of Mass Desctruction |
+| Epic Crates Of Mass Desctruction | Team A.R.G | |
 | Circuit Dude | Jonathan holmes | [Circuit Dude](https://community.arduboy.com/t/circuit-dude-3-2/2490) |
 | Hopper | Obono | [Hopper](https://community.arduboy.com/t/hopper-a-simple-action-game/4293) |
 | Midnight Wild | Jonathan holmes | [Midnight Wild](https://community.arduboy.com/t/midnight-wild-a-cowboy-themed-metroidvania/5623) |
