@@ -14,7 +14,7 @@
 #define HEART_Y                     4
 
 
-byte showitems =  0x00000000;        // this byte holds all the items the player runs into during the game
+byte showitems =  B00000000;        // this byte holds all the items the player runs into during the game
 //                   | ||||
 //                   | |||└->  stone1
 //                   | ||└-->  stone2
@@ -65,17 +65,17 @@ void checkItems()
     {
       // random set bit 3 to 0 or 1 (false or true)
       bitWrite(showitems, ITEM_BIRD_TWO, random(0, 2));
-      if ((showitems & 0x00001010) == 0x00001010) showitems ^= 0x00001000; // if stone2 no Bird2
+      if ((showitems & B00001010) == B00001010) showitems ^= B00001000; // if stone2 no Bird2
       itemX[ITEM_BIRD_TWO] = 128;
     }
 
 
-    if (showitems & 0x00100000)
+    if (showitems & B00100000)
     {
       itemX[ITEM_EXTRA_LIFE] -= 2;
       if (itemX[ITEM_EXTRA_LIFE] < -24)
       {
-        showitems ^= 0x00100000;
+        showitems ^= B00100000;
         itemX[ITEM_EXTRA_LIFE] = 128;
       }
     }
@@ -93,11 +93,11 @@ void checkItems()
 
 void drawItems()
 {
-  if (showitems & 0x00000001) sprites.drawPlusMask(itemX[ITEM_STONE_ONE], 36, stone_plus_mask, 0);
-  if (showitems & 0x00000010) sprites.drawPlusMask(itemX[ITEM_STONE_TWO], 36, stone_plus_mask, 0);
-  if (showitems & 0x00000100) sprites.drawErase(itemX[ITEM_BIRD_ONE], 16, bird, birdFrame);
-  if (showitems & 0x00001000) sprites.drawErase(itemX[ITEM_BIRD_TWO], 16, bird, birdFrame);
-  if (showitems & 0x00100000) sprites.drawErase(itemX[ITEM_EXTRA_LIFE], 4, heart, heartFrame);
+  if (showitems & B00000001) sprites.drawPlusMask(itemX[ITEM_STONE_ONE], 36, stone_plus_mask, 0);
+  if (showitems & B00000010) sprites.drawPlusMask(itemX[ITEM_STONE_TWO], 36, stone_plus_mask, 0);
+  if (showitems & B00000100) sprites.drawErase(itemX[ITEM_BIRD_ONE], 16, bird, birdFrame);
+  if (showitems & B00001000) sprites.drawErase(itemX[ITEM_BIRD_TWO], 16, bird, birdFrame);
+  if (showitems & B00100000) sprites.drawErase(itemX[ITEM_EXTRA_LIFE], 4, heart, heartFrame);
 }
 
 

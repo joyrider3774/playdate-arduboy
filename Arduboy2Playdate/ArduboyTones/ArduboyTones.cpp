@@ -42,18 +42,32 @@ THE SOFTWARE.
 static bool (*outputEnabled)();
 
 static volatile bool tonesPlaying = false;
-static volatile uint16_t *tonesStart;
-static volatile uint16_t *tonesIndex;
+static volatile uint16_t *tonesStart = nullptr;
+static volatile uint16_t *tonesIndex = nullptr;
 static volatile uint16_t toneSequence[MAX_TONES * 2 + 1];
 
-PDSynth* chan1 = nullptr;
+PDSynth* chan3 = nullptr;
 
-volatile int32_t duration = 0;
+volatile int32_t tones_duration = 0;
+volatile unsigned int playtones_prev = 0;
+volatile unsigned int playtones_accum = 0;
+
 void ArduboyTones::callback()
 {
-    if (duration > 0) {
-        duration--;
-        if (duration == 0) {
+    if (tonesIndex == nullptr) return;
+    unsigned int curr = pd->system->getCurrentTimeMilliseconds();
+    playtones_accum += (curr - playtones_prev) * 1024;
+    playtones_prev = curr;
+
+    unsigned int elapsed = playtones_accum / 1000;
+    playtones_accum %= 1000;
+
+    if (elapsed == 0) return;
+
+    if (tones_duration > 0)
+    {
+        tones_duration = tones_duration - elapsed;
+        if (tones_duration <= 0) {
             ArduboyTones::nextTone();
         }
     }
@@ -67,6 +81,8 @@ ArduboyTones::ArduboyTones(boolean (*outEn)())
 
 void ArduboyTones::tone(uint16_t freq, uint16_t dur)
 {
+    if(!outputEnabled())
+        return;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq;
     toneSequence[1] = dur;
@@ -77,6 +93,8 @@ void ArduboyTones::tone(uint16_t freq, uint16_t dur)
 void ArduboyTones::tone(uint16_t freq1, uint16_t dur1,
                         uint16_t freq2, uint16_t dur2)
 {
+    if(!outputEnabled())
+        return;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq1;
     toneSequence[1] = dur1;
@@ -90,6 +108,8 @@ void ArduboyTones::tone(uint16_t freq1, uint16_t dur1,
                         uint16_t freq2, uint16_t dur2,
                         uint16_t freq3, uint16_t dur3)
 {
+    if(!outputEnabled())
+        return;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq1;
     toneSequence[1] = dur1;
@@ -115,7 +135,11 @@ void ArduboyTones::tonesInRAM(uint16_t *tones)
 
 void ArduboyTones::noTone()
 {
-    pd->sound->synth->stop(chan1);
+    //stops sequence
+    tonesIndex = nullptr;
+    tonesStart = nullptr;
+    //stops synth also
+    pd->sound->synth->stop(chan3);
 }
 
 void ArduboyTones::volumeMode(uint8_t mode) {}
@@ -127,6 +151,9 @@ bool ArduboyTones::playing()
 
 void ArduboyTones::nextTone()
 {
+    if(!outputEnabled())
+        return;
+
     uint16_t freq;
     freq = getNext(); // get tone frequency
 
@@ -141,8 +168,8 @@ void ArduboyTones::nextTone()
 
     freq &= ~TONE_HIGH_VOLUME; // strip volume indicator from frequency
 
-    duration = getNext();
-    pd->sound->synth->playNote(chan1, freq, 1, 0.1, 0);
+    tones_duration = getNext();
+    pd->sound->synth->playNote(chan3, freq, 1, 0.1, 0);
 }
 
 uint16_t ArduboyTones::getNext()
@@ -151,8 +178,8 @@ uint16_t ArduboyTones::getNext()
 }
 
 void ArduboyTones::begin() {
-    if (chan1 == nullptr) {
-        chan1 = pd->sound->synth->newSynth();
-        pd->sound->synth->setWaveform(chan1, kWaveformSquare);
+    if (chan3 == nullptr) {
+        chan3 = pd->sound->synth->newSynth();
+        pd->sound->synth->setWaveform(chan3, kWaveformSquare);
     }
 }

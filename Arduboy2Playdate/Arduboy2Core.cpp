@@ -317,17 +317,25 @@ void Arduboy2Core::digitalWriteRGB(uint8_t color, uint8_t val)
 }
 
 /* Buttons */
-
 uint8_t Arduboy2Core::buttonsState()
 {
     PDButtons buttons;
     pd->system->getButtonState(&buttons, NULL, NULL);
-    return buttons;
+
+    uint8_t result = 0;
+    if (buttons & kButtonLeft)  result |= LEFT_BUTTON;   // PD bit0 → Arduboy bit5
+    if (buttons & kButtonRight) result |= RIGHT_BUTTON;  // PD bit1 → Arduboy bit6
+    if (buttons & kButtonUp)    result |= UP_BUTTON;     // PD bit2 → Arduboy bit7
+    if (buttons & kButtonDown)  result |= DOWN_BUTTON;   // PD bit3 → Arduboy bit4
+    if (buttons & kButtonB)     result |= B_BUTTON;      // PD bit4 → Arduboy bit2
+    if (buttons & kButtonA)     result |= A_BUTTON;      // PD bit5 → Arduboy bit3
+
+    return result;
 }
 
 unsigned long Arduboy2Core::generateRandomSeed()
 {
-    return random();
+    return rand();
 }
 
 // delay in ms with 16 bit duration

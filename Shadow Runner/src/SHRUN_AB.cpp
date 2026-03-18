@@ -47,11 +47,11 @@ void setup () {
 }
 
 void loop() {
-    sound.callback();
-    if (!(arduboy.nextFrame())) return;
-    arduboy.pollButtons();
-    arduboy.clear();
-    ((FunctionPointer)mainGameLoop[gameState])();
-    arduboy.display();
+  sound.callback();
+  if (!(arduboy.nextFrame())) return;
+  arduboy.pollButtons();
+  arduboy.clear();
+  ((FunctionPointer) pgm_read_ptr (&mainGameLoop[gameState]))();
+  arduboy.display();
 }
 

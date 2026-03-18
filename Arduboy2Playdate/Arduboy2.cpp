@@ -71,7 +71,7 @@ void Arduboy2Base::sysCtrlSound(uint8_t buttons, uint8_t led, uint8_t eeVal)
         digitalWriteRGB(BLUE_LED, RGB_OFF); // turn off blue LED
         delayShort(200);
         digitalWriteRGB(led, RGB_ON); // turn on "acknowledge" LED
-        // TODO: EEPROM.update(eepromAudioOnOff, eeVal);
+        EEPROM.update(eepromAudioOnOff, eeVal);
         delayShort(500);
         digitalWriteRGB(led, RGB_OFF); // turn off "acknowledge" LED
 
@@ -505,7 +505,7 @@ void Arduboy2Base::fillRect
 
 void Arduboy2Base::fillScreen(uint8_t color)
 {
-    display(CLEAR_BUFFER);
+    memset(sBuffer, color ? 0xFF : 0x00, sizeof(sBuffer));
 }
 
 void Arduboy2Base::drawRoundRect
@@ -1125,13 +1125,14 @@ void Arduboy2::bootLogoExtra()
 
 size_t Arduboy2::print(const char *c)
 {
+    size_t written = 0;
     size_t size = strlen(c);
     while (size--) {
         const char str = *c;
         if ((str == '\r') && !textRaw)
         {
             c++;
-            return 1;
+            return written;
         }
 
         if (((str == '\n') && !textRaw) ||
@@ -1147,9 +1148,10 @@ size_t Arduboy2::print(const char *c)
             cursor_x += fullCharacterWidth * textSize;
         }
         c++;
+        written++;
     }
 
-    return 1;
+    return written;
 }
 
 size_t Arduboy2::print(int number)

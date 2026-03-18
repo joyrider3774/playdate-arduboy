@@ -117,7 +117,7 @@ void drawScoreAndLive()
   }
   if (lifePlayer < 64)
   {
-    showitems = showitems | 0x00100000;
+    showitems = showitems | B00100000;
   }
   sprites.drawSelfMasked(2, 52, life, 0);
   for (byte i = 0; i < lifePlayer + 1; i++) sprites.drawSelfMasked(i, 61, lifeBar, 0);
@@ -166,33 +166,33 @@ void checkCollisions()
   Rect birdTwoRect = Rect(itemX[ITEM_BIRD_TWO] + 2, BIRDS_Y + 4, 12, 20);
   Rect extraLifeRect = Rect(itemX[ITEM_EXTRA_LIFE] + 2, HEART_Y + 2, 12, 12);
 
-  if ((showitems & 0x00000001) && arduboy.collide(runnerRect, stoneOneRect))
+  if ((showitems & B00000001) && arduboy.collide(runnerRect, stoneOneRect))
   {
     lifePlayer -= 4;
     sound.tone(175, 100);
   }
 
-  if ((showitems & 0x00000010) && arduboy.collide(runnerRect, stoneTwoRect))
+  if ((showitems & B00000010) && arduboy.collide(runnerRect, stoneTwoRect))
   {
     lifePlayer -= 4;
     sound.tone(175, 100);
   }
 
-  if ((showitems & 0x00000100) && arduboy.collide(runnerRect, birdOneRect))
+  if ((showitems & B00000100) && arduboy.collide(runnerRect, birdOneRect))
   {
     lifePlayer -= 2;
     sound.tone(523, 50);
   }
 
-  if ((showitems & 0x00001000) && arduboy.collide(runnerRect, birdTwoRect))
+  if ((showitems & B00001000) && arduboy.collide(runnerRect, birdTwoRect))
   {
     lifePlayer -= 2;
     sound.tone(523, 50);
   }
 
-  if ((showitems & 0x00100000) && arduboy.collide(runnerRect, extraLifeRect))
+  if ((showitems & B00100000) && arduboy.collide(runnerRect, extraLifeRect))
   {
-    showitems ^= 0x00100000;
+    showitems ^= B00100000;
     itemX[ITEM_EXTRA_LIFE] = 128;
     lifePlayer = 128;
     scorePlayer += 500;

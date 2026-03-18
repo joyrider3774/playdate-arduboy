@@ -1,6 +1,7 @@
 name=Escaper Droid
 author=Team ARG
 bundleID=com.ericlewis.escaperdroid
-version=v1.0.0
-imagePath=
+version=v1.3.0
+imagePath=assets
 description=
+buildNumber=5

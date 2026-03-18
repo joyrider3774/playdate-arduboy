@@ -57,7 +57,12 @@
 #define NOTE_A3  220
 #define NOTE_AS3 233
 #define NOTE_B3  247
-#define NOTE_C4  262
+#ifdef NOTE_C4
+    #warning NOTE_C4 already defined use NOTE_C4_FIXED in game ports   
+#else
+    #define NOTE_C4  262
+#endif
+#define NOTE_C4_FIXED 262
 #define NOTE_CS4 277
 #define NOTE_D4  294
 #define NOTE_DS4 311

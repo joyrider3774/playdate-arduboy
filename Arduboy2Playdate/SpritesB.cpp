@@ -81,7 +81,8 @@ void SpritesB::drawBitmap(int16_t x, int16_t y,
 
     // xOffset technically doesn't need to be 16 bit but the math operations
     // are measurably faster if it is
-    uint16_t xOffset, ofs;
+    uint16_t xOffset;
+    int16_t ofs;
     int8_t yOffset = y & 7;
     int8_t sRow = y / 8;
     uint8_t loop_h, start_h, rendered_width;
@@ -158,8 +159,8 @@ void SpritesB::drawBitmap(int16_t x, int16_t y,
                 data |= (uint8_t)(bitmap_data);
                 Arduboy2Base::sBuffer[ofs] = data;
             }
-            if (yOffset != 0 && sRow < 7) {
-                const size_t index = static_cast<uint16_t>(ofs + WIDTH);
+            if (yOffset != 0 && sRow < (HEIGHT/8) - 1) {
+                const size_t index = static_cast<int16_t>(ofs + WIDTH);
                 data = Arduboy2Base::sBuffer[index];
                 data &= (uint8_t)(mask_data >> 8);
                 data |= (uint8_t)(bitmap_data >> 8);

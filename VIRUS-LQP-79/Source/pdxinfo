@@ -1,6 +1,7 @@
 name=VIRUS-LQP-79
 author=TEAM A.R.G
 bundleID=com.ericlewis.viruslqp
-version=v1.0.0
-imagePath=
+version=v1.3.0
+imagePath=assets
 description=
+buildNumber=5

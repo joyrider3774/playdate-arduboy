@@ -61,12 +61,12 @@
 
 // bit values for button states
 // these are determined by the buttonsState() function
-#define LEFT_BUTTON kButtonLeft  /**< The Left button value for functions requiring a bitmask */
-#define RIGHT_BUTTON kButtonRight /**< The Right button value for functions requiring a bitmask */
-#define UP_BUTTON kButtonUp    /**< The Up button value for functions requiring a bitmask */
-#define DOWN_BUTTON kButtonDown  /**< The Down button value for functions requiring a bitmask */
-#define A_BUTTON kButtonA     /**< The A button value for functions requiring a bitmask */
-#define B_BUTTON kButtonB     /**< The B button value for functions requiring a bitmask */
+#define LEFT_BUTTON  _BV(5)  /**< The Left button value for functions requiring a bitmask */
+#define RIGHT_BUTTON _BV(6)  /**< The Right button value for functions requiring a bitmask */
+#define UP_BUTTON    _BV(7)  /**< The Up button value for functions requiring a bitmask */
+#define DOWN_BUTTON  _BV(4)  /**< The Down button value for functions requiring a bitmask */
+#define A_BUTTON     _BV(3)  /**< The A button value for functions requiring a bitmask */
+#define B_BUTTON     _BV(2)  /**< The B button value for functions requiring a bitmask */
 
 #define PIN_LEFT_BUTTON A2
 #define LEFT_BUTTON_PORT PORTF

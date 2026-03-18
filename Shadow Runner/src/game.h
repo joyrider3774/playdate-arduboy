@@ -13,7 +13,7 @@ void stateGameInitLevel()
   nextLevelAt = 1000;
   lifePlayer = 128;
   level = 0;
-  showitems = 0x00000000;
+  showitems = B00000000;
   gameState = STATE_GAME_PLAYING ;
 };
 

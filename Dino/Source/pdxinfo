@@ -1,6 +1,7 @@
 name=Chrome Dino
 author=Ashteroide
 bundleID=com.ericlewis.chromedino
-version=v1.0.0
-imagePath=
+version=v1.3.0
+imagePath=assets
 description=
+buildNumber=5

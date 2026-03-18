@@ -26,7 +26,7 @@ int8_t offset;
 const uint16_t beat_game_finished[] PROGMEM = {
   // 1:1 ----------------------------------
   NOTE_C5,  B_X,
-  NOTE_C4,  B_X,
+  NOTE_C4_FIXED,  B_X,
   0,        B_XX,
   NOTE_C2,  B_XXXX,
 
@@ -43,11 +43,11 @@ const uint16_t beat_game_finished[] PROGMEM = {
   // 1:4 -------------
   0,        B_XX,
   0,        B_XX,
-  NOTE_C4,  B_XXXX,
+  NOTE_C4_FIXED,  B_XXXX,
 
   // 2:1 ----------------------------------
-  NOTE_C4,  B_X,
-  NOTE_C4,        B_X,
+  NOTE_C4_FIXED,  B_X,
+  NOTE_C4_FIXED,        B_X,
   NOTE_C2,  B_XXXX,
   0,        B_XX,
 
