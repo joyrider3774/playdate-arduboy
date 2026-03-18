@@ -58,7 +58,7 @@ struct NameEntryState
                 data.highscores[index].score = score;
 
                 for(size_t letterIndex = 0; letterIndex < 3; ++letterIndex)
-                    data.highscores[index].name[letterIndex] = alphabet[this->letter[letterIndex]];
+                    data.highscores[index].name[letterIndex] = alphabet[this->letter[letterIndex]][0];
                 
                 break;
             }
