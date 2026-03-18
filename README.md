@@ -32,7 +32,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 | Train Dodge | Crait | [Train Dodge](https://community.arduboy.com/t/train-dodge-single-button-reflex-game/2099) |
 | Virus LQP-79 | TEAM A.R.G | [Virus LQP-79](https://community.arduboy.com/t/virus-lqp-79-eighth-team-a-r-g-game/1646) |
 
-### Added by my [SDK_2.XX_SUPPORT branch](https://github.com/joyrider3774/playdate-arduboy/tree/SDK_2.XX_SUPPORT) 
+### Added by me, joyrider3774
 
 | Game | Author | Link |
 |------|--------|------|
