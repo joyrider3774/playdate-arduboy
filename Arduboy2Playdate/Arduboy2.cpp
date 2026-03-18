@@ -1125,13 +1125,14 @@ void Arduboy2::bootLogoExtra()
 
 size_t Arduboy2::print(const char *c)
 {
+    size_t written = 0;
     size_t size = strlen(c);
     while (size--) {
         const char str = *c;
         if ((str == '\r') && !textRaw)
         {
             c++;
-            return 1;
+            return written;
         }
 
         if (((str == '\n') && !textRaw) ||
@@ -1147,9 +1148,10 @@ size_t Arduboy2::print(const char *c)
             cursor_x += fullCharacterWidth * textSize;
         }
         c++;
+        written++;
     }
 
-    return 1;
+    return written;
 }
 
 size_t Arduboy2::print(int number)
