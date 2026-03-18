@@ -25,12 +25,12 @@ enum Mode {
 } mode = TITLE;
 
 PROGMEM const uint16_t sound1[] = {
-  NOTE_C4,50,
-  NOTE_C4,50,
+  NOTE_C4_FIXED,50,
+  NOTE_C4_FIXED,50,
   NOTE_A4,100,
   NOTE_G4,100,
   NOTE_F4,100,
-  NOTE_C4,300,
+  NOTE_C4_FIXED,300,
   NOTE_REST,50,
   TONES_END
 };
@@ -39,7 +39,7 @@ PROGMEM const uint16_t sound2[] = {
   NOTE_C5,100,
   NOTE_B4,100,
   NOTE_G4,100,
-  NOTE_C4,300,
+  NOTE_C4_FIXED,300,
   NOTE_REST,50,
   TONES_END
 };
