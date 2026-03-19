@@ -9,8 +9,6 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 
 ## Games
 
-### Original games ported by eric lewis
-
 | Game | Author | Porter | License | Link |
 |------|--------|--------|---------|------|
 | Arduminer | Bergasms | Eric Lewis | No License | [Arduminer](https://community.arduboy.com/t/arduminer-terraria-like-game-by-bergasms/2939) |
