@@ -38,7 +38,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 |------|--------|------|------|
 | Arduventure | TEAM ARG | joyrider3774 | [Arduventure](https://community.arduboy.com/t/arduventure-rpg/505) |
 | Ardynia | Matt Greer | joyrider3774 | [Ardynia](https://community.arduboy.com/t/ardynia-an-elvish-adventure/6336) |
-| Epic Crates Of Mass Desctruction | joyrider3774 | Team A.R.G | |
+| Epic Crates Of Mass Desctruction | Team A.R.G | joyrider3774 | |
 | Canndlelight | Matthew Bryan | Matheus Nícolas | [Canndlelight](https://community.arduboy.com/t/candlelight-a-platformer/12006) |
 | Circuit Dude | Jonathan holmes | joyrider3774 | [Circuit Dude](https://community.arduboy.com/t/circuit-dude-3-2/2490) |
 | Hopper | Obono | joyrider3774 | [Hopper](https://community.arduboy.com/t/hopper-a-simple-action-game/4293) |
