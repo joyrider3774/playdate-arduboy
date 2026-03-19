@@ -238,23 +238,22 @@ void drawTitle(void)
             arduboy.fillRect2(52, menuPos * 6 + 40, 5, 5, WHITE);
             break;
         case STATE_RECORD:
-            arduboy.printEx(22, 0, F("BEST 10 SCORES"));
-            arduboy.drawFastHLine2(0, 8, 128, WHITE);
+            arduboy.printEx(22, 4, F("BEST 10 SCORES"));
+            arduboy.drawFastHLine2(0, 12, 127, 12);
             for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < 5; j++) {
                     int r = i * 5 + j;
-                    arduboy.printEx(i * 60 + 4 - (r == 9) * 6, j * 7 + 10, F("["));
+                    arduboy.printEx(i * 60 + 4 - (r == 9) * 6, j * 6 + 14, F("["));
                     arduboy.print(r + 1);
                     arduboy.print(F("] "));
                     arduboy.print(hiScore[r]);
                 }
             }
-            arduboy.drawFastHLine2(0, 46, 128, WHITE);
+            arduboy.drawFastHLine2(0, 44, 127, 44);
             arduboy.printEx(16, 48, F("PLAY COUNT "));
             arduboy.print(playCount);
-            arduboy.printEx(16, 56, F("PLAY TIME  "));
+            arduboy.printEx(16, 54, F("PLAY TIME  "));
             arduboy.print(playFrames / 3600); // minutes
-            char buf[6];
             sprintf(buf, "'%02d\"", playFrames / 60 % 60); // seconds
             arduboy.print(buf);
             break;

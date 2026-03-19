@@ -48,14 +48,14 @@ static void drawTitleRecord(void);
 static void drawTitleCredit(void);
 
 static void     eepSeek(int addr);
-//static uint8_t  eepRead8(void);
+static uint8_t  eepRead8(void);
 static uint16_t eepRead16(void);
 static uint32_t eepRead32(void);
-//static void     eepReadBlock(void *p, size_t n);
-//static void     eepWrite8(uint8_t val);
+static void     eepReadBlock(void *p, size_t n);
+static void     eepWrite8(uint8_t val);
 static void     eepWrite16(uint16_t val);
 static void     eepWrite32(uint32_t val);
-//static void     eepWriteBlock(const void *p, size_t n);
+static void     eepWriteBlock(const void *p, size_t n);
 
 /*  Local Variables  */
 
@@ -388,7 +388,7 @@ static void drawTitleMenu(void)
     /*  Last score  */
     if (lastScore > 0) {
         arduboy.printEx(0, 0, F("SCORE"));
-        arduboy.setCursor(0, 8);
+        arduboy.setCursor(0, 6);
         arduboy.print(lastScore);
     }
 
@@ -411,31 +411,31 @@ static void drawTitleMenu(void)
     const char *p = menuText;
     for (int i = 0; i < 4; i++) {
         strcpy_P(buf, p);
-        p += arduboy.printEx(68 - (i == menuPos) * 4, i * 8 + 33, buf) + 1;
+        p += arduboy.printEx(68 - (i == menuPos) * 4, i * 6 + 40, buf) + 1;
         if (i == MENU_SOUND) {
             arduboy.print((sound) ? F("ON") : F("OFF"));
         }
     }
-    arduboy.fillRect2(56, menuPos * 8 + 34, 5, 5, WHITE);
+    arduboy.fillRect2(56, menuPos * 6 + 40, 5, 5, WHITE);
 }
 
 static void drawTitleRecord(void)
 {
-    arduboy.printEx(22, 0, F("BEST 10 SCORES"));
-    arduboy.drawFastHLine2(0, 8, 128, WHITE);
+    arduboy.printEx(22, 4, F("BEST 10 SCORES"));
+    arduboy.drawFastHLine2(0, 12, 128, WHITE);
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 5; j++) {
             int r = i * 5 + j;
-            arduboy.printEx(i * 60 + 4 - (r == 9) * 6, j * 7 + 10, F("["));
+            arduboy.printEx(i * 60 + 4 - (r == 9) * 6, j * 6 + 14, F("["));
             arduboy.print(r + 1);
             arduboy.print(F("] "));
             arduboy.print(hiScore[r]);
         }
     }
-    arduboy.drawFastHLine2(0, 46, 128, WHITE);
+    arduboy.drawFastHLine2(0, 44, 128, WHITE);
     arduboy.printEx(16, 48, F("PLAY COUNT "));
     arduboy.print(playCount);
-    arduboy.printEx(16, 56, F("PLAY TIME  "));
+    arduboy.printEx(16, 54, F("PLAY TIME  "));
     arduboy.print(playFrames / 3600); // minutes
     char buf[6];
     sprintf(buf, "'%02d\"", playFrames / 60 % 60); // seconds
@@ -449,7 +449,7 @@ static void drawTitleCredit(void)
     for (int i = 0; i < 8; i++) {
         strcpy_P(buf, p);
         uint8_t len = strnlen(buf, sizeof(buf));
-        p += arduboy.printEx(64 - len * 3, i * 8 , buf) + 1;
+        p += arduboy.printEx(64 - len * 3, i * 6 + 8, buf) + 1;
     }
 }
 
@@ -462,72 +462,59 @@ void eepSeek(int addr)
     eepAddr = max(addr, EEPROM_STORAGE_SPACE_START);
 }
 
-// uint8_t eepRead8(void)
-// {
-//     eeprom_busy_wait();
-//     return eeprom_read_byte((const uint8_t *) eepAddr++);
-// }
+uint8_t eepRead8(void)
+{
+    eeprom_busy_wait();
+    return eeprom_read_byte((const uint8_t *) eepAddr++);
+}
 
 uint16_t eepRead16(void)
 {
-    // eeprom_busy_wait();
-    // uint16_t ret = eeprom_read_word((const uint16_t *)eepAddr);
-    // eepAddr += 2;
-    // return ret;
-    uint16_t val = 0;
-    EEPROM.get(eepAddr, val);
+    eeprom_busy_wait();
+    uint16_t ret = eeprom_read_word((const uint16_t *)eepAddr);
     eepAddr += 2;
-    return val;
+    return ret;
 }
 
 uint32_t eepRead32(void)
 {
-    // eeprom_busy_wait();
-    // uint32_t ret = eeprom_read_dword((const uint32_t *) eepAddr);
-    // eepAddr += 4;
-    // return ret;
-    uint32_t val = 0;
-    EEPROM.get(eepAddr, val);
+    eeprom_busy_wait();
+    uint32_t ret = eeprom_read_dword((const uint32_t *) eepAddr);
     eepAddr += 4;
-    return val;
+    return ret;
 }
 
-// void eepReadBlock(void *p, size_t n)
-// {
-//     eeprom_busy_wait();
-//     eeprom_read_block(p, (const void *) eepAddr, n);
-//     eepAddr += n;
+void eepReadBlock(void *p, size_t n)
+{
+    eeprom_busy_wait();
+    eeprom_read_block(p, (const void *) eepAddr, n);
+    eepAddr += n;
+}
 
-// }
-
-// void eepWrite8(uint8_t val)
-// {
-//     eeprom_busy_wait();
-//     eeprom_write_byte((uint8_t *) eepAddr, val);
-//     eepAddr++;
-// }
+void eepWrite8(uint8_t val)
+{
+    eeprom_busy_wait();
+    eeprom_write_byte((uint8_t *) eepAddr, val);
+    eepAddr++;
+}
 
 void eepWrite16(uint16_t val)
 {
-    // eeprom_busy_wait();
-    // eeprom_write_word((uint16_t *)eepAddr, val);
-    // eepAddr += 2;
-    EEPROM.put(eepAddr, val);
+    eeprom_busy_wait();
+    eeprom_write_word((uint16_t *)eepAddr, val);
     eepAddr += 2;
 }
 
 void eepWrite32(uint32_t val)
 {
-    // eeprom_busy_wait();
-    // eeprom_write_dword((uint32_t *)eepAddr, val);
-    // eepAddr += 4;
-    EEPROM.put(eepAddr, val);
+    eeprom_busy_wait();
+    eeprom_write_dword((uint32_t *)eepAddr, val);
     eepAddr += 4;
 }
 
-// void eepWriteBlock(const void *p, size_t n)
-// {
-//     eeprom_busy_wait();
-//     eeprom_write_block(p, (void *) eepAddr, n);
-//     eepAddr += n;
-// }
+void eepWriteBlock(const void *p, size_t n)
+{
+    eeprom_busy_wait();
+    eeprom_write_block(p, (void *) eepAddr, n);
+    eepAddr += n;
+}

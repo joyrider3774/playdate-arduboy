@@ -69,5 +69,5 @@ void drawLogo(void)
         arduboy.drawBitmap(28 + i * 24, y, imgOBN[i], 24, 32, WHITE);
     }
     arduboy.drawBitmap(68, 44, imgSoft, 32, 8, WHITE);
-    arduboy.printEx(16, 56, F(APP_CODE " VER " APP_VERSION));
+    arduboy.printEx(16, 58, F(APP_CODE " VER " APP_VERSION));
 }
