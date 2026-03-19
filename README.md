@@ -32,6 +32,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 | Mystic Balloon | TEAM ARG | Eric Lewis | MIT | [Mystic Balloon](https://community.arduboy.com/t/mystic-balloon-9th-team-a-r-g-game-39-levels/1983) |
 | Pocket Fighter | Wang Renxin | Eric Lewis | Unknown | [Pocket Fighter](https://community.arduboy.com/t/pocket-fighter-an-ftg/2989) |
 | Reverse Mermaid Hockey | TEAM ARG | Eric Lewis | MIT | [Reverse Mermaid Hockey](https://community.arduboy.com/t/reverse-mermaid-hockey-third-team-a-r-g-game/355) |
+| Reversi | Obono | joyrider3774 | MIT | [Reversi](https://community.arduboy.com/t/reversi-a-simple-board-game/6754) |
 | SanSan | Chamekan | joyrider3774 | Unknown | [SanSan](https://community.arduboy.com/t/sansan-son-son-rygar-inspired-action-game/4621) |
 | Shadow Runner | Team ARG | Eric Lewis | MIT | [Shadow Runner](https://community.arduboy.com/t/shadow-runner-first-conversion-of-a-team-a-r-g-game/239) |
 | Sirene | Team A.R.G | joyrider3774 | MIT | [Sirene](https://community.arduboy.com/t/sirene-tenth-team-a-r-g-game/2206) |
