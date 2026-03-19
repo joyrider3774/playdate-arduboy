@@ -62,6 +62,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("Candlelight")
 add_subdirectory("Circuit Dude")
 add_subdirectory("Midnight Wild")
 add_subdirectory("SanSan")
