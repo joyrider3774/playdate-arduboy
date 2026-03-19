@@ -21,7 +21,6 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 | Candlelight | Matthew Bryan | Matheus Nícolas | Unknown | [Candlelight](https://community.arduboy.com/t/candlelight-a-platformer/12006) |
 | CastleBoy | jlauener | Eric Lewis | MIT | [CastleBoy](https://community.arduboy.com/t/castleboy-castlevania-demake/3011) |
 | Catacombs | James Howard, Abeno Studio | Eric Lewis | MIT | [Catacombs](https://community.arduboy.com/t/catacombs-of-the-damned-formerly-another-fps-style-3d-demo/6565) |
-| Circuit Dude | Jonathan holmes | joyrider3774 | Proprietary | [Circuit Dude](https://community.arduboy.com/t/circuit-dude-3-2/2490) |
 | Crates | compycore | Eric Lewis | MIT | [Crates](https://community.arduboy.com/t/crates-pedal-to-the-metal-car-crime/6744) |
 | Dice of Fate | TEAM ARG | Eric Lewis | MIT | [Dice of Fate](https://community.arduboy.com/t/dice-of-fate-seventh-team-a-r-g-game/1101) |
 | Dino | Ashteroide | Eric Lewis | Apache-2.0 license | [Dino](https://community.arduboy.com/t/ardu-dino-like-chrome-dino-but-for-the-arduboy/9719) |
@@ -29,7 +28,6 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 | Escaper Droid | Team ARG | Eric Lewis | MIT | |
 | Hopper | Obono | joyrider3774 | MIT | [Hopper](https://community.arduboy.com/t/hopper-a-simple-action-game/4293) |
 | Jet Pac | TheArduinoGuy | Eric Lewis | Unknown | [Jet Pac](https://community.arduboy.com/t/arduboy-jet-pac/2888) |
-| Midnight Wild | Jonathan holmes | joyrider3774 | Proprietary | [Midnight Wild](https://community.arduboy.com/t/midnight-wild-a-cowboy-themed-metroidvania/5623) |
 | Mystic Balloon | TEAM ARG | Eric Lewis | MIT | [Mystic Balloon](https://community.arduboy.com/t/mystic-balloon-9th-team-a-r-g-game-39-levels/1983) |
 | Pocket Fighter | Wang Renxin | Eric Lewis | Unknown | [Pocket Fighter](https://community.arduboy.com/t/pocket-fighter-an-ftg/2989) |
 | Reverse Mermaid Hockey | TEAM ARG | Eric Lewis | MIT | [Reverse Mermaid Hockey](https://community.arduboy.com/t/reverse-mermaid-hockey-third-team-a-r-g-game/355) |
