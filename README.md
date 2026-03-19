@@ -12,7 +12,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 ### Original games ported by eric lewis
 
 | Game | Author | Porter | Link |
-|------|--------|------|
+|------|--------|------|------|
 | Arduminer | Bergasms | Eric Lewis | [Arduminer](https://community.arduboy.com/t/arduminer-terraria-like-game-by-bergasms/2939) |
 | Begemmed | TEAM ARG |  Eric Lewis |[Begemmed](https://community.arduboy.com/t/begemmed-fourth-team-a-r-g-game/515) |
 | Blob Attack | Team ARG | Eric Lewis | [Blob Attack](https://community.arduboy.com/t/blob-attack-first-native-team-a-r-g-game/283) |
@@ -35,7 +35,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 ### Added by me, joyrider3774
 
 | Game | Author | Porter | Link |
-|------|--------|------|
+|------|--------|------|------|
 | Arduventure | TEAM ARG | joyrider3774 | [Arduventure](https://community.arduboy.com/t/arduventure-rpg/505) |
 | Ardynia | Matt Greer | joyrider3774 | [Ardynia](https://community.arduboy.com/t/ardynia-an-elvish-adventure/6336) |
 | Epic Crates Of Mass Desctruction | joyrider3774 | Team A.R.G | |
