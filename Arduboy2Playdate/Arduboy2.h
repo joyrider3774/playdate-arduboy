@@ -1633,6 +1633,32 @@ public:
     size_t printNumber(unsigned long n, uint8_t base);
 
     /** \brief
+     * Write a single character to the display.
+     *
+     * \param c The character to write.
+     *
+     * \return The number of characters written (always 1).
+     *
+     * \details
+     * This is the virtual `write()` method inherited from the Arduino `Print`
+     * base class. It handles newline and carriage return processing, text
+     * wrapping if enabled, cursor advancement, and calls `drawChar()` to
+     * render the character at the current cursor position using the current
+     * text size, text color and background color.
+     *
+     * \note
+     * \parblock
+     * This function is normally called by the `print()` functions inherited
+     * from the Arduino `Print` base class, rather than being called directly
+     * by a sketch.
+     * \endparblock
+     *
+     * \see drawChar() print() setCursor() setTextColor() setTextSize()
+     * setTextWrap()
+     */
+     virtual size_t write(uint8_t c);
+
+    /** \brief
      * Initialize the hardware, display the boot logo, provide boot utilities, etc.
      *
      * \details

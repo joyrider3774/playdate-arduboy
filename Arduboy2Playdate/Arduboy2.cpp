@@ -1128,30 +1128,30 @@ size_t Arduboy2::print(const char *c)
     size_t written = 0;
     size_t size = strlen(c);
     while (size--) {
-        const char str = *c;
-        if ((str == '\r') && !textRaw)
-        {
-            c++;
-            return written;
-        }
+        written += write(*c++);
+    }
+    return written;
+}
 
-        if (((str == '\n') && !textRaw) ||
-            (textWrap && (cursor_x > (WIDTH - (characterWidth * textSize)))))
-        {
-            cursor_x = 0;
-            cursor_y += fullCharacterHeight * textSize;
-        }
+size_t Arduboy2::write(uint8_t c)
+{
+    if ((c == '\r') && !textRaw)
+        return 1; // skip CR
 
-        if ((str != '\n') || textRaw)
-        {
-            drawChar(cursor_x, cursor_y, *c, textColor, textBackground, textSize);
-            cursor_x += fullCharacterWidth * textSize;
-        }
-        c++;
-        written++;
+    if (((c == '\n') && !textRaw) ||
+        (textWrap && (cursor_x > (WIDTH - (characterWidth * textSize)))))
+    {
+        cursor_x = 0;
+        cursor_y += fullCharacterHeight * textSize;
     }
 
-    return written;
+    if ((c != '\n') || textRaw)
+    {
+        drawChar(cursor_x, cursor_y, c, textColor, textBackground, textSize);
+        cursor_x += fullCharacterWidth * textSize;
+    }
+
+    return 1;
 }
 
 size_t Arduboy2::print(int number)
