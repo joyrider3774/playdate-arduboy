@@ -107,6 +107,7 @@ void setup()
 
 void loop()
 {
+  sound.callback();
   if (!(arduboy.nextFrame())) return;
   arduboy.pollButtons();
   arduboy.clear();
