@@ -84,7 +84,7 @@ unsigned long millis()
 
 void delay(int ms)
 {
-    // TODO: implement me.
+    pd->system->delay((uint32_t)ms);
 }
 
 PlaydateAPI *pd;

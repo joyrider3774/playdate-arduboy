@@ -341,7 +341,7 @@ unsigned long Arduboy2Core::generateRandomSeed()
 // delay in ms with 16 bit duration
 void Arduboy2Core::delayShort(uint16_t ms)
 {
-    // TODO: delay((unsigned long) ms);
+    delay((unsigned long) ms);
 }
 
 void Arduboy2Core::exitToBootloader()
