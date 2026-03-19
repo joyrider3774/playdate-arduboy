@@ -1628,9 +1628,19 @@ public:
      * Arduboy2::setTextRawMode() Arduboy2::write() Arduboy2::font5x7
      */
     // using Print::write;
-    size_t print(const char *);
-    size_t print(int);
+    size_t print(const char *c);
+    size_t print(char c);
+    size_t print(unsigned char number);
+    size_t print(int number);
+    size_t print(unsigned int number);
+    size_t print(long number);
+    size_t print(unsigned long number);
+    size_t print(unsigned long long number);
+    size_t print(double number, int digits = 2);
+    size_t print(int number, int base);
+    size_t print(unsigned long number, int base);
     size_t printNumber(unsigned long n, uint8_t base);
+    size_t printFloat(double number, uint8_t digits);
 
     /** \brief
      * Write a single character to the display.

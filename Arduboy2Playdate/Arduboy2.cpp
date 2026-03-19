@@ -1156,7 +1156,100 @@ size_t Arduboy2::write(uint8_t c)
 
 size_t Arduboy2::print(int number)
 {
-    return printNumber(number, 0);
+    if (number < 0)
+    {
+        size_t written = write('-');
+        return written + printNumber(-number, 10);
+    }
+    return printNumber(number, 10);
+}
+
+size_t Arduboy2::print(char c)
+{
+    return write(c);
+}
+
+size_t Arduboy2::print(unsigned char number)
+{
+    return printNumber(number, 10);
+}
+
+size_t Arduboy2::print(unsigned int number)
+{
+    return printNumber(number, 10);
+}
+
+size_t Arduboy2::print(long number)
+{
+    if (number < 0)
+    {
+        size_t written = write('-');
+        return written + printNumber(-number, 10);
+    }
+    return printNumber(number, 10);
+}
+
+size_t Arduboy2::print(unsigned long number)
+{
+    return printNumber(number, 10);
+}
+
+size_t Arduboy2::print(unsigned long long number)
+{
+    return printNumber((unsigned long)number, 10);
+}
+
+size_t Arduboy2::print(int number, int base)
+{
+    return printNumber(number, base);
+}
+
+size_t Arduboy2::print(unsigned long number, int base)
+{
+    return printNumber(number, base);
+}
+
+size_t Arduboy2::print(double number, int digits)
+{
+    return printFloat(number, digits);
+}
+
+size_t Arduboy2::printFloat(double number, uint8_t digits)
+{
+    size_t written = 0;
+
+    // handle negative
+    if (number < 0.0)
+    {
+        written += write('-');
+        number = -number;
+    }
+
+    // round correctly so that e.g. 0.999 with digits=2 prints as "1.00"
+    double rounding = 0.5;
+    for (uint8_t i = 0; i < digits; i++)
+        rounding /= 10.0;
+    number += rounding;
+
+    // print integer part
+    unsigned long intPart = (unsigned long) number;
+    double remainder = number - (double) intPart;
+    written += printNumber(intPart, 10);
+
+    // print decimal point and fractional part
+    if (digits > 0)
+    {
+        written += write('.');
+        for (uint8_t i = 0; i < digits; i++)
+        {
+            remainder *= 10.0;
+            uint8_t digit = (uint8_t) remainder;
+            written += write('0' + digit);
+            remainder -= digit;
+        }
+    }
+
+    return written;
 }
 
 size_t Arduboy2::printNumber(unsigned long n, uint8_t base)
