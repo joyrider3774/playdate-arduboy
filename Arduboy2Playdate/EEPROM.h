@@ -2,6 +2,7 @@
   EEPROM.h - EEPROM library
   Original Copyright (c) 2006 David A. Mellis.  All right reserved.
   New version by Christopher Andrews 2015.
+  AVR eeprom.h compatibility layer added for Arduboy/AVR port compatibility.
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -32,6 +33,7 @@ extern PlaydateAPI* pd;
 ***/
 
 #include <string>
+#include <string.h>
 
 extern PlaydateAPI* pd;
 
@@ -126,4 +128,186 @@ struct EEPROMClass {
 };
 
 static EEPROMClass __attribute__((unused)) EEPROM;
+
+
+/***
+    AVR <avr/eeprom.h> compatibility layer.
+
+    On AVR, addresses are passed as uint8_t* (EEMEM pointers). Here we treat
+    those pointers as byte offsets cast to uintptr_t, matching the typical
+    Arduboy pattern of:
+        uint8_t myVar EEMEM;
+        eeprom_read_byte(&myVar);   // &myVar == offset into EEPROM space
+***/
+
+// EEMEM attribute — on AVR this places variables in the .eeprom section.
+// Here it is a no-op; variables live in normal RAM and their address is
+// used as the EEPROM offset (cast to uintptr_t).
+#ifndef EEMEM
+#define EEMEM
+#endif
+
+// Helper: convert an AVR-style EEMEM pointer to a flat integer offset.
+// Callers typically pass &some_eemem_var whose address is already the
+// intended logical EEPROM offset (as done in most Arduboy sketches).
+#define _EE_ADDR(p) ((int)(uintptr_t)(p))
+
+// --------------------------------------------------------------------------
+// Read functions
+// --------------------------------------------------------------------------
+
+static __attribute__((unused)) inline uint8_t eeprom_read_byte(const uint8_t *addr)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx >= EEPROM_SIZE) return 0xFF;
+    return _eeprom[idx];
+}
+
+static __attribute__((unused)) inline uint16_t eeprom_read_word(const uint16_t *addr)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + 1 >= EEPROM_SIZE) return 0xFFFF;
+    uint16_t val;
+    memcpy(&val, &_eeprom[idx], sizeof(val));
+    return val;
+}
+
+static __attribute__((unused)) inline uint32_t eeprom_read_dword(const uint32_t *addr)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + 3 >= EEPROM_SIZE) return 0xFFFFFFFFUL;
+    uint32_t val;
+    memcpy(&val, &_eeprom[idx], sizeof(val));
+    return val;
+}
+
+static __attribute__((unused)) inline float eeprom_read_float(const float *addr)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + (int)sizeof(float) - 1 >= EEPROM_SIZE) return 0.0f;
+    float val;
+    memcpy(&val, &_eeprom[idx], sizeof(val));
+    return val;
+}
+
+static __attribute__((unused)) inline void eeprom_read_block(void *dst, const void *src, size_t n)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(src);
+    if (idx < 0 || idx + (int)n > EEPROM_SIZE) return;
+    memcpy(dst, &_eeprom[idx], n);
+}
+
+// --------------------------------------------------------------------------
+// Write functions (always write, no update check)
+// --------------------------------------------------------------------------
+
+static __attribute__((unused)) inline void eeprom_write_byte(uint8_t *addr, uint8_t val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx >= EEPROM_SIZE) return;
+    _eeprom[idx] = val;
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_write_word(uint16_t *addr, uint16_t val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + 1 >= EEPROM_SIZE) return;
+    memcpy(&_eeprom[idx], &val, sizeof(val));
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_write_dword(uint32_t *addr, uint32_t val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + 3 >= EEPROM_SIZE) return;
+    memcpy(&_eeprom[idx], &val, sizeof(val));
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_write_float(float *addr, float val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + (int)sizeof(float) - 1 >= EEPROM_SIZE) return;
+    memcpy(&_eeprom[idx], &val, sizeof(val));
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_write_block(const void *src, void *dst, size_t n)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(dst);
+    if (idx < 0 || idx + (int)n > EEPROM_SIZE) return;
+    memcpy(&_eeprom[idx], src, n);
+    _eeprom_save();
+}
+
+// --------------------------------------------------------------------------
+// Update functions (write only if value differs — saves unnecessary I/O)
+// --------------------------------------------------------------------------
+
+static __attribute__((unused)) inline void eeprom_update_byte(uint8_t *addr, uint8_t val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx >= EEPROM_SIZE) return;
+    if (_eeprom[idx] == val) return;
+    _eeprom[idx] = val;
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_update_word(uint16_t *addr, uint16_t val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + 1 >= EEPROM_SIZE) return;
+    if (memcmp(&_eeprom[idx], &val, sizeof(val)) == 0) return;
+    memcpy(&_eeprom[idx], &val, sizeof(val));
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_update_dword(uint32_t *addr, uint32_t val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + 3 >= EEPROM_SIZE) return;
+    if (memcmp(&_eeprom[idx], &val, sizeof(val)) == 0) return;
+    memcpy(&_eeprom[idx], &val, sizeof(val));
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_update_float(float *addr, float val)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(addr);
+    if (idx < 0 || idx + (int)sizeof(float) - 1 >= EEPROM_SIZE) return;
+    if (memcmp(&_eeprom[idx], &val, sizeof(val)) == 0) return;
+    memcpy(&_eeprom[idx], &val, sizeof(val));
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_update_block(const void *src, void *dst, size_t n)
+{
+    _eeprom_load();
+    int idx = _EE_ADDR(dst);
+    if (idx < 0 || idx + (int)n > EEPROM_SIZE) return;
+    if (memcmp(&_eeprom[idx], src, n) == 0) return;
+    memcpy(&_eeprom[idx], src, n);
+    _eeprom_save();
+}
+
+static __attribute__((unused)) inline void eeprom_busy_wait()
+{
+
+}
+
 #endif
