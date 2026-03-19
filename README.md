@@ -22,6 +22,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 | CastleBoy | jlauener | Eric Lewis | MIT | [CastleBoy](https://community.arduboy.com/t/castleboy-castlevania-demake/3011) |
 | Catacombs | James Howard, Abeno Studio | Eric Lewis | MIT | [Catacombs](https://community.arduboy.com/t/catacombs-of-the-damned-formerly-another-fps-style-3d-demo/6565) |
 | Crates | compycore | Eric Lewis | MIT | [Crates](https://community.arduboy.com/t/crates-pedal-to-the-metal-car-crime/6744) |
+| Dark and Under | Garage Collective | joyrider3774 | BSD 3-Clause | [Dark and Under](https://community.arduboy.com/t/dark-under-a-dungeon-crawler/4637) |
 | Dice of Fate | TEAM ARG | Eric Lewis | MIT | [Dice of Fate](https://community.arduboy.com/t/dice-of-fate-seventh-team-a-r-g-game/1101) |
 | Dino | Ashteroide | Eric Lewis | Apache-2.0 license | [Dino](https://community.arduboy.com/t/ardu-dino-like-chrome-dino-but-for-the-arduboy/9719) |
 | Epic Crates Of Mass Desctruction | Team A.R.G | joyrider3774 | MIT | |

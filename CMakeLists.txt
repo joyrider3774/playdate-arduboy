@@ -62,6 +62,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("Dark-And-Under")
 add_subdirectory("Evasion")
 add_subdirectory("Reversi")
 add_subdirectory("Hollow Seeker")
