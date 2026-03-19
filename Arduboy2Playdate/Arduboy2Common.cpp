@@ -84,6 +84,8 @@ unsigned long millis()
 
 void delay(int ms)
 {
+    //force a draw before delay (fixes dark-and-under)
+    pd->graphics->display();
     pd->system->delay((uint32_t)ms);
 }
 
