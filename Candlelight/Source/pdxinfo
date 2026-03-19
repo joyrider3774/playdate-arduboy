@@ -1,0 +1,7 @@
+name=Candlelight
+author=Matthew Bryan
+bundleID=com.matthewbryan.candlelight
+version=v1.0.0
+imagePath=assets
+description=A candle-based platformer. Light the three furnaces to win.
+buildNumber=1
