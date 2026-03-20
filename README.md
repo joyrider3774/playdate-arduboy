@@ -1,6 +1,6 @@
 # Arduboy Playdate Ports
 
-A collection of ported games + a drop in replacement library for Arduboy2 / Arduboy2Playtune / Arduboy2Tones.
+A collection of ported games + a drop in replacement library for [Arduboy2](https://github.com/MLXXXp/Arduboy2/) / [ArduboyPlaytune](https://github.com/Arduboy/ArduboyPlaytune) / [ArduboyTones](https://github.com/MLXXXp/ArduboyTones)
 
 Initial Port was done by eric lewis, additional fixes done by joyrider3774, game porters are listed in the games section
 
@@ -132,3 +132,4 @@ Alternatively, use the Playdate web interface at `device.play.date` to sideload 
 
 ## Licenses
 - Games that had licenses on their repo's as well as a readme.md are included in each games subdirectory
+- ArduboyTones, ArduboyPlaytune and Arduboy2 licences and readme's can be found in `Licenses` Directory
