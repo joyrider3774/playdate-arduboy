@@ -1,7 +1,7 @@
 name=Tacklebox
 author=Matt Greer
 bundleID=com.ericlewis.tacklebox
-version=v1.3.0
+version=v1.4.0
 imagePath=SystemAssets
 description=
-buildNumber=5
+buildNumber=6

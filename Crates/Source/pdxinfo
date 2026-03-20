@@ -1,7 +1,7 @@
 name=Crates
 author=compycore
 bundleID=com.ericlewis.crates
-version=v1.3.0
+version=v1.4.0
 imagePath=assets
 description=
-buildNumber=5
+buildNumber=6

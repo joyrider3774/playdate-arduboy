@@ -1,7 +1,7 @@
 name=Waternet Arduboy
 author=joyrider3774
 bundleID=com.ericlewis.waternet_arduboy
-version=v1.3.0
+version=v1.4.0
 imagePath=assets
 description=
-buildNumber=5
+buildNumber=6

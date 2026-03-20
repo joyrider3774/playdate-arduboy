@@ -1,7 +1,7 @@
 name=Fast
 author=Byron Holldorf / Filmote
 bundleID=com.arduboy.fast
-version=v1.3.0
+version=v1.4.0
 imagePath=assets
 description=A 3D ring-racing game ported from Arduboy
-buildNumber=5
+buildNumber=6
