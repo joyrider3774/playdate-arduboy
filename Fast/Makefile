@@ -57,10 +57,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/matheusnicolas/repositories/playdate-arduboy
+CMAKE_SOURCE_DIR = $(abspath $(dir $(lastword $(MAKEFILE_LIST)))..)
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/matheusnicolas/repositories/playdate-arduboy
+CMAKE_BINARY_DIR = $(CMAKE_SOURCE_DIR)
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(CMAKE_COMMAND) -E cmake_progress_start /Users/matheusnicolas/repositories/playdate-arduboy/CMakeFiles /Users/matheusnicolas/repositories/playdate-arduboy/Fast//CMakeFiles/progress.marks
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matheusnicolas/repositories/playdate-arduboy/CMakeFiles 0
+	cd $(CMAKE_SOURCE_DIR) && $(CMAKE_COMMAND) -E cmake_progress_start $(CMAKE_BINARY_DIR)/CMakeFiles $(CMAKE_BINARY_DIR)/Fast//CMakeFiles/progress.marks
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/all
+	$(CMAKE_COMMAND) -E cmake_progress_start $(CMAKE_BINARY_DIR)/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/clean
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,22 +103,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/preinstall
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/preinstall
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd $(CMAKE_SOURCE_DIR) && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 Fast/CMakeFiles/Fast.dir/rule:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/CMakeFiles/Fast.dir/rule
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Fast/CMakeFiles/Fast.dir/rule
 .PHONY : Fast/CMakeFiles/Fast.dir/rule
 
 # Convenience name for target.
@@ -127,7 +127,7 @@ Fast: Fast/CMakeFiles/Fast.dir/rule
 
 # fast build rule for target.
 Fast/fast:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/build
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/build
 .PHONY : Fast/fast
 
 __/Arduboy2Playdate/Arduboy2.o: __/Arduboy2Playdate/Arduboy2.cpp.o
@@ -135,7 +135,7 @@ __/Arduboy2Playdate/Arduboy2.o: __/Arduboy2Playdate/Arduboy2.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/Arduboy2.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2.cpp.o
 .PHONY : __/Arduboy2Playdate/Arduboy2.cpp.o
 
 __/Arduboy2Playdate/Arduboy2.i: __/Arduboy2Playdate/Arduboy2.cpp.i
@@ -143,7 +143,7 @@ __/Arduboy2Playdate/Arduboy2.i: __/Arduboy2Playdate/Arduboy2.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/Arduboy2.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2.cpp.i
 .PHONY : __/Arduboy2Playdate/Arduboy2.cpp.i
 
 __/Arduboy2Playdate/Arduboy2.s: __/Arduboy2Playdate/Arduboy2.cpp.s
@@ -151,7 +151,7 @@ __/Arduboy2Playdate/Arduboy2.s: __/Arduboy2Playdate/Arduboy2.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/Arduboy2.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2.cpp.s
 .PHONY : __/Arduboy2Playdate/Arduboy2.cpp.s
 
 __/Arduboy2Playdate/Arduboy2Audio.o: __/Arduboy2Playdate/Arduboy2Audio.cpp.o
@@ -159,7 +159,7 @@ __/Arduboy2Playdate/Arduboy2Audio.o: __/Arduboy2Playdate/Arduboy2Audio.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/Arduboy2Audio.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Audio.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Audio.cpp.o
 .PHONY : __/Arduboy2Playdate/Arduboy2Audio.cpp.o
 
 __/Arduboy2Playdate/Arduboy2Audio.i: __/Arduboy2Playdate/Arduboy2Audio.cpp.i
@@ -167,7 +167,7 @@ __/Arduboy2Playdate/Arduboy2Audio.i: __/Arduboy2Playdate/Arduboy2Audio.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/Arduboy2Audio.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Audio.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Audio.cpp.i
 .PHONY : __/Arduboy2Playdate/Arduboy2Audio.cpp.i
 
 __/Arduboy2Playdate/Arduboy2Audio.s: __/Arduboy2Playdate/Arduboy2Audio.cpp.s
@@ -175,7 +175,7 @@ __/Arduboy2Playdate/Arduboy2Audio.s: __/Arduboy2Playdate/Arduboy2Audio.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/Arduboy2Audio.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Audio.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Audio.cpp.s
 .PHONY : __/Arduboy2Playdate/Arduboy2Audio.cpp.s
 
 __/Arduboy2Playdate/Arduboy2Beep.o: __/Arduboy2Playdate/Arduboy2Beep.cpp.o
@@ -183,7 +183,7 @@ __/Arduboy2Playdate/Arduboy2Beep.o: __/Arduboy2Playdate/Arduboy2Beep.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/Arduboy2Beep.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Beep.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Beep.cpp.o
 .PHONY : __/Arduboy2Playdate/Arduboy2Beep.cpp.o
 
 __/Arduboy2Playdate/Arduboy2Beep.i: __/Arduboy2Playdate/Arduboy2Beep.cpp.i
@@ -191,7 +191,7 @@ __/Arduboy2Playdate/Arduboy2Beep.i: __/Arduboy2Playdate/Arduboy2Beep.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/Arduboy2Beep.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Beep.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Beep.cpp.i
 .PHONY : __/Arduboy2Playdate/Arduboy2Beep.cpp.i
 
 __/Arduboy2Playdate/Arduboy2Beep.s: __/Arduboy2Playdate/Arduboy2Beep.cpp.s
@@ -199,7 +199,7 @@ __/Arduboy2Playdate/Arduboy2Beep.s: __/Arduboy2Playdate/Arduboy2Beep.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/Arduboy2Beep.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Beep.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Beep.cpp.s
 .PHONY : __/Arduboy2Playdate/Arduboy2Beep.cpp.s
 
 __/Arduboy2Playdate/Arduboy2Common.o: __/Arduboy2Playdate/Arduboy2Common.cpp.o
@@ -207,7 +207,7 @@ __/Arduboy2Playdate/Arduboy2Common.o: __/Arduboy2Playdate/Arduboy2Common.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/Arduboy2Common.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Common.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Common.cpp.o
 .PHONY : __/Arduboy2Playdate/Arduboy2Common.cpp.o
 
 __/Arduboy2Playdate/Arduboy2Common.i: __/Arduboy2Playdate/Arduboy2Common.cpp.i
@@ -215,7 +215,7 @@ __/Arduboy2Playdate/Arduboy2Common.i: __/Arduboy2Playdate/Arduboy2Common.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/Arduboy2Common.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Common.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Common.cpp.i
 .PHONY : __/Arduboy2Playdate/Arduboy2Common.cpp.i
 
 __/Arduboy2Playdate/Arduboy2Common.s: __/Arduboy2Playdate/Arduboy2Common.cpp.s
@@ -223,7 +223,7 @@ __/Arduboy2Playdate/Arduboy2Common.s: __/Arduboy2Playdate/Arduboy2Common.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/Arduboy2Common.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Common.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Common.cpp.s
 .PHONY : __/Arduboy2Playdate/Arduboy2Common.cpp.s
 
 __/Arduboy2Playdate/Arduboy2Core.o: __/Arduboy2Playdate/Arduboy2Core.cpp.o
@@ -231,7 +231,7 @@ __/Arduboy2Playdate/Arduboy2Core.o: __/Arduboy2Playdate/Arduboy2Core.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/Arduboy2Core.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Core.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Core.cpp.o
 .PHONY : __/Arduboy2Playdate/Arduboy2Core.cpp.o
 
 __/Arduboy2Playdate/Arduboy2Core.i: __/Arduboy2Playdate/Arduboy2Core.cpp.i
@@ -239,7 +239,7 @@ __/Arduboy2Playdate/Arduboy2Core.i: __/Arduboy2Playdate/Arduboy2Core.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/Arduboy2Core.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Core.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Core.cpp.i
 .PHONY : __/Arduboy2Playdate/Arduboy2Core.cpp.i
 
 __/Arduboy2Playdate/Arduboy2Core.s: __/Arduboy2Playdate/Arduboy2Core.cpp.s
@@ -247,7 +247,7 @@ __/Arduboy2Playdate/Arduboy2Core.s: __/Arduboy2Playdate/Arduboy2Core.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/Arduboy2Core.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Core.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Core.cpp.s
 .PHONY : __/Arduboy2Playdate/Arduboy2Core.cpp.s
 
 __/Arduboy2Playdate/Arduboy2Data.o: __/Arduboy2Playdate/Arduboy2Data.cpp.o
@@ -255,7 +255,7 @@ __/Arduboy2Playdate/Arduboy2Data.o: __/Arduboy2Playdate/Arduboy2Data.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/Arduboy2Data.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Data.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Data.cpp.o
 .PHONY : __/Arduboy2Playdate/Arduboy2Data.cpp.o
 
 __/Arduboy2Playdate/Arduboy2Data.i: __/Arduboy2Playdate/Arduboy2Data.cpp.i
@@ -263,7 +263,7 @@ __/Arduboy2Playdate/Arduboy2Data.i: __/Arduboy2Playdate/Arduboy2Data.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/Arduboy2Data.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Data.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Data.cpp.i
 .PHONY : __/Arduboy2Playdate/Arduboy2Data.cpp.i
 
 __/Arduboy2Playdate/Arduboy2Data.s: __/Arduboy2Playdate/Arduboy2Data.cpp.s
@@ -271,7 +271,7 @@ __/Arduboy2Playdate/Arduboy2Data.s: __/Arduboy2Playdate/Arduboy2Data.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/Arduboy2Data.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Data.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Arduboy2Data.cpp.s
 .PHONY : __/Arduboy2Playdate/Arduboy2Data.cpp.s
 
 __/Arduboy2Playdate/Sprites.o: __/Arduboy2Playdate/Sprites.cpp.o
@@ -279,7 +279,7 @@ __/Arduboy2Playdate/Sprites.o: __/Arduboy2Playdate/Sprites.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/Sprites.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Sprites.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Sprites.cpp.o
 .PHONY : __/Arduboy2Playdate/Sprites.cpp.o
 
 __/Arduboy2Playdate/Sprites.i: __/Arduboy2Playdate/Sprites.cpp.i
@@ -287,7 +287,7 @@ __/Arduboy2Playdate/Sprites.i: __/Arduboy2Playdate/Sprites.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/Sprites.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Sprites.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Sprites.cpp.i
 .PHONY : __/Arduboy2Playdate/Sprites.cpp.i
 
 __/Arduboy2Playdate/Sprites.s: __/Arduboy2Playdate/Sprites.cpp.s
@@ -295,7 +295,7 @@ __/Arduboy2Playdate/Sprites.s: __/Arduboy2Playdate/Sprites.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/Sprites.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Sprites.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/Sprites.cpp.s
 .PHONY : __/Arduboy2Playdate/Sprites.cpp.s
 
 __/Arduboy2Playdate/SpritesB.o: __/Arduboy2Playdate/SpritesB.cpp.o
@@ -303,7 +303,7 @@ __/Arduboy2Playdate/SpritesB.o: __/Arduboy2Playdate/SpritesB.cpp.o
 
 # target to build an object file
 __/Arduboy2Playdate/SpritesB.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/SpritesB.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/SpritesB.cpp.o
 .PHONY : __/Arduboy2Playdate/SpritesB.cpp.o
 
 __/Arduboy2Playdate/SpritesB.i: __/Arduboy2Playdate/SpritesB.cpp.i
@@ -311,7 +311,7 @@ __/Arduboy2Playdate/SpritesB.i: __/Arduboy2Playdate/SpritesB.cpp.i
 
 # target to preprocess a source file
 __/Arduboy2Playdate/SpritesB.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/SpritesB.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/SpritesB.cpp.i
 .PHONY : __/Arduboy2Playdate/SpritesB.cpp.i
 
 __/Arduboy2Playdate/SpritesB.s: __/Arduboy2Playdate/SpritesB.cpp.s
@@ -319,7 +319,7 @@ __/Arduboy2Playdate/SpritesB.s: __/Arduboy2Playdate/SpritesB.cpp.s
 
 # target to generate assembly for a file
 __/Arduboy2Playdate/SpritesB.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/SpritesB.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/__/Arduboy2Playdate/SpritesB.cpp.s
 .PHONY : __/Arduboy2Playdate/SpritesB.cpp.s
 
 src/TinyerFont/Tinyerfont.o: src/TinyerFont/Tinyerfont.cpp.o
@@ -327,7 +327,7 @@ src/TinyerFont/Tinyerfont.o: src/TinyerFont/Tinyerfont.cpp.o
 
 # target to build an object file
 src/TinyerFont/Tinyerfont.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/TinyerFont/Tinyerfont.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/TinyerFont/Tinyerfont.cpp.o
 .PHONY : src/TinyerFont/Tinyerfont.cpp.o
 
 src/TinyerFont/Tinyerfont.i: src/TinyerFont/Tinyerfont.cpp.i
@@ -335,7 +335,7 @@ src/TinyerFont/Tinyerfont.i: src/TinyerFont/Tinyerfont.cpp.i
 
 # target to preprocess a source file
 src/TinyerFont/Tinyerfont.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/TinyerFont/Tinyerfont.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/TinyerFont/Tinyerfont.cpp.i
 .PHONY : src/TinyerFont/Tinyerfont.cpp.i
 
 src/TinyerFont/Tinyerfont.s: src/TinyerFont/Tinyerfont.cpp.s
@@ -343,7 +343,7 @@ src/TinyerFont/Tinyerfont.s: src/TinyerFont/Tinyerfont.cpp.s
 
 # target to generate assembly for a file
 src/TinyerFont/Tinyerfont.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/TinyerFont/Tinyerfont.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/TinyerFont/Tinyerfont.cpp.s
 .PHONY : src/TinyerFont/Tinyerfont.cpp.s
 
 src/draw.o: src/draw.cpp.o
@@ -351,7 +351,7 @@ src/draw.o: src/draw.cpp.o
 
 # target to build an object file
 src/draw.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/draw.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/draw.cpp.o
 .PHONY : src/draw.cpp.o
 
 src/draw.i: src/draw.cpp.i
@@ -359,7 +359,7 @@ src/draw.i: src/draw.cpp.i
 
 # target to preprocess a source file
 src/draw.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/draw.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/draw.cpp.i
 .PHONY : src/draw.cpp.i
 
 src/draw.s: src/draw.cpp.s
@@ -367,7 +367,7 @@ src/draw.s: src/draw.cpp.s
 
 # target to generate assembly for a file
 src/draw.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/draw.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/draw.cpp.s
 .PHONY : src/draw.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -375,7 +375,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/main.cpp.o
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -383,7 +383,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/main.cpp.i
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -391,7 +391,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/main.cpp.s
+	cd $(CMAKE_SOURCE_DIR) && $(MAKE) $(MAKESILENT) -f Fast/CMakeFiles/Fast.dir/build.make Fast/CMakeFiles/Fast.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -447,6 +447,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/matheusnicolas/repositories/playdate-arduboy && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd $(CMAKE_SOURCE_DIR) && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DFast_EXPORTS -DTARGET_EXTENSION=1 -DTARGET_SIMULATOR=1 -D_PLAYDATE
 
-CXX_INCLUDES = -I/Users/matheusnicolas/repositories/playdate-arduboy/Fast/src -I/Users/matheusnicolas/repositories/playdate-arduboy/Fast/src/TinyerFont -I/Users/matheusnicolas/repositories/playdate-arduboy/Fast/../playdate-cpp/inc -I/Users/matheusnicolas/repositories/playdate-arduboy/Fast/../Arduboy2Playdate -I/Users/matheusnicolas/repositories/playdate-arduboy/Fast/../Arduboy2Playdate/ArduboyTones -I/Users/matheusnicolas/repositories/playdate-arduboy/Fast/../Arduboy2Playdate/ArduboyPlaytune -I/Users/matheusnicolas/repositories/playdate-arduboy/playdate-cpp/inc -I/Users/matheusnicolas/Developer/PlaydateSDK/C_API
+CXX_INCLUDES = -I$(CMAKE_SOURCE_DIR)/Fast/src -I$(CMAKE_SOURCE_DIR)/Fast/src/TinyerFont -I$(CMAKE_SOURCE_DIR)/Fast/../playdate-cpp/inc -I$(CMAKE_SOURCE_DIR)/Fast/../Arduboy2Playdate -I$(CMAKE_SOURCE_DIR)/Fast/../Arduboy2Playdate/ArduboyTones -I$(CMAKE_SOURCE_DIR)/Fast/../Arduboy2Playdate/ArduboyPlaytune -I$(CMAKE_SOURCE_DIR)/playdate-cpp/inc -I/Users/matheusnicolas/Developer/PlaydateSDK/C_API
 
 CXX_FLAGSarm64 = -std=gnu++20 -arch arm64 -fPIC   -fpermissive -fsigned-char -Wall -Wstrict-prototypes -Wno-unknown-pragmas -Wdouble-promotion
 
