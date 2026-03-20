@@ -49,7 +49,7 @@ PLAYDATE_SDK_PATH=/path/to/PlaydateSDK cmake ..
 
 ### 3. Build
 
-only a single game for exampple the Fast game
+only a single game for example the Fast game
 
 ```bash
 cmake --build . --target Fast
