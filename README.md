@@ -6,7 +6,7 @@ Initial Port was done by eric lewis, additional fixes and game ports done by joy
 
 ## Instructions
 
-##@ Prerequisites
+### Prerequisites
 
 Before building, make sure you have:
 
