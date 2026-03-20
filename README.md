@@ -2,7 +2,7 @@
 
 A collection of ported games + a drop in replacement library for Arduboy2 / Arduboy2Playtune / Arduboy2Tones.
 
-Initial Port was done by eric lewis, additional fixes and game ports done by joyrider3774
+Initial Port was done by eric lewis, additional fixes done by joyrider3774, game porters are listed in the games section
 
 ## Instructions
 
