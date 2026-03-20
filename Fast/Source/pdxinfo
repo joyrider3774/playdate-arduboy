@@ -1,7 +1,7 @@
 name=Fast
 author=filmote / Pharap
 bundleID=com.arduboy.fast
-version=v1.0.0
+version=v1.3.0
 imagePath=assets
 description=A 3D ring-racing game ported from Arduboy
-buildNumber=1
+buildNumber=5
