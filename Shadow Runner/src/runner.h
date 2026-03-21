@@ -67,7 +67,7 @@ void checkRunner()
   if (lifePlayer < 0)
   {
     gameState = STATE_GAME_OVER;
-    // TODO: delay(1000L);
+    delay(1000L);
   }
 }
 
