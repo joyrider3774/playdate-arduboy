@@ -29,8 +29,9 @@ Initial Port was done by eric lewis, additional fixes done by joyrider3774, game
 | Hollow Seeker | Obono | joyrider3774 | MIT | [Hollow Seeker community](https://community.arduboy.com/t/hollow-seeker-a-simple-action-game/2594) |
 | Hopper | Obono | joyrider3774 | MIT | [Hopper community](https://community.arduboy.com/t/hopper-a-simple-action-game/4293) |
 | Jet Pac | TheArduinoGuy | Eric Lewis | Unknown | [Jet Pac community](https://community.arduboy.com/t/arduboy-jet-pac/2888) |
-| MayQ | CoBinee | joyrider3774 | Unknown | [MayQ Github](https://github.com/CoBinee/mayq-arduboy)|
+| MayQ | CoBinee | joyrider3774 | Unknown | [MayQ Github](https://github.com/CoBinee/mayq-arduboy) |
 | Mystic Balloon | TEAM ARG | Eric Lewis | MIT | [Mystic Balloon community](https://community.arduboy.com/t/mystic-balloon-9th-team-a-r-g-game-39-levels/1983) |
+| Petit of the dead | CoBinee | joyrider3774 | Unknown | [Petit of the dead Github](https://github.com/CoBinee/potdead-arduboy) |
 | Pocket Fighter | Wang Renxin | Eric Lewis | Unknown | [Pocket Fighter community](https://community.arduboy.com/t/pocket-fighter-an-ftg/2989) |
 | Reverse Mermaid Hockey | TEAM ARG | Eric Lewis | MIT | [Reverse Mermaid Hockey community](https://community.arduboy.com/t/reverse-mermaid-hockey-third-team-a-r-g-game/355) |
 | Reversi | Obono | joyrider3774 | MIT | [Reversi community](https://community.arduboy.com/t/reversi-a-simple-board-game/6754) |
