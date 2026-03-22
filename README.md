@@ -8,6 +8,7 @@ Initial Port was done by eric lewis, additional fixes done by joyrider3774, game
 
 | Game | Author | Porter | License | Link |
 |------|--------|--------|---------|------|
+| ArduGolf | brow1067 | joyrider3774 | MPL-2.0 | [ArduGolf community](https://community.arduboy.com/t/ardugolf-18-hole-mini-golf/10462) |
 | Arduminer | Bergasms | Eric Lewis | No License | [Arduminer community](https://community.arduboy.com/t/arduminer-terraria-like-game-by-bergasms/2939) |
 | Arduventure | TEAM ARG | joyrider3774 | MIT | [Arduventure community](https://community.arduboy.com/t/arduventure-rpg/505) |
 | Ardynia | Matt Greer | joyrider3774 | MIT | [Ardynia community](https://community.arduboy.com/t/ardynia-an-elvish-adventure/6336) |
