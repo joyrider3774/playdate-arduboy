@@ -62,6 +62,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("Umeroose")
 add_subdirectory("PotDead")
 add_subdirectory("MayQ")
 add_subdirectory("SFZ")

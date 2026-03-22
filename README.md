@@ -42,6 +42,7 @@ Initial Port was done by eric lewis, additional fixes done by joyrider3774, game
 | Tackle Box | Matt Greer | joyrider3774 | MIT (for code not graphics) | [Tackle Box community](https://community.arduboy.com/t/tackle-box-a-fishing-adventure/6777) |
 | Train Dodge | Crait | Eric Lewis | Unknown | [Train Dodge community](https://community.arduboy.com/t/train-dodge-single-button-reflex-game/2099) |
 | Trolly Fish | Team A.R.G | joyrider3774 | MIT | [Trolly Fish community](https://community.arduboy.com/t/trolly-fish-sixth-team-a-r-g-game/929) |
+| Umeroose | CoBinee | joyrider3774 | Unknown | [Umeroose Github](https://github.com/CoBinee/umeroose-arduboy) |
 | Virus LQP-79 | TEAM A.R.G | Eric Lewis | MIT | [Virus LQP-79 community](https://community.arduboy.com/t/virus-lqp-79-eighth-team-a-r-g-game/1646) |
 | Waternet | joyrider3774 | joyrider3774 | MIT | [Waternet community](https://community.arduboy.com/t/waternet-a-net-netslide-puzzle-game/10483) |
 
