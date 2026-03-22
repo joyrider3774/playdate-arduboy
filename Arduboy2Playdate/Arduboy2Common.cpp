@@ -94,6 +94,9 @@ PlaydateAPI *pd;
 int update(__attribute__ ((unused)) void* ud)
 {
     loop();
+#ifdef ARDUBOY_PLAYDATE_SHOW_FPS
+    pd->system->drawFPS(0,0);
+#endif
     return 1;
 }
 
