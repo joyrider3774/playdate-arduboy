@@ -34,7 +34,7 @@ Initial Port was done by eric lewis, additional fixes done by joyrider3774, game
 | MayQ | CoBinee | joyrider3774 | Unknown | [MayQ Github](https://github.com/CoBinee/mayq-arduboy) |
 | Mystic Balloon | TEAM ARG | Eric Lewis | MIT | [Mystic Balloon community](https://community.arduboy.com/t/mystic-balloon-9th-team-a-r-g-game-39-levels/1983) |
 | Petit of the dead | CoBinee | joyrider3774 | Unknown | [Petit of the dead Github](https://github.com/CoBinee/potdead-arduboy) |
-| Pocket Fighter | Wang Renxin | Eric Lewis | Unknown | [Pocket Fighter community](https://community.arduboy.com/t/pocket-fighter-an-ftg/2989) |
+| Pocket Fighter | Wang Renxin | Eric Lewis | CC BY-NC-SA | [Pocket Fighter community](https://community.arduboy.com/t/pocket-fighter-an-ftg/2989) |
 | Reverse Mermaid Hockey | TEAM ARG | Eric Lewis | MIT | [Reverse Mermaid Hockey community](https://community.arduboy.com/t/reverse-mermaid-hockey-third-team-a-r-g-game/355) |
 | Reversi | Obono | joyrider3774 | MIT | [Reversi community](https://community.arduboy.com/t/reversi-a-simple-board-game/6754) |
 | SanSan | Chamekan | joyrider3774 | Unknown | [SanSan community](https://community.arduboy.com/t/sansan-son-son-rygar-inspired-action-game/4621) |
