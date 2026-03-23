@@ -1,5 +1,5 @@
 # Shadow Runner
-![Image](https://raw.githubusercontent.com/Team-ARG-Museum/ID-15-Shadow-Runner/master/art/banner-ID-15.png)
+![Image](art/banner-ID-15.jpg)
 
 SHADOW RUNNER:  
 **Download latest Arduboy version and source :** https://github.com/Team-ARG-Museum/ID-15-Shadow-Runner/releases/latest  

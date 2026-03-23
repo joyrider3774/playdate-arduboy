@@ -1,5 +1,5 @@
 # Reverse Mermaid Hockey  
-![Image](https://raw.githubusercontent.com/Team-ARG-Museum/ID-31-RMH/master/art/banner-ID-31.png)
+![Image](art/banner-ID-31.png)
 
 Reverse Mermaid Hockey :  
 **Download latest Arduboy version and source :** https://github.com/Team-ARG-Museum/ID-31-RMH/releases/latest  

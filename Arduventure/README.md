@@ -1,6 +1,6 @@
 # ARDUVENTURE
 
-![Image](http://www.team-arg.org/masterfiles/team-arg-ardu/images/banner-ID-46.png)
+![Image](https://raw.githubusercontent.com/Team-ARG-Museum/ID-46-Arduventure/refs/heads/master/art/banner-ID-46.png)
 
 Arduventure : http://www.team-arg.org/ardu-manual.html  
 **Download latest Arduboy version and source :** https://github.com/TEAMarg/ID-46-Arduventure/releases/latest  

@@ -1,5 +1,5 @@
 # BEGEMMED
-![Image](https://raw.githubusercontent.com/Team-ARG-Museum/ID-30-BEGEMMED/master/art/banner-ID-30.png)
+![Image](art/banner-ID-30.gif)
 
 BEGEMMED :  
 **Download latest Arduboy version and source :** https://github.com/Team-ARG-Museum/ID-30-BEGEMMED/releases/latest  

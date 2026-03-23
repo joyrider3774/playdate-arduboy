@@ -1,5 +1,5 @@
 # Epic Crates Of Mass Destruction 
-![Image](https://raw.githubusercontent.com/Team-ARG-Museum/ID-33-ECOMD/master/art/banner-ID-33.png)
+![Image](art/banner-ID-33.png)
 
 EPIC CRATES OF MASS DESTRUCTION :  
 
