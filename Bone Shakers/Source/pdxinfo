@@ -1,7 +1,7 @@
 name=Bone Shakers
 author=James Howard
 bundleID=com.ericlewis.BoneShakers
-version=v1.4.0
+version=v1.5.0
 imagePath=assets
 description=
-buildNumber=6
+buildNumber=7
