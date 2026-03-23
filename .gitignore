@@ -18,3 +18,4 @@ Midnight Wild
 *.bin
 *.so
 *.dylib
+/Release
