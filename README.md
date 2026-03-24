@@ -6,8 +6,8 @@ Initial Port was done by [Eric Lewis](https://github.com/ericlewis), additional 
 
 ## Games
 
-| Game | Screenshot | Author | Porter | License | Link |
-|------|------------|--------|--------|---------|------|
+| Game / Download | Screenshot | Author | Porter | License | Link |
+|-----------------|------------|--------|--------|---------|------|
 | [ArduGolf](https://github.com/joyrider3774/playdate-arduboy/releases/latest/download/ArduGolf.pdx.zip) | ![game](Screenshots/ArduGolf2.png) | [brow1067.](https://github.com/tiberiusbrown) | [joyrider3774](https://github.com/joyrider3774) | [MPL-2.0](ArduGolf/LICENSE.txt) | [Community](https://community.arduboy.com/t/ardugolf-18-hole-mini-golf/10462) |
 | [Arduminer](https://github.com/joyrider3774/playdate-arduboy/releases/latest/download/Arduminer.pdx.zip) | ![game](Screenshots/Arduminer2.png) | [Bergasms](https://www.bergasms.com/) | [Eric Lewis](https://github.com/ericlewis) | No License | [Community](https://community.arduboy.com/t/arduminer-terraria-like-game-by-bergasms/2939) |
 | [Arduventure](https://github.com/joyrider3774/playdate-arduboy/releases/latest/download/Arduventure.pdx.zip) | ![game](Screenshots/Arduventure2.png) | [TEAM A.R.G.](https://github.com/Team-ARG-Museum) | [joyrider3774](https://github.com/joyrider3774) | [MIT](Arduventure/LICENSE) | [Community](https://community.arduboy.com/t/arduventure-rpg/505) |
