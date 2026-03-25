@@ -62,6 +62,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("Stellar Impact")
 add_subdirectory("TrialsOfAstarok")
 add_subdirectory("ArduGolf")
 add_subdirectory("DyrLove")
