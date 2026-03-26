@@ -522,12 +522,12 @@ void game(){
   if(flag_sound) {
     if(tm == 0) {
       sound.tones(sound1);
-      while (sound.playing()) {sound.callback();}
+      while (sound.playing()) {sound.callback(); delay(1);}
       flag_bag = false;
     }
     if(!alive && tm - tm_dead == 0) {
       sound.tones(sound2);
-      while (sound.playing()) {sound.callback();}
+      while (sound.playing()) {sound.callback(); delay(1);}
     }
   }
 
