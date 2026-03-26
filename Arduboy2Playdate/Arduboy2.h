@@ -1515,9 +1515,9 @@ protected:
     static void swapInt16(int16_t& a, int16_t& b);
 
     // For frame functions
-    static uint8_t eachFrameMillis;
-    static uint8_t thisFrameStart;
-    static uint8_t lastFrameDurationMs;
+    static uint32_t eachFrameMillis;
+    static uint32_t thisFrameStart;
+    static uint32_t lastFrameDurationMs;
     static bool justRendered;
 
     // ----- Map of EEPROM addresses for system use-----

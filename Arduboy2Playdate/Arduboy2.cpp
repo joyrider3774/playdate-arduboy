@@ -18,9 +18,9 @@ uint16_t Arduboy2Base::frameCount = 0;
 uint8_t Arduboy2Base::currentButtonState = 0;
 uint8_t Arduboy2Base::previousButtonState = 0;
 
-uint8_t Arduboy2Base::eachFrameMillis = 16;
-uint8_t Arduboy2Base::thisFrameStart;
-uint8_t Arduboy2Base::lastFrameDurationMs;
+uint32_t Arduboy2Base::eachFrameMillis = 16;
+uint32_t Arduboy2Base::thisFrameStart;
+uint32_t Arduboy2Base::lastFrameDurationMs;
 bool Arduboy2Base::justRendered = false;
 
 // functions called here should be public so users can create their
@@ -174,8 +174,8 @@ bool Arduboy2Base::everyXFrames(uint8_t frames)
 
 bool Arduboy2Base::nextFrame()
 {
-    uint8_t now = (uint8_t) pd->system->getCurrentTimeMilliseconds();
-    uint8_t frameDurationMs = now - thisFrameStart;
+    uint32_t now = pd->system->getCurrentTimeMilliseconds();
+    uint32_t frameDurationMs = now - thisFrameStart;
 
     if (justRendered) {
         lastFrameDurationMs = frameDurationMs;
