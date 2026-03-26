@@ -74,13 +74,12 @@ void setup()
 
     game_setup();
 
-    //a.setFrameRate(30);
+    a.setFrameRate(60);
 
 }
 
 void loop()
 {
-    sound.callback();
     uint16_t pt = time_ms();
     #if SHOW_FPS
         uint16_t dt = 0;
@@ -96,7 +95,7 @@ void loop()
         //     for(;;);
         // }
 
-        //while(!a.nextFrame())
+       // while(!a.nextFrame())
         //    ;
 
         // the above call increases code size by 1 KB.
@@ -107,9 +106,9 @@ void loop()
         {
             uint8_t t = (uint8_t)time_ms();
             uint8_t dt = t - (uint8_t)pt;
-            if(dt < 33)
+            if(dt < 16)
             {
-                if(++dt < 33) Arduboy2Base::idle();
+                if(++dt < 16) Arduboy2Base::idle();
                 continue;
             }
             break;
