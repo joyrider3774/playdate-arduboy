@@ -233,6 +233,7 @@ boolean isOneBlobDropPossible(int array_x, int array_y)
     {
       if ((currentBlobs[temp] != 0) && (isTileFree(array_x, array_y) == false)) return true;
     }
+    return false; // for loop completed without finding a collision
   }
   else return false;
 }
