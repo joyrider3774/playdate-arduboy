@@ -834,6 +834,9 @@ public:
      * \see nextFrame() setFrameDuration()
      */
     static void setFrameRate(uint8_t rate);
+    static uint32_t getEachFrameMillis();
+    static uint32_t getThisFrameStart();
+    static void advanceFrameStart(uint32_t frameMs, uint32_t elapsed);
 
     /** \brief
      * Set the frame rate, used by the frame control functions, by giving
@@ -1518,7 +1521,6 @@ protected:
     static uint32_t eachFrameMillis;
     static uint32_t thisFrameStart;
     static uint32_t lastFrameDurationMs;
-    static bool justRendered;
 
     // ----- Map of EEPROM addresses for system use-----
 

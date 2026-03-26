@@ -1,5 +1,6 @@
 #include <pdcpp/pdnewlib.h>
 #include "Arduboy2Common.h"
+#include "Arduboy2.h"
 
 void randomSeed(unsigned int dwSeed)
 {
@@ -93,7 +94,32 @@ PlaydateAPI *pd;
 
 int update(__attribute__ ((unused)) void* ud)
 {
+    uint32_t now = pd->system->getCurrentTimeMilliseconds();
+    uint32_t frameStart = Arduboy2Base::getThisFrameStart();
+    uint32_t elapsed = now - frameStart;
+    uint32_t frameMs = Arduboy2Base::getEachFrameMillis();
+
+    if (elapsed < frameMs) {
+        // Sleep for the remaining time so we don't spin and burn CPU.
+        // Without this, returning 0 causes the runtime to call update()
+        // in a tight loop resulting in 8000+ fps reported by device view
+        // and high system load even when the game runs at 25fps.
+        uint32_t remaining = frameMs - elapsed;
+        if (remaining > 1) {
+            pd->system->delay(remaining - 1);
+        }
+        return 0;
+    }
+
     loop();
+
+    // If loop() didn't call nextFrame() (or nextFrame() wasn't called),
+    // thisFrameStart is unchanged — advance it ourselves so we don't fire
+    // again immediately on the next callback.
+    if (Arduboy2Base::getThisFrameStart() == frameStart) {
+        Arduboy2Base::advanceFrameStart(frameMs, elapsed);
+    }
+
 #ifdef ARDUBOY_PLAYDATE_SHOW_FPS
     pd->system->drawFPS(0,0);
 #endif

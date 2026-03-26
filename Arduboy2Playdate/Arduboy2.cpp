@@ -19,9 +19,27 @@ uint8_t Arduboy2Base::currentButtonState = 0;
 uint8_t Arduboy2Base::previousButtonState = 0;
 
 uint32_t Arduboy2Base::eachFrameMillis = 16;
-uint32_t Arduboy2Base::thisFrameStart;
-uint32_t Arduboy2Base::lastFrameDurationMs;
-bool Arduboy2Base::justRendered = false;
+uint32_t Arduboy2Base::thisFrameStart = 0;
+uint32_t Arduboy2Base::lastFrameDurationMs = 0;
+
+uint32_t Arduboy2Base::getEachFrameMillis()
+{
+    return eachFrameMillis;
+}
+
+uint32_t Arduboy2Base::getThisFrameStart()
+{
+    return thisFrameStart;
+}
+
+void Arduboy2Base::advanceFrameStart(uint32_t frameMs, uint32_t elapsed)
+{
+    if (elapsed < frameMs * 2) {
+        thisFrameStart += frameMs;
+    } else {
+        thisFrameStart = pd->system->getCurrentTimeMilliseconds();
+    }
+}
 
 // functions called here should be public so users can create their
 // own init functions if they need different behavior than `begin`
@@ -177,24 +195,19 @@ bool Arduboy2Base::nextFrame()
     uint32_t now = pd->system->getCurrentTimeMilliseconds();
     uint32_t frameDurationMs = now - thisFrameStart;
 
-    if (justRendered) {
-        lastFrameDurationMs = frameDurationMs;
-        justRendered = false;
-        return false;
-    }
-    else if (frameDurationMs < eachFrameMillis) {
-        // Only idle if at least a full millisecond remains, since idle() may
-        // sleep the processor until the next millisecond timer interrupt.
-        if (++frameDurationMs < eachFrameMillis) {
-            idle();
-        }
-
+    if (frameDurationMs < eachFrameMillis) {
         return false;
     }
 
-    // pre-render
-    justRendered = true;
-    thisFrameStart = now;
+    lastFrameDurationMs = frameDurationMs;
+
+    // Advance by exactly eachFrameMillis to avoid drift accumulation.
+    // Snap to now if we've fallen more than one frame behind.
+    if (frameDurationMs < eachFrameMillis * 2) {
+        thisFrameStart += eachFrameMillis;
+    } else {
+        thisFrameStart = now;
+    }
     frameCount++;
 
     return true;
