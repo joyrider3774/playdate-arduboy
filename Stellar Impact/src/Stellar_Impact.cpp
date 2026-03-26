@@ -74,7 +74,6 @@ void setup() {
 }
 
 void loop() {
-  tune.updateCallback();
   // pause render until it's time for the next frame
   if (!(arduboy.nextFrame())) return;
   arduboy.clear();

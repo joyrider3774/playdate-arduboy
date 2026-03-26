@@ -83,7 +83,6 @@ void setup()
 
 void loop()
 {
-    arduboy.playScoreCallback();
 #ifdef DEBUG
     dbgCheckSerialRecv();
 #endif

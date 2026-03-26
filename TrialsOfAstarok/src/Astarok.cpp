@@ -51,9 +51,6 @@ void setup() {
 }
 
 void loop() {
-    #ifdef SOUNDS
-    tunes.updateCallback();
-    #endif
     if (!arduboy.nextFrame()) return;
     arduboy.pollButtons();
 

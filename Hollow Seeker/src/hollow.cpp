@@ -45,7 +45,6 @@ void setup()
 
 void loop()
 {
-    arduboy.callbackScore2();
     if (!(arduboy.nextFrame())) return;
     bool isDone = moduleTable[mode].updateFunc();
     moduleTable[mode].drawFunc();

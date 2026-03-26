@@ -50,7 +50,6 @@ public:
     void    playScore2(const byte *score, uint8_t priority);
     void    stopScore2(void);
     void    playTone(uint16_t frequency, uint16_t duration, uint8_t priority = 0xFF, uint8_t dutyCycle = 0);
-    void    callbackScore2(void);
 
 private:
     void    myDrawChar(int16_t x, int16_t y, unsigned char c, uint8_t color, uint8_t bg, uint8_t size);

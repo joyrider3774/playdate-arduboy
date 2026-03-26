@@ -323,7 +323,3 @@ void MyArduboy::stopScore2(void)
     pTunes->stopScore();
 }
 
-void MyArduboy::playScoreCallback(void)
-{
-    pTunes->updateCallback();
-}

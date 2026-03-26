@@ -311,11 +311,6 @@ void MyArduboy::saveAudioOnOff(void)
     myAudio.saveOnOff();
 }
 
-void MyArduboy::callbackScore2(void)
-{
-    pTunes->updateCallback();
-}
-
 void MyArduboy::playScore2(const byte *score, uint8_t priority)
 {
     if (!isAudioEnabled()) return;

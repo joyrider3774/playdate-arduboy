@@ -726,7 +726,6 @@ void setup() {
 }
 
 void loop() {
-    N.updateCallback();
     if (!(A.nextFrame()))
         return;
     A.clear();

@@ -44,7 +44,6 @@ void Game::setup(void) {
 
 void Game::loop(void) {
 
-	this->context.sound.callback();
 	auto &arduboy = this->context.arduboy;
 	if (!arduboy.nextFrame()) return;
 

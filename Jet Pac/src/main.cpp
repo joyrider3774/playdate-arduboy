@@ -1365,7 +1365,6 @@ arduboy.clear();
 
 // #=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=#=
 void loop() {
-    sound.callback();
         if (!arduboy.nextFrame()) return;  // Keep frame rate at 60fps
         arduboy.clear();
 

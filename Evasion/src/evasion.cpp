@@ -70,7 +70,6 @@ void setup()
 
 void loop()
 {
-    arduboy.callbackScore2();
 #ifdef DEBUG
     dbgCheckSerialRecv();
 #endif
