@@ -97,8 +97,6 @@ void ArduboyTonesExt::begin()
 
 void ArduboyTonesExt::tone(uint16_t freq, uint16_t dur)
 {
-    if (!outputEnabled())
-        return;
     inProgmem = false;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq;
@@ -110,8 +108,6 @@ void ArduboyTonesExt::tone(uint16_t freq, uint16_t dur)
 void ArduboyTonesExt::tone(uint16_t freq1, uint16_t dur1,
                             uint16_t freq2, uint16_t dur2)
 {
-    if (!outputEnabled())
-        return;
     inProgmem = false;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq1;
@@ -126,8 +122,6 @@ void ArduboyTonesExt::tone(uint16_t freq1, uint16_t dur1,
                             uint16_t freq2, uint16_t dur2,
                             uint16_t freq3, uint16_t dur3)
 {
-    if (!outputEnabled())
-        return;
     inProgmem = false;
     tonesStart = tonesIndex = toneSequence; // set to start of sequence array
     toneSequence[0] = freq1;
@@ -177,9 +171,6 @@ bool ArduboyTonesExt::playing()
 
 void ArduboyTonesExt::nextTone()
 {
-    if (!outputEnabled())
-        return;
-
     uint16_t freq;
     freq = getNext(); // get tone frequency
 
@@ -199,19 +190,23 @@ void ArduboyTonesExt::nextTone()
 
     tones_duration_ext = getNext(); // get tone duration (in ~milliseconds / 1024ths of a second)
 
-    if (freq == 0) {
-        // Silent tone / rest: stop the synth but keep the timer running so
-        // the sequence advances after the rest duration elapses.
-        pd->sound->synth->stop(chan3ext);
-    } else {
-        // playNote: note expressed as a float frequency, volume 1.0, length -1
-        // (let the callback/noTone stop it), offset 0.
-        pd->sound->synth->playNote(chan3ext, freq, 1, -1, 0);
-    }
-
-    // Initialise the accumulator so the first callback delta is measured from now.
+    // Always reset the accumulator so timing stays accurate regardless of
+    // whether sound is muted — mirrors AVR behaviour where the timer kept
+    // running even when toneSilent was set.
     playtones_prev_ext = pd->system->getCurrentTimeMilliseconds();
     playtones_accum_ext = 0;
+
+    // Only drive the synth when sound is enabled and the tone is not a rest.
+    // When muted, the sequence still advances on schedule via callback() —
+    // exactly as the AVR ISR kept decrementing durationToggleCount with
+    // toneSilent = true, just without toggling the pin.
+    if (freq == 0 || !outputEnabled()) {
+        // Rest, or muted: keep timer running but produce no audio.
+        pd->sound->synth->stop(chan3ext);
+    } else {
+        // playNote: frequency in Hz, volume 1.0, length -1 (callback stops it), offset 0.
+        pd->sound->synth->playNote(chan3ext, freq, 1, -1, 0);
+    }
 }
 
 uint16_t ArduboyTonesExt::getNext()
