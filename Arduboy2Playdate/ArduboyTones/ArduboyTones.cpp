@@ -47,30 +47,33 @@ static volatile uint16_t *tonesIndex = nullptr;
 static volatile uint16_t toneSequence[MAX_TONES * 2 + 1];
 
 PDSynth* chan3 = nullptr;
+static SoundSource* tonesSource = nullptr;
 
+// tones_duration counts down in 1024ths of a second (Arduboy duration units).
+// sample_accum accumulates audio samples; every 44100/1024 ≈ 43.07 samples
+// one tick elapses. We use fixed-point: accumulate (len * 1024) and subtract
+// 44100 per tick, so no floating point and no drift.
 volatile int32_t tones_duration = 0;
-volatile unsigned int playtones_prev = 0;
-volatile unsigned int playtones_accum = 0;
+static volatile int32_t sample_accum = 0;
 
-void ArduboyTones::callback()
+// Audio render callback — fires every audio block (~512 samples at 44100 Hz,
+// roughly 86 times/sec) completely independent of the game loop and delay().
+// We return 1 (silent source) every time; the PDSynth handles actual output.
+static int tonesTimingCallback(void* context, int16_t* left, int16_t* right, int len)
 {
-    if (tonesIndex == nullptr) return;
-    unsigned int curr = pd->system->getCurrentTimeMilliseconds();
-    playtones_accum += (curr - playtones_prev) * 1024;
-    playtones_prev = curr;
+    if (tonesIndex == nullptr || tones_duration <= 0)
+        return 1;
 
-    unsigned int elapsed = playtones_accum / 1000;
-    playtones_accum %= 1000;
-
-    if (elapsed == 0) return;
-
-    if (tones_duration > 0)
-    {
-        tones_duration = tones_duration - elapsed;
+    sample_accum += len * 1024;
+    while (sample_accum >= 44100) {
+        sample_accum -= 44100;
+        tones_duration = tones_duration -1;
         if (tones_duration <= 0) {
             ArduboyTones::nextTone();
+            break; // nextTone() resets tones_duration; stop consuming ticks
         }
     }
+    return 1;
 }
 
 ArduboyTones::ArduboyTones(boolean (*outEn)())
@@ -133,8 +136,10 @@ void ArduboyTones::noTone()
     tonesIndex = nullptr;
     tonesStart = nullptr;
     tonesPlaying = false;
+    tones_duration = 0;
+    sample_accum = 0;
     //stops synth also
-    pd->sound->synth->stop(chan3);
+    pd->sound->synth->noteOff(chan3, 0);
 }
 
 void ArduboyTones::volumeMode(uint8_t mode) {}
@@ -163,26 +168,21 @@ void ArduboyTones::nextTone()
 
     freq &= ~TONE_HIGH_VOLUME; // strip volume indicator from frequency
 
-    tones_duration = getNext(); // get tone duration (in ~milliseconds / 1024ths of a second)
+    // Duration is in 1024ths of a second — stored directly as tick count.
+    // The audio timing callback decrements tones_duration once per tick.
+    tones_duration = getNext();
+    sample_accum = 0; // reset sub-tick accumulator for the new tone
 
-    // Always reset the accumulator so timing stays accurate regardless of
-    // whether sound is muted — mirrors AVR behaviour where the timer kept
-    // running even when toneSilent was set.
-    playtones_prev = pd->system->getCurrentTimeMilliseconds();
-    playtones_accum = 0;
-
-    // Stop the previous note cleanly before starting the next one.
+    // Stop previous note cleanly before starting the next one.
     pd->sound->synth->noteOff(chan3, 0);
 
     // Only drive the synth when sound is enabled and the tone is not a rest.
-    // When muted, the sequence still advances on schedule via callback() —
-    // exactly as the AVR ISR kept decrementing durationToggleCount with
-    // toneSilent = true, just without toggling the pin.
+    // When muted the sequence still advances via the audio callback — mirroring
+    // AVR behaviour where toneSilent suppressed pin toggles but the timer ran.
     if (freq == 0 || !outputEnabled()) {
-        // Rest, or muted: keep timer running but produce no audio.
-        pd->sound->synth->stop(chan3);
+        // Rest or muted: keep timing running but produce no audio.
     } else {
-        // playNote: frequency in Hz, volume 1.0, length -1 (noteOff stops it), offset 0.
+        // playNote: frequency in Hz, volume 1.0, length -1 (noteOff stops it).
         pd->sound->synth->playNote(chan3, freq, 1, -1, 0);
     }
 }
@@ -196,5 +196,13 @@ void ArduboyTones::begin() {
     if (chan3 == nullptr) {
         chan3 = pd->sound->synth->newSynth();
         pd->sound->synth->setWaveform(chan3, kWaveformSquare);
+        pd->sound->synth->setAttackTime(chan3, 0);
+        pd->sound->synth->setDecayTime(chan3, 0);
+        pd->sound->synth->setSustainLevel(chan3, 1.0f);
+        pd->sound->synth->setReleaseTime(chan3, 0);
+    }
+    
+    if (tonesSource == nullptr) {
+        tonesSource = pd->sound->addSource(tonesTimingCallback, nullptr, 0);
     }
 }

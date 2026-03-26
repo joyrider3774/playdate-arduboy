@@ -77,16 +77,58 @@ static volatile const uint8_t *score_cursor = 0;
 
 PDSynth *chan1 = nullptr;
 PDSynth *chan2 = nullptr;
+static SoundSource* playtuneSource = nullptr;
+
+// duration counts down in milliseconds (Playtune's native unit).
+// We convert to samples: 44100 samples/sec, accumulate (len * 1000) and
+// subtract 44100 per millisecond tick — fixed-point, no drift.
+volatile int32_t duration = 0;
+static volatile int32_t playtune_sample_accum = 0;
+
+static int playtuneTimingCallback(void* context, int16_t* left, int16_t* right, int len)
+{
+    if (duration <= 0)
+        return 1;
+
+    playtune_sample_accum += len * 1000;
+    while (playtune_sample_accum >= 44100) {
+        playtune_sample_accum -= 44100;
+        duration = duration -1;
+        if (duration <= 0) {
+            if (tone_playing) {
+                pd->sound->synth->noteOff(chan1, 0);
+                pd->sound->synth->noteOff(chan2, 0);
+                tone_playing = false;
+            }
+            if (tune_playing) {
+                ArduboyPlaytune::step();
+            }
+            break;
+        }
+    }
+    return 1;
+}
 
 void init()
 {
     if (chan1 == nullptr) {
         chan1 = pd->sound->synth->newSynth();
         pd->sound->synth->setWaveform(chan1, kWaveformSquare);
+        pd->sound->synth->setAttackTime(chan1, 0);
+        pd->sound->synth->setDecayTime(chan1, 0);
+        pd->sound->synth->setSustainLevel(chan1, 1.0f);
+        pd->sound->synth->setReleaseTime(chan1, 0);
     }
     if (chan2 == nullptr) {
         chan2 = pd->sound->synth->newSynth();
         pd->sound->synth->setWaveform(chan2, kWaveformSquare);
+        pd->sound->synth->setAttackTime(chan2, 0);
+        pd->sound->synth->setDecayTime(chan2, 0);
+        pd->sound->synth->setSustainLevel(chan2, 1.0f);
+        pd->sound->synth->setReleaseTime(chan2, 0);
+    }    
+    if (playtuneSource == nullptr) {
+        playtuneSource = pd->sound->addSource(playtuneTimingCallback, nullptr, 0);
     }
 }
 
@@ -103,9 +145,6 @@ void ArduboyPlaytune::initChannel(uint8_t pin)
 
 void ArduboyPlaytune::playNote(uint8_t chan, uint8_t note)
 {
-    if (!outputEnabled())
-        return;
-
     if (chan >= _tune_num_chans) {
         return;
     }
@@ -122,6 +161,11 @@ void ArduboyPlaytune::playNote(uint8_t chan, uint8_t note)
         freq = note - 4;
     }
 
+    // Only play audio when sound is enabled; the score still advances via the
+    // timing callback regardless — mirroring AVR toneSilent behaviour.
+    if (!outputEnabled())
+        return;
+
     if (chan == 0) {
         pd->sound->synth->playMIDINote(chan1, freq, 1, -1, 0);
     }
@@ -133,10 +177,10 @@ void ArduboyPlaytune::playNote(uint8_t chan, uint8_t note)
 void ArduboyPlaytune::stopNote(uint8_t chan)
 {
     if (chan == 0) {
-        pd->sound->synth->stop(chan1);
+        pd->sound->synth->noteOff(chan1, 0);
     }
     if (chan == 1) {
-        pd->sound->synth->stop(chan2);
+        pd->sound->synth->noteOff(chan2, 0);
     }
 }
 
@@ -145,6 +189,7 @@ void ArduboyPlaytune::playScore(const uint8_t *score)
     init();
     score_start = score;
     score_cursor = score_start;
+    playtune_sample_accum = 0;
     step();  /* execute initial commands */
     tune_playing = true;  /* release the interrupt routine */
 }
@@ -155,38 +200,13 @@ void ArduboyPlaytune::stopScore()
         stopNote(i);
     }
     tune_playing = false;
+    duration = 0;
+    playtune_sample_accum = 0;
 }
 
 boolean ArduboyPlaytune::playing()
 {
     return tune_playing;
-}
-
-volatile int32_t duration = 0;
-volatile unsigned int playtunes_prev = 0;
-void ArduboyPlaytune::updateCallback()
-{
-    unsigned int curr = pd->system->getCurrentTimeMilliseconds();
-    unsigned int elapsed = curr - playtunes_prev;
-
-    if (elapsed == 0) return;
-
-    playtunes_prev = curr;
-
-    if (duration > 0)
-    {
-        duration = duration - elapsed;
-
-        if (duration <= 0) {
-            if (tone_playing) {
-                pd->sound->synth->stop(chan1);
-                pd->sound->synth->stop(chan2);
-            }
-            if (tune_playing) {
-                step();
-            }
-        }
-    }
 }
 
 void ArduboyPlaytune::step()
@@ -225,6 +245,8 @@ void ArduboyPlaytune::closeChannels()
     tone_playing = false;
     tone_only = false;
     mute_score = false;
+    duration = 0;
+    playtune_sample_accum = 0;
 }
 
 void ArduboyPlaytune::tone(unsigned int frequency, unsigned long tone_duration)
@@ -234,13 +256,15 @@ void ArduboyPlaytune::tone(unsigned int frequency, unsigned long tone_duration)
     }
 
     if(!outputEnabled())
-        return;    
+        return;
 
     tone_playing = true;
     mute_score = tone_mutes_score;
-    pd->sound->synth->stop(chan2);
+    pd->sound->synth->noteOff(chan2, 0);
+    pd->sound->synth->noteOff(chan1, 0);
     pd->sound->synth->playNote(chan1, frequency, 1, -1, 0);
     duration = tone_duration;
+    playtune_sample_accum = 0;
 }
 
 void ArduboyPlaytune::toneMutesScore(boolean mute)

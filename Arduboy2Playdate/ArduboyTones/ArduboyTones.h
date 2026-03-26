@@ -272,7 +272,6 @@ private:
 public:
     // Called from ISR so must be public. Should not be called by a program.
     static void nextTone();
-    static void callback();
     static void begin();
 };
 

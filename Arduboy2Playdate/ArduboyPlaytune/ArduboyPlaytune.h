@@ -191,7 +191,6 @@ private:
 public:
     // called via interrupt. Should not be called by a program.
     void static step();
-    void static updateCallback();
 };
 
 #endif
