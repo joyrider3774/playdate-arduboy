@@ -252,6 +252,14 @@ void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
         pd->graphics->clearBitmap(screenBitmap, kColorBlack);
         memset(image, 0, (HEIGHT*WIDTH)/8);
     }
+
+    //explicitely force display update 
+    //some games call display mid frame and do other things
+    //while playdate normally only update at end of frame
+    //calling display displays whats already on the playdate buffer
+    //mimicing arduboy, but not sure if it could introduce an extra 
+    //delay on graphics
+    pd->graphics->display();
 }
 
 void Arduboy2Core::blank()
