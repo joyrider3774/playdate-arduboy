@@ -92,6 +92,15 @@ void delay(int ms)
 
 PlaydateAPI *pd;
 
+#ifdef ARDUBOY_PLAYDATE_SHOW_FPS
+// Tracks actual game loop invocations per second (our logical frame rate),
+// independent of the Playdate simulator's own FPS counter which counts
+// display refreshes and typically shows double the actual game rate.
+static uint32_t gameFpsFrameCount = 0;
+static uint32_t gameFpsWindowStart = 0;
+static int gameFpsDisplay = 0;
+#endif
+
 int update(__attribute__ ((unused)) void* ud)
 {
     uint32_t now = pd->system->getCurrentTimeMilliseconds();
@@ -99,11 +108,11 @@ int update(__attribute__ ((unused)) void* ud)
     uint32_t elapsed = now - frameStart;
     uint32_t frameMs = Arduboy2Base::getEachFrameMillis();
 
+    // For games using setFrameRate() <= 50fps, the Playdate runtime already
+    // gates update() to the correct rate via setRefreshRate(), so elapsed
+    // will always be >= frameMs here. The check below handles games running
+    // at > 50fps (setRefreshRate(0)) where we do our own time-based gating.
     if (elapsed < frameMs) {
-        // Sleep for the remaining time so we don't spin and burn CPU.
-        // Without this, returning 0 causes the runtime to call update()
-        // in a tight loop resulting in 8000+ fps reported by device view
-        // and high system load even when the game runs at 25fps.
         uint32_t remaining = frameMs - elapsed;
         if (remaining > 1) {
             pd->system->delay(remaining - 1);
@@ -113,15 +122,29 @@ int update(__attribute__ ((unused)) void* ud)
 
     loop();
 
-    // If loop() didn't call nextFrame() (or nextFrame() wasn't called),
-    // thisFrameStart is unchanged — advance it ourselves so we don't fire
-    // again immediately on the next callback.
+    // If loop() didn't call nextFrame(), advance thisFrameStart ourselves
+    // so games without nextFrame() run at the correct rate.
     if (Arduboy2Base::getThisFrameStart() == frameStart) {
         Arduboy2Base::advanceFrameStart(frameMs, elapsed);
     }
 
+
 #ifdef ARDUBOY_PLAYDATE_SHOW_FPS
-    pd->system->drawFPS(0,0);
+    // Count actual game loop fires and update display once per second.
+    gameFpsFrameCount++;
+    uint32_t windowElapsed = now - gameFpsWindowStart;
+    if (windowElapsed >= 1000) {
+        gameFpsDisplay = (int)((gameFpsFrameCount * 1000) / windowElapsed);
+        gameFpsFrameCount = 0;
+        gameFpsWindowStart = now;
+    }
+ 
+    char *buf;  
+    pd->system->formatString(&buf, "PD:%2d G:%2d", (int)pd->display->getFPS(), gameFpsDisplay);
+    pd->graphics->fillRect(0, 0, 90, 18, kColorWhite);
+    pd->graphics->drawText(buf, strlen(buf), kASCIIEncoding, 1, 1);
+    pd->system->realloc(buf, 0);
+    //pd->system->drawFPS(0,0);
 #endif
     return 1;
 }
