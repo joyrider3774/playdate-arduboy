@@ -219,8 +219,6 @@ void updatePlayer(Player& obj)
   mapPositionX = (mapPositionX > LEVEL_WIDTH - WIDTH) ? LEVEL_WIDTH - WIDTH : mapPositionX;
   mapPositionY = (mapPositionY < 0) ? 0 : mapPositionY;
   mapPositionY = (mapPositionY > LEVEL_HEIGHT - HEIGHT) ? LEVEL_HEIGHT - HEIGHT : mapPositionY;
-
-  pd->system->logToConsole("x: %i, y: %i", coolGirl.x, coolGirl.y);
 }
 
 // hurtPlayer
