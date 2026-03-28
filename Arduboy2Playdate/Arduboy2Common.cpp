@@ -102,7 +102,8 @@ PlaydateAPI *pd;
 static uint32_t gameFpsFrameCount = 0;
 static uint32_t gameFpsWindowStart = 0;
 static int gameFpsDisplay = 0;
-static char str[3];
+static char str[3] = "  ";
+
 int update(__attribute__ ((unused)) void* ud)
 {
     loop();
@@ -114,6 +115,8 @@ int update(__attribute__ ((unused)) void* ud)
         if (windowElapsed >= 1000) {
             gameFpsDisplay = Arduboy2Base::frameCount - gameFpsFrameCount;
             gameFpsFrameCount = Arduboy2Base::frameCount;
+            if (gameFpsDisplay > 99)
+                gameFpsDisplay = 99;
             str[0] = (gameFpsDisplay < 10) ? ' ' : ('0' + gameFpsDisplay / 10);
             str[1] = '0' + (gameFpsDisplay % 10);
             str[2] = '\0';
@@ -122,8 +125,7 @@ int update(__attribute__ ((unused)) void* ud)
 
         pd->graphics->fillRect(0, 0, 20, 18, kColorWhite);
         pd->graphics->drawText(str, strlen(str), kASCIIEncoding, 1, 1);
-        pd->system->drawFPS(0,20);
-
+        pd->system->drawFPS(0, 20);
     }
     return 1;
 }
