@@ -235,36 +235,59 @@ void Arduboy2Core::paintScreen(const uint8_t *image)
 // The following assembly code runs "open loop". It relies on instruction
 // execution times to allow time for each byte of data to be clocked out.
 // It is specifically tuned for a 16MHz CPU clock and SPI clocking at 8MHz.
+static uint8_t prevBuffer[(HEIGHT * WIDTH) / 8] = {0};
+
 void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
 {
     pd->graphics->getBitmapData(screenBitmap, &dummy, &dummy, &rowBytes, &dummy2, &buffer);
-    for (int j = 0; j < HEIGHT; j++)
+
+    int minDirtyRow = HEIGHT, maxDirtyRow = -1;
+
+    for (int page = 0; page < HEIGHT / 8; page++)
     {
-        for (int i = 0; i < WIDTH; i++)
+        int baseRow = page * 8;
+        for (int col = 0; col < WIDTH; col++)
         {
-            int blockX = i / 8;
-            int blockY = j / 8;
-            int blocksPerWidth = WIDTH / 8;
-            int blockIndex = blockY * blocksPerWidth + blockX;
-            uint8_t pixels = image[blockIndex * 8 + i % 8];
-            uint8_t mask = 1 << (j % 8);
-            if (pixels & mask) {
-                putPixel(0 + i, 0 + j, 1);
-            } else {
-                putPixel(0 + i, 0 + j, 0);
+            uint8_t byte = image[page * WIDTH + col];
+            uint8_t prev = prevBuffer[page * WIDTH + col];
+            if (byte == prev)
+                continue;  // skip unchanged column slices
+
+            prevBuffer[page * WIDTH + col] = byte;
+            uint8_t changed = byte ^ prev;  // only bits that changed
+
+            int dstByteCol = col / 8;
+            uint8_t setMask = 0x80 >> (col % 8);
+            uint8_t clrMask = ~setMask;
+
+            for (int bit = 0; bit < 8; bit++)
+            {
+                if (!(changed & (1 << bit)))
+                    continue;  // skip unchanged pixels
+                int row = baseRow + bit;
+                if (row < minDirtyRow) minDirtyRow = row;
+                if (row > maxDirtyRow) maxDirtyRow = row;
+                uint8_t* dst = buffer + row * rowBytes + dstByteCol;
+                if (byte & (1 << bit))
+                    *dst |= setMask;
+                else
+                    *dst &= clrMask;
             }
         }
     }
 
-    if (arduboyFullscreenEnabled) {
-        pd->graphics->drawScaledBitmap(screenBitmap, 0, 0, 3.11, 3.7);
-    } else {
-        pd->graphics->drawScaledBitmap(screenBitmap, 9, 25, 3, 3);
+    if (maxDirtyRow >= 0)
+    {
+        if (arduboyFullscreenEnabled)
+            pd->graphics->drawScaledBitmap(screenBitmap, 0, 0, 3.11f, 3.7f);
+        else
+            pd->graphics->drawScaledBitmap(screenBitmap, 9, 25, 3.0f, 3.0f);
     }
 
     if (clear) {
         pd->graphics->clearBitmap(screenBitmap, kColorBlack);
-        memset(image, 0, (HEIGHT*WIDTH)/8);
+        memset(image, 0, (HEIGHT * WIDTH) / 8);
+        memset(prevBuffer, 0, sizeof(prevBuffer));
     }
 }
 
