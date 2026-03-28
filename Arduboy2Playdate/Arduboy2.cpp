@@ -18,7 +18,7 @@ uint16_t Arduboy2Base::frameCount = 0;
 uint8_t Arduboy2Base::currentButtonState = 0;
 uint8_t Arduboy2Base::previousButtonState = 0;
 
-uint32_t Arduboy2Base::eachFrameMillis = 16;
+uint32_t Arduboy2Base::eachFrameMillis = 16666;
 uint32_t Arduboy2Base::thisFrameStart = 0;
 uint32_t Arduboy2Base::lastFrameDurationMs = 0;
 
@@ -177,13 +177,13 @@ void Arduboy2Base::waitNoButtons()
 
 void Arduboy2Base::setFrameRate(uint8_t rate)
 {
-    eachFrameMillis = 1000 / rate;
+    eachFrameMillis = 1000000 / rate;
     pd->display->setRefreshRate(0);
 }
 
 void Arduboy2Base::setFrameDuration(uint8_t duration)
 {
-    eachFrameMillis = duration;
+    eachFrameMillis = duration * 1000;
     pd->display->setRefreshRate(0);
 }
 
@@ -194,21 +194,30 @@ bool Arduboy2Base::everyXFrames(uint8_t frames)
 
 bool Arduboy2Base::nextFrame()
 {
-    uint32_t now = pd->system->getCurrentTimeMilliseconds();
-    uint32_t frameDurationMs = now - thisFrameStart;
+    uint32_t now = (uint32_t)(pd->system->getElapsedTime() * 1000000.0f);
+    uint32_t frameDuration = now - thisFrameStart;
 
-    if (frameDurationMs < eachFrameMillis) {
+    if (frameDuration < eachFrameMillis) {
         return false;
     }
 
-    lastFrameDurationMs = frameDurationMs;
+    lastFrameDurationMs = frameDuration / 1000;
 
     // If we're more than one frame behind, snap forward to avoid
     // spiral-of-death catch-up behaviour
-    if (frameDurationMs >= eachFrameMillis * 2) {
-        thisFrameStart = now;
+    if (frameDuration >= eachFrameMillis * 2) {
+        pd->system->resetElapsedTime();
+        thisFrameStart = 0;
     } else {
         thisFrameStart += eachFrameMillis;
+        // Reset periodically (~every 10 seconds) to keep float precision sharp.
+        // Carry the overshoot as a wrapped negative uint32_t so elapsed
+        // calculation stays correct via unsigned subtraction wraparound.
+        if (thisFrameStart > 10000000) {
+            uint32_t overshoot = now - thisFrameStart;
+            pd->system->resetElapsedTime();
+            thisFrameStart = (uint32_t)(-(int32_t)overshoot);
+        }
     }
 
     frameCount++;
@@ -223,7 +232,7 @@ bool Arduboy2Base::nextFrameDEV()
 
 int Arduboy2Base::cpuLoad()
 {
-    return lastFrameDurationMs*100 / eachFrameMillis;
+    return lastFrameDurationMs * 100000 / eachFrameMillis;
 }
 
 void Arduboy2Base::initRandomSeed()

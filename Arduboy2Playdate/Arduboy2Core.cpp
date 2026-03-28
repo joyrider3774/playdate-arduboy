@@ -150,6 +150,8 @@ void Arduboy2Core::bootOLED()
     }
     screenBitmap = pd->graphics->newBitmap(WIDTH, HEIGHT, kColorBlack);
     pd->graphics->clear(kColorBlack);
+    // Reset high-res timer so getElapsedTime() starts from a known zero point
+    pd->system->resetElapsedTime();
 }
 
 void Arduboy2Core::LCDDataMode()
