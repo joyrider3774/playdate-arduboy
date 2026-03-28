@@ -17,6 +17,10 @@ uint8_t* Arduboy2Core::buffer = nullptr;
 int Arduboy2Core::rowBytes;
 int Arduboy2Core::dummy;
 uint8_t* Arduboy2Core::dummy2 = nullptr;
+bool arduboyFullscreenEnabled = false;
+bool arduboyFpsEnabled = false;
+PDMenuItem* arduboyFullScreenMenuItem = nullptr;
+PDMenuItem* arduboyFpsMenuItem = nullptr;
 
 // Commands sent to the OLED display to initialize it
 const PROGMEM uint8_t Arduboy2Core::lcdBootProgram[] = {
@@ -83,11 +87,20 @@ const PROGMEM uint8_t Arduboy2Core::lcdBootProgram[] = {
         // 0x22, 0x00, PAGE_ADDRESS_END
 };
 
-bool fullscreenEnabled = false;
-PDMenuItem *fullScreenMenuItem = nullptr;
 void toggleFullscreen(void *userdata) {
-    fullscreenEnabled = pd->system->getMenuItemValue(fullScreenMenuItem);
+    arduboyFullscreenEnabled = pd->system->getMenuItemValue(arduboyFullScreenMenuItem);
+    //clear left over stuff from going to fullscreen to none fullscreen
+    if(!arduboyFullscreenEnabled)
+       pd->graphics->clear(kColorBlack);
 }
+
+void toggleFps(void *userdata) {
+    arduboyFpsEnabled = pd->system->getMenuItemValue(arduboyFpsMenuItem);
+    //clear left over fps display
+    if(!arduboyFpsEnabled)
+       pd->graphics->clear(kColorBlack);
+}
+
 
 void Arduboy2Core::boot()
 {
@@ -101,7 +114,8 @@ void Arduboy2Core::boot()
     bootOLED();
     bootPowerSaving();
 
-    fullScreenMenuItem = pd->system->addCheckmarkMenuItem("Fullscreen", fullscreenEnabled, toggleFullscreen, NULL);
+    arduboyFullScreenMenuItem = pd->system->addCheckmarkMenuItem("Fullscreen", arduboyFullscreenEnabled, toggleFullscreen, NULL);
+    arduboyFpsMenuItem  = pd->system->addCheckmarkMenuItem("Show FPS", arduboyFpsEnabled, toggleFps, NULL);
 }
 
 #ifdef ARDUBOY_SET_CPU_8MHZ
@@ -242,7 +256,7 @@ void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
         }
     }
 
-    if (fullscreenEnabled) {
+    if (arduboyFullscreenEnabled) {
         pd->graphics->drawScaledBitmap(screenBitmap, 0, 0, 3.11, 3.7);
     } else {
         pd->graphics->drawScaledBitmap(screenBitmap, 9, 25, 3, 3);

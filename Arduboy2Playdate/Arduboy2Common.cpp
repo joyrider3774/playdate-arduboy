@@ -2,6 +2,10 @@
 #include "Arduboy2Common.h"
 #include "Arduboy2.h"
 
+extern bool arduboyFullscreenEnabled;
+extern bool arduboyFpsEnabled;
+
+
 void randomSeed(unsigned int dwSeed)
 {
     srand(dwSeed);
@@ -92,14 +96,12 @@ void delay(int ms)
 
 PlaydateAPI *pd;
 
-#ifdef ARDUBOY_PLAYDATE_SHOW_FPS
 // Tracks actual game loop invocations per second (our logical frame rate),
 // independent of the Playdate simulator's own FPS counter which counts
 // display refreshes and typically shows double the actual game rate.
 static uint32_t gameFpsFrameCount = 0;
 static uint32_t gameFpsWindowStart = 0;
 static int gameFpsDisplay = 0;
-#endif
 
 int update(__attribute__ ((unused)) void* ud)
 {
@@ -129,23 +131,24 @@ int update(__attribute__ ((unused)) void* ud)
     }
 
 
-#ifdef ARDUBOY_PLAYDATE_SHOW_FPS
-    // Count actual game loop fires and update display once per second.
-    gameFpsFrameCount++;
-    uint32_t windowElapsed = now - gameFpsWindowStart;
-    if (windowElapsed >= 1000) {
-        gameFpsDisplay = (int)((gameFpsFrameCount * 1000) / windowElapsed);
-        gameFpsFrameCount = 0;
-        gameFpsWindowStart = now;
+    if(arduboyFpsEnabled)
+    {
+        // Count actual game loop fires and update display once per second.
+        gameFpsFrameCount++;
+        uint32_t windowElapsed = now - gameFpsWindowStart;
+        if (windowElapsed >= 1000) {
+            gameFpsDisplay = (int)((gameFpsFrameCount * 1000) / windowElapsed);
+            gameFpsFrameCount = 0;
+            gameFpsWindowStart = now;
+        }
+    
+        char *buf;  
+        pd->system->formatString(&buf, "PD:%2d G:%2d", (int)pd->display->getFPS(), gameFpsDisplay);
+        pd->graphics->fillRect(0, 0, 90, 18, kColorWhite);
+        pd->graphics->drawText(buf, strlen(buf), kASCIIEncoding, 1, 1);
+        pd->system->realloc(buf, 0);
+        //pd->system->drawFPS(0,0);
     }
- 
-    char *buf;  
-    pd->system->formatString(&buf, "PD:%2d G:%2d", (int)pd->display->getFPS(), gameFpsDisplay);
-    pd->graphics->fillRect(0, 0, 90, 18, kColorWhite);
-    pd->graphics->drawText(buf, strlen(buf), kASCIIEncoding, 1, 1);
-    pd->system->realloc(buf, 0);
-    //pd->system->drawFPS(0,0);
-#endif
     return 1;
 }
 
@@ -153,12 +156,33 @@ extern "C" {
 #ifdef _WINDLL
 __declspec(dllexport)
 #endif
+
 int eventHandler(PlaydateAPI *playdate, PDSystemEvent event, uint32_t arg) {
-    if (event == kEventInit) {
+    if (event == kEventInit) 
+    {
         eventHandler_pdnewlib(pd, event, arg);
         pd = playdate;
+        SDFile *f;
+        f = pd->file->open("settings.dat", kFileReadData);
+        if(f)
+        {
+            pd->file->read(f, &arduboyFpsEnabled, sizeof(arduboyFpsEnabled));
+            pd->file->read(f, &arduboyFullscreenEnabled, sizeof(arduboyFullscreenEnabled));
+            pd->file->close(f);
+        }
         setup();
         pd->system->setUpdateCallback(update, NULL);
+    }
+    else if (event == kEventTerminate)
+    {
+        SDFile *f;
+        f = pd->file->open("settings.dat", kFileWrite);
+        if(f)
+        {
+            pd->file->write(f, &arduboyFpsEnabled, sizeof(arduboyFpsEnabled));
+            pd->file->write(f, &arduboyFullscreenEnabled, sizeof(arduboyFullscreenEnabled));
+            pd->file->close(f);
+        }    
     }
     return 0;
 }
