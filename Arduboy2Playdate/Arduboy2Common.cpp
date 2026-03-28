@@ -102,52 +102,28 @@ PlaydateAPI *pd;
 static uint32_t gameFpsFrameCount = 0;
 static uint32_t gameFpsWindowStart = 0;
 static int gameFpsDisplay = 0;
-
+static char str[3];
 int update(__attribute__ ((unused)) void* ud)
 {
-    uint32_t now = pd->system->getCurrentTimeMilliseconds();
-    uint32_t frameStart = Arduboy2Base::getThisFrameStart();
-    uint32_t elapsed = now - frameStart;
-    uint32_t frameMs = Arduboy2Base::getEachFrameMillis();
-
-    // For games using setFrameRate() <= 50fps, the Playdate runtime already
-    // gates update() to the correct rate via setRefreshRate(), so elapsed
-    // will always be >= frameMs here. The check below handles games running
-    // at > 50fps (setRefreshRate(0)) where we do our own time-based gating.
-    if (elapsed < frameMs) {
-        uint32_t remaining = frameMs - elapsed;
-        if (remaining > 1) {
-            pd->system->delay(remaining - 1);
-        }
-        return 0;
-    }
-
     loop();
-
-    // If loop() didn't call nextFrame(), advance thisFrameStart ourselves
-    // so games without nextFrame() run at the correct rate.
-    if (Arduboy2Base::getThisFrameStart() == frameStart) {
-        Arduboy2Base::advanceFrameStart(frameMs, elapsed);
-    }
-
 
     if(arduboyFpsEnabled)
     {
-        // Count actual game loop fires and update display once per second.
-        gameFpsFrameCount++;
+        uint32_t now = pd->system->getCurrentTimeMilliseconds();
         uint32_t windowElapsed = now - gameFpsWindowStart;
         if (windowElapsed >= 1000) {
-            gameFpsDisplay = (int)((gameFpsFrameCount * 1000) / windowElapsed);
-            gameFpsFrameCount = 0;
+            gameFpsDisplay = Arduboy2Base::frameCount - gameFpsFrameCount;
+            gameFpsFrameCount = Arduboy2Base::frameCount;
+            str[0] = (gameFpsDisplay < 10) ? ' ' : ('0' + gameFpsDisplay / 10);
+            str[1] = '0' + (gameFpsDisplay % 10);
+            str[2] = '\0';
             gameFpsWindowStart = now;
         }
-    
-        char *buf;  
-        pd->system->formatString(&buf, "PD:%2d G:%2d", (int)pd->display->getFPS(), gameFpsDisplay);
-        pd->graphics->fillRect(0, 0, 90, 18, kColorWhite);
-        pd->graphics->drawText(buf, strlen(buf), kASCIIEncoding, 1, 1);
-        pd->system->realloc(buf, 0);
-        //pd->system->drawFPS(0,0);
+
+        pd->graphics->fillRect(0, 0, 20, 18, kColorWhite);
+        pd->graphics->drawText(str, strlen(str), kASCIIEncoding, 1, 1);
+        pd->system->drawFPS(0,20);
+
     }
     return 1;
 }

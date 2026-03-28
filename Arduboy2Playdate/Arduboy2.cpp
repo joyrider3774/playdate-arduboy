@@ -178,26 +178,13 @@ void Arduboy2Base::waitNoButtons()
 void Arduboy2Base::setFrameRate(uint8_t rate)
 {
     eachFrameMillis = 1000 / rate;
-    // For rates the Playdate display supports natively, let the runtime
-    // control the call rate — this gives accurate FPS reporting and zero
-    // CPU spin. For rates above 50fps use uncapped (0) and rely on
-    // nextFrame()'s own time-based gating.
-    if (rate <= 50) {
-        pd->display->setRefreshRate((float)rate);
-    } else {
-        pd->display->setRefreshRate(0);
-    }
+    pd->display->setRefreshRate(0);
 }
 
 void Arduboy2Base::setFrameDuration(uint8_t duration)
 {
     eachFrameMillis = duration;
-    float rate = duration > 0 ? 1000.0f / duration : 0;
-    if (rate <= 50.0f) {
-        pd->display->setRefreshRate(rate);
-    } else {
-        pd->display->setRefreshRate(0);
-    }
+    pd->display->setRefreshRate(0);
 }
 
 bool Arduboy2Base::everyXFrames(uint8_t frames)
@@ -216,15 +203,15 @@ bool Arduboy2Base::nextFrame()
 
     lastFrameDurationMs = frameDurationMs;
 
-    // Advance by exactly eachFrameMillis to avoid drift accumulation.
-    // Snap to now if we've fallen more than one frame behind.
-    if (frameDurationMs < eachFrameMillis * 2) {
-        thisFrameStart += eachFrameMillis;
-    } else {
+    // If we're more than one frame behind, snap forward to avoid
+    // spiral-of-death catch-up behaviour
+    if (frameDurationMs >= eachFrameMillis * 2) {
         thisFrameStart = now;
+    } else {
+        thisFrameStart += eachFrameMillis;
     }
-    frameCount++;
 
+    frameCount++;
     return true;
 }
 
