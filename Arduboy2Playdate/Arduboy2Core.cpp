@@ -87,11 +87,46 @@ const PROGMEM uint8_t Arduboy2Core::lcdBootProgram[] = {
         // 0x22, 0x00, PAGE_ADDRESS_END
 };
 
+// prevBuffer tracks last painted state for dirty detection (markUpdatedRows only)
+static uint8_t prevBuffer[(HEIGHT * WIDTH) / 8] = {0};
+
+// Fullscreen src->dst range LUTs: for each src pixel, first and last dst pixel it maps to
+#define FS_DST_W  398
+#define FS_DST_H  236
+#define FS_X_OFF  1
+#define FS_Y_OFF  2
+static uint16_t fsColDstStart[WIDTH];
+static uint16_t fsColDstEnd[WIDTH];
+static uint8_t fsRowDstStart[HEIGHT];
+static uint8_t fsRowDstEnd[HEIGHT];
+static bool fsLutBuilt = false;
+static bool forceFullRedraw = false;
+
+static void buildFullscreenLut()
+{
+    for (int sc = 0; sc < WIDTH; sc++) {
+        int start = (int)(sc * 3.11f);
+        int end   = (int)((sc + 1) * 3.11f) - 1;
+        if (end >= FS_DST_W) end = FS_DST_W - 1;
+        fsColDstStart[sc] = (uint16_t)start;
+        fsColDstEnd[sc]   = (uint16_t)end;
+    }
+    for (int sr = 0; sr < HEIGHT; sr++) {
+        int start = (int)(sr * 3.7f);
+        int end   = (int)((sr + 1) * 3.7f) - 1;
+        if (end >= FS_DST_H) end = FS_DST_H - 1;
+        fsRowDstStart[sr] = (uint8_t)start;
+        fsRowDstEnd[sr]   = (uint8_t)end;
+    }
+    fsLutBuilt = true;
+}
+
 void toggleFullscreen(void *userdata) {
     arduboyFullscreenEnabled = pd->system->getMenuItemValue(arduboyFullScreenMenuItem);
-    //clear left over stuff from going to fullscreen to none fullscreen
     if(!arduboyFullscreenEnabled)
        pd->graphics->clear(kColorBlack);
+    // Force full redraw after mode switch
+    forceFullRedraw = true;
 }
 
 void toggleFps(void *userdata) {
@@ -99,6 +134,7 @@ void toggleFps(void *userdata) {
     //clear left over fps display
     if(!arduboyFpsEnabled)
        pd->graphics->clear(kColorBlack);
+    forceFullRedraw = true;
 }
 
 
@@ -237,60 +273,154 @@ void Arduboy2Core::paintScreen(const uint8_t *image)
 // The following assembly code runs "open loop". It relies on instruction
 // execution times to allow time for each byte of data to be clocked out.
 // It is specifically tuned for a 16MHz CPU clock and SPI clocking at 8MHz.
-static uint8_t prevBuffer[(HEIGHT * WIDTH) / 8] = {0};
 
 void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
 {
-    pd->graphics->getBitmapData(screenBitmap, &dummy, &dummy, &rowBytes, &dummy2, &buffer);
+    uint8_t* frame = pd->graphics->getFrame();
 
-    int minDirtyRow = HEIGHT, maxDirtyRow = -1;
+    LCDBitmap* dbg = NULL;
+    if (pd->graphics->getDebugBitmap != NULL)
+        dbg = pd->graphics->getDebugBitmap();
 
-    for (int page = 0; page < HEIGHT / 8; page++)
+    if (!arduboyFullscreenEnabled)
     {
-        int baseRow = page * 8;
-        for (int col = 0; col < WIDTH; col++)
+        const int pdRowBytes = LCD_ROWSIZE;
+        const int xOffset = 9;
+        const int yOffset = 25;
+
+        int minDirtyRow = 240, maxDirtyRow = -1;
+
+        for (int page = 0; page < HEIGHT / 8; page++)
         {
-            uint8_t byte = image[page * WIDTH + col];
-            uint8_t prev = prevBuffer[page * WIDTH + col];
-            if (byte == prev)
-                continue;  // skip unchanged column slices
-
-            prevBuffer[page * WIDTH + col] = byte;
-            uint8_t changed = byte ^ prev;  // only bits that changed
-
-            int dstByteCol = col / 8;
-            uint8_t setMask = 0x80 >> (col % 8);
-            uint8_t clrMask = ~setMask;
-
-            for (int bit = 0; bit < 8; bit++)
+            int baseRow = page * 8;
+            for (int col = 0; col < WIDTH; col++)
             {
-                if (!(changed & (1 << bit)))
-                    continue;  // skip unchanged pixels
-                int row = baseRow + bit;
-                if (row < minDirtyRow) minDirtyRow = row;
-                if (row > maxDirtyRow) maxDirtyRow = row;
-                uint8_t* dst = buffer + row * rowBytes + dstByteCol;
-                if (byte & (1 << bit))
-                    *dst |= setMask;
-                else
-                    *dst &= clrMask;
+                uint8_t byte = image[page * WIDTH + col];
+                uint8_t prev = prevBuffer[page * WIDTH + col];
+                bool dirty = (byte != prev);
+                if (dirty)
+                    prevBuffer[page * WIDTH + col] = byte;
+
+                int px0 = xOffset + col * 3;
+                int b0 = px0 / 8, b1 = (px0 + 1) / 8, b2 = (px0 + 2) / 8;
+                uint8_t m0 = 0x80 >> (px0 % 8);
+                uint8_t m1 = 0x80 >> ((px0 + 1) % 8);
+                uint8_t m2 = 0x80 >> ((px0 + 2) % 8);
+                uint8_t c0 = ~m0, c1 = ~m1, c2 = ~m2;
+
+                for (int bit = 0; bit < 8; bit++)
+                {
+                    bool on = byte & (1 << bit);
+                    int srcRow = baseRow + bit;
+                    int pdY0 = yOffset + srcRow * 3;
+
+                    for (int dy = 0; dy < 3; dy++)
+                    {
+                        int rowStart = (pdY0 + dy) * pdRowBytes;
+                        if (on) {
+                            frame[rowStart + b0] |= m0;
+                            frame[rowStart + b1] |= m1;
+                            frame[rowStart + b2] |= m2;
+                        } else {
+                            frame[rowStart + b0] &= c0;
+                            frame[rowStart + b1] &= c1;
+                            frame[rowStart + b2] &= c2;
+                        }
+                        if (dirty) {
+                            if ((pdY0 + dy) < minDirtyRow) minDirtyRow = pdY0 + dy;
+                            if ((pdY0 + dy) > maxDirtyRow) maxDirtyRow = pdY0 + dy;
+                        }
+                    }
+                }
             }
         }
-    }
 
-    if (maxDirtyRow >= 0)
+        if (forceFullRedraw)
+        {
+            minDirtyRow = yOffset;
+            maxDirtyRow = yOffset + HEIGHT * 3 - 1;
+        }
+
+        if (maxDirtyRow >= 0)
+        {
+            pd->graphics->markUpdatedRows(minDirtyRow, maxDirtyRow);
+            if (dbg)
+            {
+                pd->graphics->pushContext(dbg);
+                pd->graphics->fillRect(0, minDirtyRow, 400, maxDirtyRow - minDirtyRow + 1, kColorWhite);
+                pd->graphics->popContext();
+            }
+        }
+        forceFullRedraw = false;
+    }
+    else
     {
-        if (arduboyFullscreenEnabled)
-            pd->graphics->drawScaledBitmap(screenBitmap, 0, 0, 3.11f, 3.7f);
-        else
-            pd->graphics->drawScaledBitmap(screenBitmap, 9, 25, 3.0f, 3.0f);
+        if (!fsLutBuilt)
+            buildFullscreenLut();
+
+        const int pdRowBytes = LCD_ROWSIZE;
+        int minDirtyRow = 240, maxDirtyRow = -1;
+
+        for (int page = 0; page < HEIGHT / 8; page++)
+        {
+            int baseRow = page * 8;
+            for (int col = 0; col < WIDTH; col++)
+            {
+                uint8_t byte = image[page * WIDTH + col];
+                uint8_t prev = prevBuffer[page * WIDTH + col];
+                bool dirty = (byte != prev);
+                if (dirty || forceFullRedraw)
+                    prevBuffer[page * WIDTH + col] = byte;
+
+                uint8_t changed = (forceFullRedraw || dirty) ? (forceFullRedraw ? 0xFF : (byte ^ prev)) : 0;
+                if (!changed)
+                    continue;
+
+                int dxStart = FS_X_OFF + fsColDstStart[col];
+                int dxEnd   = FS_X_OFF + fsColDstEnd[col];
+
+                for (int bit = 0; bit < 8; bit++)
+                {
+                    if (!(changed & (1 << bit)))
+                        continue;
+
+                    bool on = byte & (1 << bit);
+                    int srcRow = baseRow + bit;
+                    int dyStart = FS_Y_OFF + fsRowDstStart[srcRow];
+                    int dyEnd   = FS_Y_OFF + fsRowDstEnd[srcRow];
+
+                    for (int pdY = dyStart; pdY <= dyEnd; pdY++)
+                    {
+                        int rowStart = pdY * pdRowBytes;
+                        for (int pdX = dxStart; pdX <= dxEnd; pdX++)
+                        {
+                            uint8_t* dst = frame + rowStart + (pdX / 8);
+                            uint8_t  mask = 0x80 >> (pdX % 8);
+                            if (on) *dst |= mask;
+                            else    *dst &= ~mask;
+                        }
+                        if (pdY < minDirtyRow) minDirtyRow = pdY;
+                        if (pdY > maxDirtyRow) maxDirtyRow = pdY;
+                    }
+                }
+            }
+        }
+        
+        if (maxDirtyRow >= 0)
+        {
+            pd->graphics->markUpdatedRows(minDirtyRow, maxDirtyRow);
+            if (dbg)
+            {
+                pd->graphics->pushContext(dbg);
+                pd->graphics->fillRect(0, minDirtyRow, 400, maxDirtyRow - minDirtyRow + 1, kColorWhite);
+                pd->graphics->popContext();
+            }
+        }
+        forceFullRedraw = false;
     }
 
-    if (clear) {
-        pd->graphics->clearBitmap(screenBitmap, kColorBlack);
+    if (clear)
         memset(image, 0, (HEIGHT * WIDTH) / 8);
-        memset(prevBuffer, 0, sizeof(prevBuffer));
-    }
 }
 
 void Arduboy2Core::blank()
