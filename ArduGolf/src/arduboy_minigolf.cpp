@@ -95,7 +95,7 @@ void loop()
         //     for(;;);
         // }
 
-       // while(!a.nextFrame())
+        while(!a.nextFrame())
         //    ;
 
         // the above call increases code size by 1 KB.
