@@ -277,7 +277,7 @@ void Arduboy2Core::paintScreen(const uint8_t *image)
 void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
 {
     uint8_t* frame = pd->graphics->getFrame();
-
+#ifdef TARGET_SIMULATOR
     LCDBitmap* dbg = NULL;
     if (pd->graphics->getDebugBitmap != NULL)
     {
@@ -286,7 +286,7 @@ void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
         pd->graphics->clear(kColorBlack);
         pd->graphics->popContext();
     }
-
+#endif
     if (!arduboyFullscreenEnabled)
     {
         const int pdRowBytes = LCD_ROWSIZE;
@@ -349,12 +349,14 @@ void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
         if (maxDirtyRow >= 0)
         {
             pd->graphics->markUpdatedRows(minDirtyRow, maxDirtyRow);
+#ifdef TARGET_SIMULATOR
             if (dbg)
             {
                 pd->graphics->pushContext(dbg);
                 pd->graphics->fillRect(0, minDirtyRow, 400, maxDirtyRow - minDirtyRow + 1, kColorWhite);
                 pd->graphics->popContext();
             }
+#endif
         }
         forceFullRedraw = false;
     }
@@ -416,12 +418,14 @@ void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
         if (maxDirtyRow >= 0)
         {
             pd->graphics->markUpdatedRows(minDirtyRow, maxDirtyRow);
+#ifdef TARGET_SIMULATOR
             if (dbg)
             {
                 pd->graphics->pushContext(dbg);
                 pd->graphics->fillRect(0, minDirtyRow, 400, maxDirtyRow - minDirtyRow + 1, kColorWhite);
                 pd->graphics->popContext();
             }
+#endif
         }
         forceFullRedraw = false;
     }
