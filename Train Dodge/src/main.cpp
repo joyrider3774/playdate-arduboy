@@ -723,7 +723,7 @@ int currentx = 0;
 
 void setup() {
 	arduboy.begin();
-	arduboy.setFrameRate(150);
+	arduboy.setFrameRate(20);
 	arduboy.display();
 	arduboy.generateRandomSeed();
 	EEPROM.get(SAVELOCATION, highscore);
@@ -744,6 +744,10 @@ void resetgame() {
 }
 
 void loop() {
+	if (!arduboy.nextFrame())
+  	{
+    	return;
+  	}
 	arduboy.clear();
 
 	switch (state) {
