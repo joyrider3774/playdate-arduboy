@@ -590,7 +590,7 @@ static void fillPatternedRect(int16_t x, int16_t y, uint8_t w, int8_t h, const u
     for (uchar *p = arduboy.getBuffer() + x + (y / 8) * WIDTH; h > 0; h -= 8, p += WIDTH - w) {
         if (h < 8) d &= 0xFF >> (8 - h);
         for (uint8_t i = w; i > 0; i--, p++) {
-            *p = *p & ~d | pgm_read_byte(ptn + (int) p % 4) & d;
+            *p = *p & ~d | pgm_read_byte(ptn + ((uintptr_t) p % 4)) & d;
         }
         d = 0xFF;
     }
