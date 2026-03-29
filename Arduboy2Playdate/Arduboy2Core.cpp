@@ -280,7 +280,12 @@ void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
 
     LCDBitmap* dbg = NULL;
     if (pd->graphics->getDebugBitmap != NULL)
+    {
         dbg = pd->graphics->getDebugBitmap();
+        pd->graphics->pushContext(dbg);
+        pd->graphics->clear(kColorBlack);
+        pd->graphics->popContext();
+    }
 
     if (!arduboyFullscreenEnabled)
     {
@@ -382,7 +387,9 @@ void Arduboy2Core::paintScreen(uint8_t image[], bool clear)
                 for (int bit = 0; bit < 8; bit++)
                 {
                     if (!(changed & (1 << bit)))
+                    {
                         continue;
+                    }
 
                     bool on = byte & (1 << bit);
                     int srcRow = baseRow + bit;
