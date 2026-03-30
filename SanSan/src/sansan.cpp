@@ -104,9 +104,11 @@ void loop(){
   //  arduboy.clear();
   switch(mode){
   case TITLE:
+    arduboy.setFrameRate(60);
     title();
     break;
   case GAME:
+    arduboy.setFrameRate(25);
     game();
     break;
   }
