@@ -26,10 +26,10 @@
 #include <Arduboy2.h>
 
 const char PROGMEM STRING_BY_IGVINA[] = "by @igvina";
-const char PROGMEM STRING_GAME_VERSION[] = "v1.0";
+const char PROGMEM STRING_GAME_VERSION[] = "v1.1";
 
 #define GAME_ID      31
-#define GAME_VERSION 3
+#define GAME_VERSION 4
 
 #define CUSTOM_EEPROM_START EEPROM_STORAGE_SPACE_START + 128
 

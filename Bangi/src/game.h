@@ -1030,7 +1030,7 @@ static void drawBanner (const char* text) {
 
 static void drawLevelBanner (unsigned char level) {
 
-  int textLength = 6 + getNumberOfChars(lives);
+  int textLength = 6 + getNumberOfChars(level);
   //helper.drawMaskedBitmap((WIDTH - SMALL_BANNER_WIDTH) / 2, (HEIGHT - SMALL_BANNER_HEIGHT) / 2, SMALL_BANNER_BITMAP, SMALL_BANNER_MASK_BITMAP, SMALL_BANNER_WIDTH, SMALL_BANNER_HEIGHT, 0);
   drawCenteredBanner(SMALL_BANNER_WIDTH);
   //arduboy.setCursor((WIDTH - textLength * 6 - 1) / 2 + 1, (HEIGHT - 7) / 2);
