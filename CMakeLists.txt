@@ -62,6 +62,7 @@ set(ARDUBOYPLAYTUNES_SOURCES ${ARDUBOYPLAYTUNE_SOURCE})
 set(ARDUBOYTONE_SOURCES ${ARDUBOYTONES_SOURCE})
 
 add_subdirectory("playdate-cpp")
+add_subdirectory("Bangi")
 add_subdirectory("LodeRunner")
 add_subdirectory("Fire Panic")
 add_subdirectory("Stellar Impact")
