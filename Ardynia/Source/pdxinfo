@@ -1,7 +1,7 @@
 name=Ardynia
 author=Matt Greer
 bundleID=com.ericlewis.ardynia
-version=v1.5.0
+version=v1.6.0
 imagePath=SystemAssets
 description=
-buildNumber=7
+buildNumber=8

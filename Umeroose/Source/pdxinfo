@@ -1,7 +1,7 @@
 name=Umeroose
 author=CoBinee
 bundleID=com.ericlewis.umeroose
-version=v1.5.0
+version=v1.6.0
 imagePath=assets
 description=
-buildNumber=7
+buildNumber=8
