@@ -1643,6 +1643,9 @@ public:
     size_t print(unsigned long number, int base);
     size_t printNumber(unsigned long n, uint8_t base);
     size_t printFloat(double number, uint8_t digits);
+    size_t println(char c);
+    size_t println(const char c[]);
+    size_t println(void);
 
     /** \brief
      * Write a single character to the display.

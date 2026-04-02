@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "title": "Randocity",
+  "description": "Large algorithmically generated generated open-world motorcycle game with 3 different  play modes.",
+  "author": "Paul Wasson",
+  "version": "1.0",
+  "date": "2019-12-05",
+  "genre": "Action",
+  "publisher": "Paul Wasson",
+  "idea": "Paul Wasson",
+  "code": "Paul Wasson",
+  "art": "Paul Wasson",
+  "sound": "Paul Wasson",
+  "url": "https://github.com/pmwasson/Randocity",
+  "sourceUrl": "https://github.com/pmwasson/Randocity",
+  "email": "pmwasson@gmail.com",
+  "companion": "",
+  "banner": "banner.png",
+  "screenshots": [
+    {
+      "title": "Randocity splash page",
+      "filename": "screenshot-title.png"
+    },
+    {
+      "title": "Main menu",
+      "filename": "screenshot-menu.png"
+    },
+    {
+      "title": "Free play game mode",
+      "filename": "screenshot-free-play.png"
+    },
+    {
+      "title": "Race to the Edge game mode",
+      "filename": "screenshot-edge-race.png"
+    },
+    {
+      "title": "Crazy Courier game mode",
+      "filename": "screenshot-crazy-courier.png"
+    }
+  ],
+  "binaries": [
+    {
+      "title": "Randocity Game",
+      "filename": "Randocity.hex",
+      "device": "Arduboy"
+    }
+  ],
+  "buttons": [
+    {
+      "control": "Left or Right",
+      "action": "Turn"
+    },
+    {
+      "control": "B",
+      "action": "Accelerate"
+    },
+    {
+      "control": "A",
+      "action": "Brake"
+    }
+  ],
+  "eeprom": {
+    "variable": false,
+    "start": 480,
+    "end": 493
+  }
+}

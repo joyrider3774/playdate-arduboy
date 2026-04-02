@@ -1147,6 +1147,25 @@ void Arduboy2::bootLogoExtra()
     // TODO: implement?
 }
 
+size_t Arduboy2::println(void)
+{
+  return print("\r\n");
+}
+
+size_t Arduboy2::println(const char c[])
+{
+  size_t n = print(c);
+  n += println();
+  return n;
+}
+
+size_t Arduboy2::println(char c)
+{
+  size_t n = print(c);
+  n += println();
+  return n;
+}
+
 size_t Arduboy2::print(const char *c)
 {
     size_t written = 0;
